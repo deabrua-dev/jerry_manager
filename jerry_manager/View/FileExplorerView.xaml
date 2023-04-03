@@ -1,0 +1,49 @@
+<UserControl x:Class="jerry_manager.View.FileExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:jerry_manager.View"
+             xmlns:data="clr-namespace:System.Data;assembly=System.Data.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ComboBox Name="DisksComboBox"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Width="50"
+                  Margin="1"
+                  ItemsSource="{Binding Drives}"
+                  SelectedItem="{Binding SelectedDrive}"
+                  DisplayMemberPath="Name"/>
+        <ListView Name="FileObjectsListView"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedFileObject}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" 
+                                 Handler="FileObjectsListView_OnMouseDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Extension}"/>
+                    <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}"/>
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateLastModified}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>
