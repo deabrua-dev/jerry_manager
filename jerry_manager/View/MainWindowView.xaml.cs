@@ -17,11 +17,11 @@ public partial class MainWindowView : Window
 
     private void RightExplorer_OnGotFocus(object sender, RoutedEventArgs e)
     {
-        DataCache.ActiveView = RightExplorer;
+        DataCache.ActiveView = RightExplorer.ViewModel;
     }
 
     private void LeftExplorer_OnGotFocus(object sender, RoutedEventArgs e)
     {
-        DataCache.ActiveView = RightExplorer;
+        DataCache.ActiveView = RightExplorer.ViewModel;
     }
 }

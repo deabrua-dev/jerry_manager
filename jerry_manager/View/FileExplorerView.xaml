@@ -29,11 +29,13 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="2"
                   ItemsSource="{Binding Items}"
-                  SelectedItem="{Binding SelectedFileObject}">
+                  SelectedItem="{Binding SelectedFileObject}"
+                  SelectionMode="Single"
+                  SelectionChanged="FileObjectsListView_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseDoubleClick" 
-                                 Handler="FileObjectsListView_OnMouseDoubleClick"/>
+                                 Handler="FileObjectsListView_OnMouseDoubleClick"/>                
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>

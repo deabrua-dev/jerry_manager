@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -22,6 +23,13 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     {
         get => m_SelectedObject;
         set { m_SelectedObject = value; OnPropertyChanged("SelectedObject"); }
+    }
+
+    private List<FileSystemObject> m_SelectedObjects;
+    public List<FileSystemObject> SelectedFileObjects
+    {
+        get => m_SelectedObjects;
+        set { m_SelectedObjects = value; }
     }
 
     private Drive m_SelectedDrive;
@@ -97,6 +105,10 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     
     public void DoubleClick()
     {
+        if (SelectedFileObject == null)
+        {
+            return;
+        }
         if (SelectedFileObject.IsArchived)
         {
             m_Model.LoadInArchive(SelectedFileObject, Items);
@@ -112,6 +124,10 @@ public class FileExplorerViewModel : INotifyPropertyChanged
                 m_Model.Execute(SelectedFileObject);
             }
             else if (SelectedFileObject is Archive)
+            {
+                CurrentPath = SelectedFileObject.Path;
+            }
+            else if (SelectedFileObject is ParentFolder)
             {
                 CurrentPath = SelectedFileObject.Path;
             }

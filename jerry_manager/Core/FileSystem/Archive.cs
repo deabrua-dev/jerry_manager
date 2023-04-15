@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using Aspose.Zip;
+using Aspose.Zip.Rar;
+using Aspose.Zip.SevenZip;
 
 namespace jerry_manager.Core;
 
@@ -114,7 +116,7 @@ public class Archive : FileSystemObject
     
     public Archive(ArchiveEntry entry, String path)
     {
-        m_Name = "[" + entry.Name + "]";
+        m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name;
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
@@ -123,7 +125,31 @@ public class Archive : FileSystemObject
         m_ArchivePath = path;
         m_IsArchived = true;
     }
-    
+
+    public Archive(RarArchiveEntry entry, String path)
+    {
+        m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
+        m_Path = path + "/" + entry.Name;
+        m_Extension = String.Empty;
+        m_DateCreated = DateTime.Now;
+        m_DateModified = entry.ModificationTime;
+        m_SizeInBytes = entry.UncompressedSize;
+        m_ArchivePath = path;
+        m_IsArchived = true;
+    }
+
+    public Archive(SevenZipArchiveEntry entry, String path)
+    {
+        m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
+        m_Path = path + "/" + entry.Name;
+        m_Extension = String.Empty;
+        m_DateCreated = DateTime.Now;
+        m_DateModified = entry.ModificationTime;
+        m_SizeInBytes = entry.UncompressedSize;
+        m_ArchivePath = path;
+        m_IsArchived = true;
+    }
+
     #endregion
 
     #region Methods

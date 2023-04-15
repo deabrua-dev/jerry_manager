@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using Aspose.Zip;
+using Aspose.Zip.Rar;
+using Aspose.Zip.SevenZip;
 
 namespace jerry_manager.Core;
 
@@ -102,9 +104,32 @@ public class File : FileSystemObject
     
     public File(ArchiveEntry entry, String path)
     {
-        var name = entry.Name.Remove(0, entry.Name.LastIndexOf('.'));
-        m_Name = "[" + entry.Name + "]";
-        m_Path = name;
+        m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
+        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Extension = String.Empty;
+        m_DateCreated = DateTime.Now;
+        m_DateModified = entry.ModificationTime;
+        m_SizeInBytes = entry.UncompressedSize;
+        m_ArchivePath = path;
+        m_IsArchived = true;
+    }
+
+    public File(RarArchiveEntry entry, String path)
+    {
+        m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
+        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Extension = String.Empty;
+        m_DateCreated = DateTime.Now;
+        m_DateModified = entry.ModificationTime;
+        m_SizeInBytes = entry.UncompressedSize;
+        m_ArchivePath = path;
+        m_IsArchived = true;
+    }
+
+    public File(SevenZipArchiveEntry entry, String path)
+    {
+        m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
+        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;

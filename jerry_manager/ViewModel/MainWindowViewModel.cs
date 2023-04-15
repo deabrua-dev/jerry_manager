@@ -1,11 +1,21 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using jerry_manager.Core;
 
 namespace jerry_manager.ViewModel;
 
-public class MainWindowViewModel
+public class MainWindowViewModel : INotifyPropertyChanged
 {
+    #region Variables
+
+    
+
+    #endregion
+
+    #region Commands
+
     private ICommand copyCommand;
 
     public ICommand CopyCommand
@@ -14,7 +24,14 @@ public class MainWindowViewModel
         {
             return copyCommand ??= new RelayCommand(obj =>
             {
-                MessageBox.Show("Copy");
+                if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                {
+                    MessageBox.Show("Copy");
+                }
+                else
+                {
+
+                }
             });
         }
     }
@@ -57,4 +74,15 @@ public class MainWindowViewModel
             });
         }
     }
+
+    #endregion
+
+    #region PropertyChangedInterface
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public void OnPropertyChanged([CallerMemberName] string prop = "") =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
+    #endregion
 }
