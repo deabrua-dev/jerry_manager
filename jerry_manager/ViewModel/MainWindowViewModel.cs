@@ -27,6 +27,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
                 {
                     MessageBox.Show("Copy");
+                    Operation.Copy(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
                 }
                 else
                 {

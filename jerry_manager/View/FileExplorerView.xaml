@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:jerry_manager.View"
-             xmlns:data="clr-namespace:System.Data;assembly=System.Data.Common"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="400">
     <Grid>
@@ -30,12 +28,12 @@
                   Grid.ColumnSpan="2"
                   ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedFileObject}"
-                  SelectionMode="Single"
-                  SelectionChanged="FileObjectsListView_SelectionChanged">
+                  SelectionMode="Extended">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseDoubleClick" 
-                                 Handler="FileObjectsListView_OnMouseDoubleClick"/>                
+                                 Handler="FileObjectsListView_OnMouseDoubleClick"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>

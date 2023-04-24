@@ -14,7 +14,7 @@ public abstract class FileSystemObject
     protected FileAttributes m_Attributes { get; set; }
     protected Boolean m_IsArchived { get; set; }
     protected String m_ArchivePath { get; set; }
-    
+    protected Boolean m_IsSelected { get; set; }
     
     public String Name
     {
@@ -48,5 +48,10 @@ public abstract class FileSystemObject
     {
         get => m_ArchivePath;
         set => m_ArchivePath = value;
+    }
+    public Boolean IsSelected
+    {
+        get => m_IsSelected;
+        set => m_IsSelected = value;
     }
 }

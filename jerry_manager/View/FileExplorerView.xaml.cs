@@ -28,10 +28,4 @@ public partial class FileExplorerView : UserControl
     {
         m_ViewModel.DoubleClick();
     }
-
-    private void FileObjectsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        var items = (sender as ListView).SelectedItems;
-        ViewModel.SelectedFileObjects = items.Cast<FileSystemObject>().Where(i => !(i is ParentFolder)).ToList();
-    }
 }

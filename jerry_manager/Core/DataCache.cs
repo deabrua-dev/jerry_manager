@@ -12,4 +12,12 @@ public static class DataCache
         get => activeView;
         set => activeView = value;
     }
+
+    private static FileExplorerViewModel notActiveView;
+
+    public static FileExplorerViewModel NotActiveView
+    {
+        get => notActiveView;
+        set => notActiveView = value;
+    }
 }

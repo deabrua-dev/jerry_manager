@@ -24,12 +24,20 @@ public class FileExplorerViewModel : INotifyPropertyChanged
         get => m_SelectedObject;
         set { m_SelectedObject = value; OnPropertyChanged("SelectedObject"); }
     }
-
-    private List<FileSystemObject> m_SelectedObjects;
     public List<FileSystemObject> SelectedFileObjects
     {
-        get => m_SelectedObjects;
-        set { m_SelectedObjects = value; }
+        get 
+        {
+            List<FileSystemObject> result = new List<FileSystemObject>();
+            foreach (var item in Items) 
+            { 
+                if (item.IsSelected && item is not ParentFolder)
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
     }
 
     private Drive m_SelectedDrive;
