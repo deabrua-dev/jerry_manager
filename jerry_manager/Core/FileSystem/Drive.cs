@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public class Drive : FileSystemObject
 {

@@ -4,18 +4,18 @@ using Aspose.Zip;
 using Aspose.Zip.Rar;
 using Aspose.Zip.SevenZip;
 
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public class File : FileSystemObject
 {
     #region Variables
 
-    public String DateLastModified
+    public string DateLastModified
     {
         get => m_DateModified.ToString("dd/MM/yyyy");
     }
     
-    public String Size
+    public string Size
     {
         get
         {
@@ -76,7 +76,7 @@ public class File : FileSystemObject
         m_IsArchived = false;
     }
     
-    public File(FileInfo fileInfo, String archivePath, Boolean isArchived)
+    public File(FileInfo fileInfo, string archivePath, bool isArchived)
     {
         m_Name = fileInfo.Name;
         m_Path = fileInfo.FullName;
@@ -89,7 +89,7 @@ public class File : FileSystemObject
         m_IsArchived = isArchived;
     }
     
-    public File(String name, String path)
+    public File(string name, string path)
     {
         m_Name = name;
         m_Path = path;
@@ -102,7 +102,7 @@ public class File : FileSystemObject
         m_IsArchived = false;
     }
     
-    public File(ArchiveEntry entry, String path)
+    public File(ArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
@@ -114,7 +114,7 @@ public class File : FileSystemObject
         m_IsArchived = true;
     }
 
-    public File(RarArchiveEntry entry, String path)
+    public File(RarArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
@@ -126,7 +126,7 @@ public class File : FileSystemObject
         m_IsArchived = true;
     }
 
-    public File(SevenZipArchiveEntry entry, String path)
+    public File(SevenZipArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;

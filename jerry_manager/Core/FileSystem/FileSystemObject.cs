@@ -1,55 +1,55 @@
 using System;
 using System.IO;
 
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public abstract class FileSystemObject
 {
-    protected String m_Name { get; set; }
-    protected String m_Path { get; set; }
-    protected String m_Extension { get; set; }
+    protected string m_Name { get; set; }
+    protected string m_Path { get; set; }
+    protected string m_Extension { get; set; }
     protected DateTime m_DateCreated { get; set; }
     protected DateTime m_DateModified { get; set; }
     protected UInt64 m_SizeInBytes { get; set; }
     protected FileAttributes m_Attributes { get; set; }
-    protected Boolean m_IsArchived { get; set; }
-    protected String m_ArchivePath { get; set; }
-    protected Boolean m_IsSelected { get; set; }
+    protected bool m_IsArchived { get; set; }
+    protected string m_ArchivePath { get; set; }
+    protected bool m_IsSelected { get; set; }
     
-    public String Name
+    public string Name
     {
         get => m_Name;
         set => m_Name = value;
     }
-    public String Path
+    public string Path
     {
         get => m_Path;
         set => m_Path = value;
     }
-    public String Extension
+    public string Extension
     {
         get => m_Extension;
         set => m_Extension = value;
     }
-    public String DateLastModified
+    public string DateLastModified
     {
         get => m_DateModified.ToString("dd/MM/yyyy");
     }
-    public String Size
+    public string Size
     {
         get => m_SizeInBytes.ToString();
     }
-    public Boolean IsArchived
+    public bool IsArchived
     {
         get => m_IsArchived;
         set => m_IsArchived = value;
     }
-    public String ArchivePath
+    public string ArchivePath
     {
         get => m_ArchivePath;
         set => m_ArchivePath = value;
     }
-    public Boolean IsSelected
+    public bool IsSelected
     {
         get => m_IsSelected;
         set => m_IsSelected = value;

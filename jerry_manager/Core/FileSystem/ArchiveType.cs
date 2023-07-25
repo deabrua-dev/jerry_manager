@@ -1,4 +1,4 @@
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public enum ArchiveType
 {

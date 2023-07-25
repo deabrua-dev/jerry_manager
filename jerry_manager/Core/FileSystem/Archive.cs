@@ -4,18 +4,17 @@ using Aspose.Zip;
 using Aspose.Zip.Rar;
 using Aspose.Zip.SevenZip;
 
-namespace jerry_manager.Core;
-
+namespace jerry_manager.Core.FileSystem;
 public class Archive : FileSystemObject
 {
     #region Variables
 
-    public String DateLastModified
+    public string DateLastModified
     {
         get => m_DateModified.ToString("dd/MM/yyyy");
     }
     
-    public String Size
+    public string Size
     {
         get
         {
@@ -86,7 +85,7 @@ public class Archive : FileSystemObject
         m_IsArchived = false;
     }
     
-    public Archive(FileInfo fileInfo, String archivePath, Boolean isArchived)
+    public Archive(FileInfo fileInfo, string archivePath, bool isArchived)
     {
         m_Name = fileInfo.Name;
         m_Path = fileInfo.FullName;
@@ -100,7 +99,7 @@ public class Archive : FileSystemObject
         m_IsArchived = isArchived;
     }
     
-    public Archive(String name, String path)
+    public Archive(string name, string path)
     {
         m_Name = name;
         m_Path = path;
@@ -114,7 +113,7 @@ public class Archive : FileSystemObject
         m_IsArchived = false;
     }
     
-    public Archive(ArchiveEntry entry, String path)
+    public Archive(ArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name;
@@ -126,7 +125,7 @@ public class Archive : FileSystemObject
         m_IsArchived = true;
     }
 
-    public Archive(RarArchiveEntry entry, String path)
+    public Archive(RarArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name;
@@ -138,7 +137,7 @@ public class Archive : FileSystemObject
         m_IsArchived = true;
     }
 
-    public Archive(SevenZipArchiveEntry entry, String path)
+    public Archive(SevenZipArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name;
@@ -154,7 +153,7 @@ public class Archive : FileSystemObject
 
     #region Methods
 
-    public static ArchiveType GetArchiveType(String name)
+    public static ArchiveType GetArchiveType(string name)
     {
         if (name.EndsWith(".zip"))
         {

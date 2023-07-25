@@ -4,48 +4,55 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Shapes;
-using jerry_manager.Core;
-using File = jerry_manager.Core.File;
+using System.Windows;
+using jerry_manager.Core.FileSystem;
+using File = jerry_manager.Core.FileSystem.File;
 
 namespace jerry_manager.Model;
 
 public class FileExplorerModel
 {
     private List<String> archivesFormats = new List<String>() { ".7z", ".rar", ".zip" };
-    public Boolean LoadPath(ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
+    public void LoadPath(ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
     {
-        if (!Directory.Exists(currentPath))
-            return false;
-
-        if (fileSystemObjects != null)
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
-
-        var dirInfo = new DirectoryInfo(currentPath);
-        if (dirInfo.Parent != null)
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(dirInfo.Parent.ToString())));
-
-        var directoryInfo = new DirectoryInfo(currentPath);
-        var files = directoryInfo.GetFiles().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden) &&
-                                                        !archivesFormats.Any(j => i.Name.EndsWith(j))).ToArray();
-        var directories = directoryInfo.GetDirectories().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden)).ToArray();
-        var archives = directoryInfo.GetFiles().Where(i => archivesFormats.Any(j => i.Name.EndsWith(j))).ToArray();
-        foreach (var directory in directories)
+        try
         {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Folder(directory)));
+            if (!Directory.Exists(currentPath))
+            {
+                currentPath = currentPath.Substring(0, currentPath.LastIndexOf(@"\") + 1);
+            }
+            if (fileSystemObjects != null)
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
+
+            var dirInfo = new DirectoryInfo(currentPath);
+            if (dirInfo.Parent != null)
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(dirInfo.Parent.ToString())));
+
+            var directoryInfo = new DirectoryInfo(currentPath);
+            var files = directoryInfo.GetFiles().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden) &&
+                                                            !archivesFormats.Any(j => i.Name.EndsWith(j))).ToArray();
+            var directories = directoryInfo.GetDirectories().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden)).ToArray();
+            var archives = directoryInfo.GetFiles().Where(i => archivesFormats.Any(j => i.Name.EndsWith(j))).ToArray();
+            foreach (var directory in directories)
+            {
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Folder(directory)));
+            }
+            foreach (var file in files)
+            {
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new File(file)));
+            }
+            foreach (var archive in archives)
+            {
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Archive(archive)));
+            }
         }
-        foreach (var file in files)
+        catch (Exception e)
         {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new File(file)));
+            MessageBox.Show(e.Message);
         }
-        foreach (var archive in archives)
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Archive(archive)));
-        }
-        return true;
     }
 
-    public Boolean LoadDrives(ObservableCollection<Drive> fileSystemDrives)
+    public bool LoadDrives(ObservableCollection<Drive> fileSystemDrives)
     {
         var drives = DriveInfo.GetDrives().Where(i => i.DriveType == DriveType.Fixed).ToArray();
         foreach (var drive in drives)
@@ -55,7 +62,7 @@ public class FileExplorerModel
         return true;
     }
 
-    public Boolean LoadArchive(FileSystemObject fileObject, ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
+    public bool LoadArchive(FileSystemObject fileObject, ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
     {
         var selectedFileObject = fileObject as Archive;
         switch (selectedFileObject.ArchiveType)
@@ -75,7 +82,7 @@ public class FileExplorerModel
         return true;
     }
 
-    public void Load_ZIP(String path, ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
+    private void Load_ZIP(string path, ObservableCollection<FileSystemObject> fileSystemObjects, string currentPath)
     {
         if (fileSystemObjects != null)
             App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
@@ -124,7 +131,7 @@ public class FileExplorerModel
         currentPath = cur_path;
     }
 
-    public void Load_RAR(String path, ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
+    private void Load_RAR(string path, ObservableCollection<FileSystemObject> fileSystemObjects, string currentPath)
     {
         if (fileSystemObjects != null)
             App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
@@ -173,7 +180,7 @@ public class FileExplorerModel
         currentPath = cur_path;
     }
 
-    public void Load_7Zip(String path, ObservableCollection<FileSystemObject> fileSystemObjects, String currentPath)
+    private void Load_7Zip(string path, ObservableCollection<FileSystemObject> fileSystemObjects, string currentPath)
     {
         if (fileSystemObjects != null)
             App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
@@ -252,14 +259,14 @@ public class FileExplorerModel
         }
     }
     
-    private bool CheckPath(FileSystemObject systemObject, String path)
+    private bool CheckPath(FileSystemObject systemObject, string path)
     {
         string tempPath = systemObject.Path;
         tempPath = tempPath.Replace(path, "");
         return tempPath.Contains("/");
     }
 
-    private ArchiveType GetArchiveType(String name)
+    private ArchiveType GetArchiveType(string name)
     {
         if (name.EndsWith(".zip"))
         {

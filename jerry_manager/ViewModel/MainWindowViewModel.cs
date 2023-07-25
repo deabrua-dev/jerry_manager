@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using jerry_manager.Core;
+using jerry_manager.Core.FileSystem;
+
 
 namespace jerry_manager.ViewModel;
 
@@ -29,10 +31,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     MessageBox.Show("Copy");
                     Operation.Copy(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
                 }
-                else
-                {
-
-                }
             });
         }
     }
@@ -45,7 +43,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return moveCommand ??= new RelayCommand(obj =>
             {
-                MessageBox.Show("Move");
+                if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                {
+                    MessageBox.Show("Move");
+                    Operation.Move(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                }
             });
         }
     }
@@ -58,7 +60,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return deleteCommand ??= new RelayCommand(obj =>
             {
-                MessageBox.Show("Delete");
+                if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                {
+                    MessageBox.Show("Delete");
+                    Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
+                }
             });
         }
     }

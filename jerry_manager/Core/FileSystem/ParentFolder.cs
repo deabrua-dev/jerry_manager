@@ -1,19 +1,17 @@
 ﻿using System;
-using System.IO;
-using Aspose.Zip;
 
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public class ParentFolder : FileSystemObject
 {
     #region Variables
 
-    public String DateLastModified
+    public string DateLastModified
     {
         get => String.Empty;
     }
 
-    public String Size
+    public string Size
     {
         get => String.Empty;
     }

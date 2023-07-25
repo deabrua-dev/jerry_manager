@@ -1,33 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
 
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public class Operation
 {
-    public static Boolean Copy(string path, string destinationPath, List<FileSystemObject> items)
+    public static void Copy(string path, string destinationPath, List<FileSystemObject> items)
     {
-        if (items is null || items.Count <= 0)
+        try
         {
-            return false;
-        }
-        foreach (var item in items)
-        {
-            if (item is Folder)
+            if (items is null || items.Count <= 0)
+            {
+                throw new Exception("Files is not selected");
+            }
+            foreach (var item in items)
             {
                 CopyObject(item.Path, destinationPath);
             }
-            else
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+    
+    public static void Move(string path, string destinationPath, List<FileSystemObject> items)
+    {
+        try
+        {
+            if (items is null || items.Count <= 0)
             {
-                FileInfo fileInfo = new FileInfo(item.Path);
-                string targetFilePath = destinationPath + "/" + fileInfo.Name;
-                fileInfo.CopyTo(targetFilePath);
+                throw new Exception("Files is not selected");
+            }
+            foreach (var item in items)
+            {
+                MoveObject(item.Path, destinationPath);
             }
         }
-        return true;
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
-
+    
+    public static void Delete(List<FileSystemObject> items)
+    {
+        try
+        {
+            if (items is null || items.Count <= 0)
+            {
+                throw new Exception("Files is not selected");
+            }
+            foreach (var item in items)
+            {
+                DeleteObject(item.Path);
+            }
+            DataCache.NotActiveView.Update();
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+    
     private static void CopyObject(string path, string destinationPath)
     {
         FileAttributes attr = System.IO.File.GetAttributes(path);
@@ -49,6 +86,7 @@ public class Operation
                     file.CopyTo(targetFilePath);
                 }
             }
+
             foreach (var directory in directories)
             {
                 string newDestinationDir = destinationPath + "/" + directoryInfo.Name;
@@ -61,26 +99,6 @@ public class Operation
             string targetFilePath = destinationPath + "/" + fileInfo.Name;
             fileInfo.CopyTo(targetFilePath);
         }
-    }
-
-    public static Boolean Move(string path, string destinationPath, List<FileSystemObject> items)
-    {
-        if (items is null || items.Count <= 0)
-        {
-            return false;
-        }
-        foreach (var item in items)
-        {
-            if (item is Folder)
-            {
-                MoveObject(item.Path, destinationPath);
-            }
-            else
-            {
-                MoveObject(item.Path, destinationPath);
-            }
-        }
-        return true;
     }
 
     private static void MoveObject(string path, string destinationPath)
@@ -108,6 +126,25 @@ public class Operation
                 {
                     System.IO.File.Move(path, targetFilePath);
                 }
+            }
+        }
+    }
+
+    private static void DeleteObject(string path)
+    {
+        FileAttributes attr = System.IO.File.GetAttributes(path);
+        if (attr.HasFlag(FileAttributes.Directory))
+        {
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+        }
+        else
+        {
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
             }
         }
     }

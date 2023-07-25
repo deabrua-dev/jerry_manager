@@ -5,18 +5,18 @@ using Aspose.Zip;
 using Aspose.Zip.Rar;
 using Aspose.Zip.SevenZip;
 
-namespace jerry_manager.Core;
+namespace jerry_manager.Core.FileSystem;
 
 public class Folder : FileSystemObject
 {
     #region Variables
 
-    public String DateLastModified
+    public string DateLastModified
     {
         get => m_DateModified.ToString("dd/MM/yyyy");
     }
     
-    public String Size
+    public string Size
     {
         get => "<DIR>";
     }
@@ -49,7 +49,7 @@ public class Folder : FileSystemObject
         m_IsArchived = false;
     }
     
-    public Folder(DirectoryInfo folderInfo, String archivePath, Boolean isArchived)
+    public Folder(DirectoryInfo folderInfo, string archivePath, bool isArchived)
     {
         m_Name = "[" + folderInfo.Name + "]";
         m_Path = folderInfo.FullName;
@@ -61,7 +61,7 @@ public class Folder : FileSystemObject
         m_IsArchived = isArchived;
     }
 
-    public Folder(ArchiveEntry entry, String path)
+    public Folder(ArchiveEntry entry, string path)
     {
         var name = entry.Name.Substring(0, entry.Name.Length - 1);
         m_Name = "[" + ClearName(name, name.Count(i => i == '/')) + "]";
@@ -74,7 +74,7 @@ public class Folder : FileSystemObject
         m_IsArchived = true;
     }
 
-    public Folder(RarArchiveEntry entry, String path)
+    public Folder(RarArchiveEntry entry, string path)
     {
         m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
         m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
@@ -86,7 +86,7 @@ public class Folder : FileSystemObject
         m_IsArchived = true;
     }
 
-    public Folder(SevenZipArchiveEntry entry, String path)
+    public Folder(SevenZipArchiveEntry entry, string path)
     {
         m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
         m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length); ;

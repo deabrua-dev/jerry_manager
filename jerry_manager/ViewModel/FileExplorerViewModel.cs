@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using jerry_manager.Core;
+using jerry_manager.Core.FileSystem;
 using jerry_manager.Model;
-using File = jerry_manager.Core.File;
+using File = jerry_manager.Core.FileSystem.File;
 
 namespace jerry_manager.ViewModel;
 
@@ -54,8 +53,8 @@ public class FileExplorerViewModel : INotifyPropertyChanged
         }
     }
 
-    private String m_CurrentPath;
-    public String CurrentPath
+    private string m_CurrentPath;
+    public string CurrentPath
     {
         get => m_CurrentPath;
         set 
@@ -71,8 +70,9 @@ public class FileExplorerViewModel : INotifyPropertyChanged
             {
                 m_Model.LoadInArchive(SelectedFileObject, Items);
             }
-            else if (m_Model.LoadPath(Items, CurrentPath))
+            else if (Directory.Exists(CurrentPath))
             {
+                m_Model.LoadPath(Items, CurrentPath);
                 m_FileSystemWatcher.Path = m_CurrentPath;
                 m_FileSystemWatcher.EnableRaisingEvents = true;
             }
@@ -140,6 +140,11 @@ public class FileExplorerViewModel : INotifyPropertyChanged
                 CurrentPath = SelectedFileObject.Path;
             }
         }
+    }
+
+    public void Update()
+    {
+        m_Model.LoadPath(Items, CurrentPath);
     }
 
     #endregion
