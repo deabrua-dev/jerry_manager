@@ -71,7 +71,7 @@ public class Operation
         if (attr.HasFlag(FileAttributes.Directory))
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(path);
-            string targetDirectoryPath = destinationPath + "/" + directoryInfo.Name;
+            string targetDirectoryPath = destinationPath + "\\" + directoryInfo.Name;
             if (!Directory.Exists(targetDirectoryPath))
             {
                 Directory.CreateDirectory(targetDirectoryPath);
@@ -80,7 +80,7 @@ public class Operation
             var files = directoryInfo.GetFiles();
             foreach (var file in files)
             {
-                string targetFilePath = destinationPath + "/" + directoryInfo.Name + "/" + file.Name;
+                string targetFilePath = destinationPath + "\\" + directoryInfo.Name + "\\" + file.Name;
                 if (!System.IO.File.Exists(targetFilePath))
                 {
                     file.CopyTo(targetFilePath);
@@ -89,14 +89,14 @@ public class Operation
 
             foreach (var directory in directories)
             {
-                string newDestinationDir = destinationPath + "/" + directoryInfo.Name;
+                string newDestinationDir = destinationPath + "\\" + directoryInfo.Name;
                 CopyObject(directory.FullName, newDestinationDir);
             }
         }
         else
         {
             FileInfo fileInfo = new FileInfo(path);
-            string targetFilePath = destinationPath + "/" + fileInfo.Name;
+            string targetFilePath = destinationPath + "\\" + fileInfo.Name;
             fileInfo.CopyTo(targetFilePath);
         }
     }
@@ -121,7 +121,7 @@ public class Operation
             if (System.IO.File.Exists(path))
             {
                 FileInfo fileInfo = new FileInfo(path);
-                string targetFilePath = destinationPath + "/" + fileInfo.Name;
+                string targetFilePath = destinationPath + "\\" + fileInfo.Name;
                 if (!System.IO.File.Exists(targetFilePath))
                 {
                     System.IO.File.Move(path, targetFilePath);

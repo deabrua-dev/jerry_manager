@@ -105,7 +105,7 @@ public class File : FileSystemObject
     public File(ArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
-        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
@@ -117,7 +117,7 @@ public class File : FileSystemObject
     public File(RarArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
-        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
@@ -129,7 +129,7 @@ public class File : FileSystemObject
     public File(SevenZipArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
-        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;

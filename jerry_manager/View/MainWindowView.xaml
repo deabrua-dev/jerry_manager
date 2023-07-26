@@ -22,16 +22,18 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <local:NavBar Grid.Row="0" Grid.Column="0" x:Name="NavBar"/>
         
-        <local:FileExplorerView Grid.Row="0" Grid.Column="0" x:Name="LeftExplorer" 
+        <local:FileExplorerView Grid.Row="1" Grid.Column="0" x:Name="LeftExplorer" 
                                 GotFocus="LeftExplorer_OnGotFocus"/>
-        <local:FileExplorerView Grid.Row="0" Grid.Column="2" x:Name="RightExplorer"
+        <local:FileExplorerView Grid.Row="1" Grid.Column="2" x:Name="RightExplorer"
                                 GotFocus="RightExplorer_OnGotFocus"/>
         
-        <UniformGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Columns="4">
+        <UniformGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Columns="4">
             <UniformGrid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="BorderThickness" Value="1, 0, 1, 0"/>

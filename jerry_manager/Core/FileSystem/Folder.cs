@@ -65,7 +65,7 @@ public class Folder : FileSystemObject
     {
         var name = entry.Name.Substring(0, entry.Name.Length - 1);
         m_Name = "[" + ClearName(name, name.Count(i => i == '/')) + "]";
-        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
@@ -77,7 +77,7 @@ public class Folder : FileSystemObject
     public Folder(RarArchiveEntry entry, string path)
     {
         m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
-        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length - 1); ;
+        m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
@@ -89,7 +89,7 @@ public class Folder : FileSystemObject
     public Folder(SevenZipArchiveEntry entry, string path)
     {
         m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
-        m_Path = path + "/" + entry.Name.Substring(0, entry.Name.Length); ;
+        m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length)).Replace("/", "\\");
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
@@ -106,7 +106,7 @@ public class Folder : FileSystemObject
     {
         for (int i = 0; i < count; i++)
         {
-            name = name.Substring(name.IndexOf('/'));
+            name = name.Substring(name.IndexOf("/"));
         }
         return name.Replace("/", "");
     }

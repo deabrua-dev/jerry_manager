@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using Aspose.Zip;
+using Aspose.Zip.Rar;
+using Aspose.Zip.SevenZip;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -42,6 +46,18 @@ public class ParentFolder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = String.Empty;
         m_IsArchived = false;
+    }
+    
+    public ParentFolder(string path, string archivePath, bool isArchived)
+    {
+        m_Name = "[...]";
+        m_Path = path.Substring(0, path.Length - 1);
+        m_Extension = String.Empty;
+        m_DateCreated = DateTime.Now;
+        m_DateModified = DateTime.Now;
+        m_SizeInBytes = 0;
+        m_ArchivePath = archivePath;
+        m_IsArchived = isArchived;
     }
 
     #endregion

@@ -116,7 +116,7 @@ public class Archive : FileSystemObject
     public Archive(ArchiveEntry entry, string path)
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
-        m_Path = path + "/" + entry.Name;
+        m_Path = path + "\\" + entry.Name;
         m_Extension = String.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
