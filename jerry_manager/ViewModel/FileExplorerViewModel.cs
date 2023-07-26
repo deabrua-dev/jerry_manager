@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using jerry_manager.Core.FileSystem;
 using jerry_manager.Model;
 using File = jerry_manager.Core.FileSystem.File;
@@ -52,18 +54,17 @@ public class FileExplorerViewModel : INotifyPropertyChanged
             CurrentPath = m_SelectedDrive.Path;
         }
     }
-
-    private string m_CurrentPath;
+    
     public string CurrentPath
     {
-        get => m_CurrentPath;
+        get => m_Model.CurrentPath;
         set 
         { 
-            m_CurrentPath = value;
+            m_Model.CurrentPath = value;
             OnPropertyChanged("CurrentPath");
             if (SelectedFileObject is Archive)
             {
-                m_Model.LoadArchive(SelectedFileObject, Items, CurrentPath);
+                m_Model.LoadArchive(SelectedFileObject, Items);
                 m_FileSystemWatcher.EnableRaisingEvents = false;
             }
             else if (SelectedFileObject != null && SelectedFileObject.IsArchived)
@@ -72,8 +73,8 @@ public class FileExplorerViewModel : INotifyPropertyChanged
             }
             else if (Directory.Exists(CurrentPath))
             {
-                m_Model.LoadPath(Items, CurrentPath);
-                m_FileSystemWatcher.Path = m_CurrentPath;
+                m_Model.LoadPath(Items);
+                m_FileSystemWatcher.Path = m_Model.CurrentPath;
                 m_FileSystemWatcher.EnableRaisingEvents = true;
             }
             else
@@ -108,43 +109,50 @@ public class FileExplorerViewModel : INotifyPropertyChanged
 
     private void FileWatcher_Interacted(object sender, FileSystemEventArgs e)
     {
-        m_Model.LoadPath(Items, CurrentPath);
+        m_Model.LoadPath(Items);
     }
     
     public void DoubleClick()
     {
-        if (SelectedFileObject == null)
+        try
         {
-            return;
+            if (SelectedFileObject == null)
+            {
+                return;
+            }
+            if (SelectedFileObject.IsArchived)
+            {
+                m_Model.LoadInArchive(SelectedFileObject, Items);
+            }
+            else
+            {
+                if (SelectedFileObject is Folder)
+                {
+                    CurrentPath = SelectedFileObject.Path;
+                }
+                else if (SelectedFileObject is File)
+                {
+                    m_Model.Execute(SelectedFileObject);
+                }
+                else if (SelectedFileObject is Archive)
+                {
+                    CurrentPath = SelectedFileObject.Path;
+                }
+                else if (SelectedFileObject is ParentFolder)
+                {
+                    CurrentPath = SelectedFileObject.Path;
+                }
+            }
         }
-        if (SelectedFileObject.IsArchived)
+        catch (Exception e)
         {
-            m_Model.LoadInArchive(SelectedFileObject, Items);
-        }
-        else
-        {
-            if (SelectedFileObject is Folder)
-            {
-                CurrentPath = SelectedFileObject.Path;
-            }
-            else if (SelectedFileObject is File)
-            {
-                m_Model.Execute(SelectedFileObject);
-            }
-            else if (SelectedFileObject is Archive)
-            {
-                CurrentPath = SelectedFileObject.Path;
-            }
-            else if (SelectedFileObject is ParentFolder)
-            {
-                CurrentPath = SelectedFileObject.Path;
-            }
+            MessageBox.Show(e.Message);
         }
     }
 
     public void Update()
     {
-        m_Model.LoadPath(Items, CurrentPath);
+        m_Model.LoadPath(Items);
     }
 
     #endregion

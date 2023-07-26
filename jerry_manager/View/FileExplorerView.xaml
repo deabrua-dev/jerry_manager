@@ -18,7 +18,7 @@
                   Grid.Row="0"
                   Grid.Column="0"
                   Width="50"
-                  Margin="1"
+                  Margin="1 1 2 2"
                   ItemsSource="{Binding Drives}"
                   SelectedItem="{Binding SelectedDrive}"
                   DisplayMemberPath="Name"/>
@@ -28,20 +28,46 @@
                   Grid.ColumnSpan="2"
                   ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedFileObject}"
-                  SelectionMode="Extended">
+                  SelectionMode="Extended"
+                  SizeChanged="FileObjectsListView_OnSizeChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseDoubleClick" 
                                  Handler="FileObjectsListView_OnMouseDoubleClick"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Extension}"/>
-                    <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}"/>
-                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateLastModified}"/>
+                <GridView x:Name="GridView">
+                    <GridViewColumn Header="Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Type">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Extension}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Size">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Size}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Date">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DateLastModified}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

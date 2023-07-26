@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:jerry_manager.View"
         mc:Ignorable="d"
         Title="Jerry Manager" 
+        MinHeight="450" MinWidth="1000"
         Height="450" Width="1000"
         WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
