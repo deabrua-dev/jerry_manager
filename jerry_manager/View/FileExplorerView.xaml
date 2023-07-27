@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <ComboBox Name="DisksComboBox"
                   Grid.Row="0"
@@ -22,6 +23,7 @@
                   ItemsSource="{Binding Drives}"
                   SelectedItem="{Binding SelectedDrive}"
                   DisplayMemberPath="Name"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DriveFreeSpace}"/>
         <ListView Name="FileObjectsListView"
                   Grid.Row="1"
                   Grid.Column="0"

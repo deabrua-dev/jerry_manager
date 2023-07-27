@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -17,6 +18,11 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     
     private FileExplorerModel m_Model { get; set; }
     public ObservableCollection<Drive> Drives { get; set; }
+
+    public string DriveFreeSpace
+    {
+        get => SelectedDrive.Size + " kb of " + SelectedDrive.TotalSize + " kb free";
+    }
     public ObservableCollection<FileSystemObject> Items { get; set; }
     private FileSystemWatcher m_FileSystemWatcher = new();
     private FileSystemObject m_SelectedObject;

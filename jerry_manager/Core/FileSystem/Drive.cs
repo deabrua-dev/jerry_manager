@@ -1,10 +1,34 @@
 using System;
+using System.Globalization;
 using System.IO;
 
 namespace jerry_manager.Core.FileSystem;
 
 public class Drive : FileSystemObject
 {
+    #region Variables
+
+    public string TotalSize
+    {
+        get
+        {
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            return m_TotalSizeInBytes.ToString("n", nfi);
+        }
+    }
+    
+    public string Size
+    {
+        get
+        {
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            return m_SizeInBytes.ToString("n", nfi);
+        }
+    }
+
+    #endregion
     #region Constructors
 
     public Drive()
@@ -15,6 +39,7 @@ public class Drive : FileSystemObject
         m_DateCreated = DateTime.Now;
         m_DateModified = DateTime.Now;
         m_SizeInBytes = 0;
+        m_TotalSizeInBytes = 0;
         m_ArchivePath = String.Empty;
         m_IsArchived = false;
     }
@@ -27,6 +52,7 @@ public class Drive : FileSystemObject
         m_DateCreated = driveInfo.RootDirectory.CreationTime;
         m_DateModified = driveInfo.RootDirectory.LastWriteTime;
         m_SizeInBytes = (UInt64)driveInfo.TotalSize;
+        m_TotalSizeInBytes = (UInt64)driveInfo.TotalSize;
         m_ArchivePath = String.Empty;
         m_IsArchived = false;
     }

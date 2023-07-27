@@ -24,7 +24,6 @@ public partial class FileExplorerView : UserControl
         InitializeComponent();
         ViewModel = new FileExplorerViewModel();
         DataContext = ViewModel;
-        
     }
 
     private void FileObjectsListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -35,7 +34,7 @@ public partial class FileExplorerView : UserControl
     private void FileObjectsListView_OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
         var width = FileObjectsListView.ActualWidth;
-        GridView.Columns[0].Width = width * 0.40;
+        GridView.Columns[0].Width = width * 0.412;
         GridView.Columns[1].Width = width * 0.15;
         GridView.Columns[2].Width = width * 0.20;
         GridView.Columns[3].Width = width * 0.18;

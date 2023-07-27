@@ -11,4 +11,8 @@
     <PackageReference Include="Aspose.Zip" Version="23.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

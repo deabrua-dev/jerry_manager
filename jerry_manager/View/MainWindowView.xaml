@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Jerry Manager" 
         MinHeight="450" MinWidth="1000"
-        Height="450" Width="1000"
+        Height="500" Width="1000"
         WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Command="{Binding CopyCommand}" Key="F5"/>
@@ -18,22 +18,46 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="80"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <local:NavBar Grid.Row="0" Grid.Column="0" x:Name="NavBar"/>
-        
-        <local:FileExplorerView Grid.Row="1" Grid.Column="0" x:Name="LeftExplorer" 
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="25">
+            <MenuItem Header="File">
+                <Button Content="Unpack"/>
+                <Separator/>
+                <Button Content="Exit" Command="{Binding QuitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Tools">
+                
+            </MenuItem>
+            <MenuItem Header="View">
+                
+            </MenuItem>
+        </Menu>
+        <ToolBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                 Height="30">
+            <ToggleButton/>
+            <Separator/>
+            <ToggleButton/>
+            <Separator/>
+            <ToggleButton/>
+            <Separator/>
+            <ToggleButton/>
+            <Separator/>
+        </ToolBar>
+        <local:FileExplorerView Grid.Row="2" Grid.Column="0" x:Name="LeftExplorer" 
+                                Margin="2"
                                 GotFocus="LeftExplorer_OnGotFocus"/>
-        <local:FileExplorerView Grid.Row="1" Grid.Column="2" x:Name="RightExplorer"
+        <local:FileExplorerView Grid.Row="2" Grid.Column="1" x:Name="RightExplorer"
+                                Margin="2"
                                 GotFocus="RightExplorer_OnGotFocus"/>
         
-        <UniformGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Columns="4">
+        <UniformGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Columns="4">
             <UniformGrid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="BorderThickness" Value="1, 0, 1, 0"/>
