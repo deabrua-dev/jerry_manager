@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using jerry_manager.Core.Exceptions;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -63,6 +65,34 @@ public class Operation
         {
             MessageBox.Show(e.Message);
         }
+    }
+
+    public static void UnPack(Archive archive)
+    {
+        try
+        {
+            switch (archive.ArchiveType)
+            {
+                case ArchiveType.ZIP:
+                    UnPackZipArchive(archive);
+                    break;
+                case ArchiveType.RAR:
+                    UnPackRarArchive(archive);
+                    break;
+                case ArchiveType.SevenZip:
+                    UnPack7ZipArchive(archive);
+                    break;
+                case ArchiveType.None:
+                    throw new ArchiveReadException("Archive read error.");
+                default:
+                    throw new FileReadException("File read error.");
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+        
     }
     
     private static void CopyObject(string path, string destinationPath)
@@ -146,6 +176,29 @@ public class Operation
             {
                 System.IO.File.Delete(path);
             }
+        }
+    }
+
+    private static void UnPackZipArchive(Archive archive)
+    {
+        var path = archive.Path.Substring(0, archive.Path.LastIndexOf("\\") + 1);
+        using (var temp_archive = new Aspose.Zip.Archive(archive.Path))
+        {
+            temp_archive.ExtractToDirectory(path);
+        }
+    }
+    
+    private static void UnPackRarArchive(Archive archive)
+    {
+        
+    }
+    
+    private static void UnPack7ZipArchive(Archive archive)
+    {
+        var path = archive.Path.Substring(0, archive.Path.LastIndexOf("\\") + 1);
+        using (var temp_archive = new Aspose.Zip.SevenZip.SevenZipArchive(archive.Path))
+        {
+            App.Current.Dispatcher.Invoke(() =>temp_archive.ExtractToDirectory(path));
         }
     }
 }

@@ -28,9 +28,9 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="25">
             <MenuItem Header="File">
-                <Button Content="Unpack"/>
+                <MenuItem Header="Unpack" Command="{Binding UnPackCommand}"/>
                 <Separator/>
-                <Button Content="Exit" Command="{Binding QuitCommand}"/>
+                <MenuItem Header="Exit" Command="{Binding QuitCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools">
                 

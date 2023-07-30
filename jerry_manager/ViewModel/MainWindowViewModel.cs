@@ -68,6 +68,23 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
+
+    private ICommand unPackCommand;
+    
+    public ICommand UnPackCommand
+    {
+        get
+        {
+            return unPackCommand ??= new RelayCommand(obj =>
+            {
+                if (DataCache.ActiveView.SelectedFileObjects.Count > 0 && DataCache.ActiveView.SelectedFileObject is Archive)
+                {
+                    MessageBox.Show("Unpack");
+                    Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
+                }
+            });
+        }
+    }
     
     private ICommand quitCommand;
 
