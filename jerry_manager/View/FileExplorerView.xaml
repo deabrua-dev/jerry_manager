@@ -4,16 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="400">
+             d:DesignHeight="500" d:DesignWidth="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <ComboBox Name="DisksComboBox"
                   Grid.Row="0"
@@ -27,7 +28,7 @@
         <ListView Name="FileObjectsListView"
                   Grid.Row="1"
                   Grid.Column="0"
-                  Grid.ColumnSpan="2"
+                  Grid.ColumnSpan="3"
                   ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedFileObject}"
                   SelectionMode="Extended"
@@ -73,5 +74,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                 Margin="2"/>
+        <Button Grid.Row="2" Grid.Column="2" Width="70" 
+                HorizontalAlignment="Left" Margin="2"/>
     </Grid>
 </UserControl>

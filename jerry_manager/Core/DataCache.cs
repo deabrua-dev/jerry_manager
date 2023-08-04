@@ -1,4 +1,3 @@
-using jerry_manager.View;
 using jerry_manager.ViewModel;
 
 namespace jerry_manager.Core;

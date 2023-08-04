@@ -41,14 +41,19 @@
         </Menu>
         <ToolBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                  Height="30">
-            <ToggleButton/>
+            <ToggleButton>
+                <Image Source=""/>
+            </ToggleButton>
             <Separator/>
-            <ToggleButton/>
+            <ToggleButton>
+                <Image Source=""/>
+            </ToggleButton>
             <Separator/>
-            <ToggleButton/>
+            <ToggleButton>
+                <Image Source=""/>
+            </ToggleButton>
             <Separator/>
-            <ToggleButton/>
-            <Separator/>
+           
         </ToolBar>
         <local:FileExplorerView Grid.Row="2" Grid.Column="0" x:Name="LeftExplorer" 
                                 Margin="2"

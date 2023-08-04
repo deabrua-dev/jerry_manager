@@ -5,6 +5,7 @@ namespace jerry_manager.Core.FileSystem;
 
 public abstract class FileSystemObject
 {
+    #region Variables
     protected string m_Name { get; set; }
     protected string m_Path { get; set; }
     protected string m_Extension { get; set; }
@@ -55,4 +56,5 @@ public abstract class FileSystemObject
         get => m_IsSelected;
         set => m_IsSelected = value;
     }
+    #endregion
 }

@@ -1,12 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using jerry_manager.Core;
-using jerry_manager.Core.FileSystem;
 using jerry_manager.ViewModel;
-using Microsoft.VisualBasic;
 
 namespace jerry_manager.View;
 

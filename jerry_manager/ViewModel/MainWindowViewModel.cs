@@ -26,7 +26,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return copyCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
                 {
                     MessageBox.Show("Copy");
                     Operation.Copy(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
@@ -43,7 +44,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return moveCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
                 {
                     MessageBox.Show("Move");
                     Operation.Move(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
@@ -60,7 +62,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return deleteCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
                 {
                     MessageBox.Show("Delete");
                     Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
@@ -77,7 +80,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return unPackCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView.SelectedFileObjects.Count > 0 && DataCache.ActiveView.SelectedFileObject is Archive)
+                if (DataCache.ActiveView is not null  && 
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0 && 
+                    DataCache.ActiveView.SelectedFileObject is Archive)
                 {
                     MessageBox.Show("Unpack");
                     Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
