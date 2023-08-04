@@ -7,6 +7,8 @@ namespace jerry_manager.View;
 
 public partial class FileExplorerView : UserControl
 {
+    #region Variables
+
     private FileExplorerViewModel m_ViewModel;
     public FileExplorerViewModel ViewModel
     {
@@ -14,12 +16,20 @@ public partial class FileExplorerView : UserControl
         set => m_ViewModel = value;
     }
 
+    #endregion
+
+    #region Constructors
+
     public FileExplorerView()
     {
         InitializeComponent();
-        ViewModel = new FileExplorerViewModel();
+        m_ViewModel = new FileExplorerViewModel();
         DataContext = ViewModel;
     }
+
+    #endregion
+
+    #region Methods
 
     private void FileObjectsListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
@@ -34,4 +44,6 @@ public partial class FileExplorerView : UserControl
         GridView.Columns[2].Width = width * 0.20;
         GridView.Columns[3].Width = width * 0.18;
     }
+
+    #endregion
 }

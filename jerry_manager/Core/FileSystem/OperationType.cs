@@ -4,5 +4,6 @@ public enum OperationType
 {
     Copy,
     Move,
-    Delete
+    Rename,
+    CreateNewFolder
 }

@@ -108,7 +108,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 {
                     if (DataCache.ActiveView is not null &&
                         DataCache.ActiveView.SelectedFileObject is not null &&
-                        DataCache.ActiveView.SelectedFileObjects.Count == 1) 
+                        DataCache.ActiveView.SelectedFileObjects.Count == 1)
                     {
                         MessageBox.Show("Rename");
                         Operation.Rename(DataCache.ActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObject, "TempName");
@@ -175,7 +175,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
 
     private ICommand unPackCommand;
-    
+
     public ICommand UnPackCommand
     {
         get
@@ -199,7 +199,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-    
+
     private ICommand quitCommand;
 
     public ICommand QuitCommand
