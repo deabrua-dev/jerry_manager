@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -29,10 +30,17 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return editCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObject is not null)
+                try
                 {
-                    MessageBox.Show("Edit");
+                    if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObject is not null)
+                    {
+                        MessageBox.Show("Edit");
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -46,11 +54,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return copyCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                try
                 {
-                    MessageBox.Show("Copy");
-                    Operation.Copy(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                    if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                    {
+                        MessageBox.Show("Copy");
+                        Operation.Copy(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -64,11 +79,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return moveCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                try
                 {
-                    MessageBox.Show("Move");
-                    Operation.Move(DataCache.ActiveView.CurrentPath, DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                    if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                    {
+                        MessageBox.Show("Move");
+                        Operation.Move(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -82,10 +104,23 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return renameCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObject is not null)
+                try
                 {
-                    MessageBox.Show("Rename");
+                    if (DataCache.ActiveView is not null &&
+                        DataCache.ActiveView.SelectedFileObject is not null &&
+                        DataCache.ActiveView.SelectedFileObjects.Count == 1) 
+                    {
+                        MessageBox.Show("Rename");
+                        Operation.Rename(DataCache.ActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObject, "TempName");
+                    }
+                    else if (DataCache.ActiveView.SelectedFileObjects.Count > 1)
+                    {
+                        throw new Exception("You can rename only one file/folder in time.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -99,9 +134,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return newFolderCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null)
+                try
                 {
-                    MessageBox.Show("New Folder");
+                    if (DataCache.ActiveView is not null)
+                    {
+                        MessageBox.Show("New Folder");
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -115,11 +157,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return deleteCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                try
                 {
-                    MessageBox.Show("Delete");
-                    Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
+                    if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                    {
+                        MessageBox.Show("Delete");
+                        Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -133,12 +182,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return unPackCommand ??= new RelayCommand(obj =>
             {
-                if (DataCache.ActiveView is not null  && 
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0 && 
-                    DataCache.ActiveView.SelectedFileObject is Archive)
+                try
                 {
-                    MessageBox.Show("Unpack");
-                    Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
+                    if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObjects.Count > 0 &&
+                    DataCache.ActiveView.SelectedFileObject is Archive)
+                    {
+                        MessageBox.Show("Unpack");
+                        Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             });
         }
@@ -152,7 +208,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             return quitCommand ??= new RelayCommand(obj =>
             {
-                App.Current.Shutdown();
+                try
+                {
+                    App.Current.Shutdown();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             });
         }
     }

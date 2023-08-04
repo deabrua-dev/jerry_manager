@@ -9,7 +9,7 @@ namespace jerry_manager.Core.FileSystem;
 
 public class Operation
 {
-    public static void Copy(string path, string destinationPath, List<FileSystemObject> items)
+    public static void Copy(string destinationPath, List<FileSystemObject> items)
     {
         try
         {
@@ -28,7 +28,7 @@ public class Operation
         }
     }
     
-    public static void Move(string path, string destinationPath, List<FileSystemObject> items)
+    public static void Move(string destinationPath, List<FileSystemObject> items)
     {
         try
         {
@@ -40,6 +40,22 @@ public class Operation
             {
                 MoveObject(item.Path, destinationPath);
             }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
+    public static void Rename(string destinationPath, FileSystemObject item, string newName)
+    {
+        try
+        {
+            if (item is null)
+            {
+                throw new Exception("File is not selected");
+            }
+            RenameObject(item.Path, destinationPath, newName);
         }
         catch (Exception e)
         {
@@ -138,7 +154,6 @@ public class Operation
         {
             if (Directory.Exists(path))
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(path);
                 string targetDirectoryPath = destinationPath;
                 if (!Directory.Exists(targetDirectoryPath))
                 {
@@ -155,6 +170,38 @@ public class Operation
                 if (!System.IO.File.Exists(targetFilePath))
                 {
                     System.IO.File.Move(path, targetFilePath);
+                }
+            }
+        }
+    }
+
+    private static void RenameObject(string path, string destinationPath, string newName)
+    {
+        FileAttributes attr = System.IO.File.GetAttributes(path);
+        if (attr.HasFlag(FileAttributes.Directory))
+        {
+            if (Directory.Exists(path))
+            {
+                string targetDirectoryPath = destinationPath + "\\" + newName; ;
+                if (!Directory.Exists(targetDirectoryPath))
+                {
+                    Directory.Move(path, targetDirectoryPath);
+                }
+            }
+        }
+        else
+        {
+            if (System.IO.File.Exists(path))
+            {
+                FileInfo fileInfo = new FileInfo(path);
+                string targetFilePath = destinationPath + "\\" + newName + fileInfo.Extension;
+                if (!System.IO.File.Exists(targetFilePath))
+                {
+                    System.IO.File.Move(path, targetFilePath);
+                }
+                else
+                {
+                    throw new Exception("File already exists.");
                 }
             }
         }
@@ -190,7 +237,11 @@ public class Operation
     
     private static void UnPackRarArchive(Archive archive)
     {
-        
+        var path = archive.Path.Substring(0, archive.Path.LastIndexOf("\\") + 1);
+        using (var temp_archive = new Aspose.Zip.Rar.RarArchive(archive.Path))
+        {
+            temp_archive.ExtractToDirectory(path);
+        }
     }
     
     private static void UnPack7ZipArchive(Archive archive)
