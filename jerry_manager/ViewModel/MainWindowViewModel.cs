@@ -12,11 +12,31 @@ public class MainWindowViewModel : INotifyPropertyChanged
 {
     #region Variables
 
-    
+    public string ActivePath
+    {
+        get => DataCache.ActiveView.CurrentPath + "> ";
+    }
 
     #endregion
 
     #region Commands
+
+    private ICommand editCommand;
+
+    public ICommand EditCommand
+    {
+        get
+        {
+            return editCommand ??= new RelayCommand(obj =>
+            {
+                if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObject is not null)
+                {
+                    MessageBox.Show("Edit");
+                }
+            });
+        }
+    }
 
     private ICommand copyCommand;
 
@@ -53,7 +73,40 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-    
+
+    private ICommand renameCommand;
+
+    public ICommand RenameCommand
+    {
+        get
+        {
+            return renameCommand ??= new RelayCommand(obj =>
+            {
+                if (DataCache.ActiveView is not null &&
+                    DataCache.ActiveView.SelectedFileObject is not null)
+                {
+                    MessageBox.Show("Rename");
+                }
+            });
+        }
+    }
+
+    private ICommand newFolderCommand;
+
+    public ICommand NewFolderCommand
+    {
+        get
+        {
+            return newFolderCommand ??= new RelayCommand(obj =>
+            {
+                if (DataCache.ActiveView is not null)
+                {
+                    MessageBox.Show("New Folder");
+                }
+            });
+        }
+    }
+
     private ICommand deleteCommand;
 
     public ICommand DeleteCommand

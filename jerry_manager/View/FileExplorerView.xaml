@@ -14,7 +14,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <ComboBox Name="DisksComboBox"
                   Grid.Row="0"
@@ -74,9 +73,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-                 Margin="2"/>
-        <Button Grid.Row="2" Grid.Column="2" Width="70" 
-                HorizontalAlignment="Left" Margin="2"/>
     </Grid>
 </UserControl>

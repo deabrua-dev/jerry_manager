@@ -13,6 +13,8 @@ public partial class MainWindowView : Window
         InitializeComponent();
         m_ViewModel = new MainWindowViewModel();
         DataContext = m_ViewModel;
+        DataCache.ActiveView = LeftExplorer.ViewModel;
+        DataCache.NotActiveView = RightExplorer.ViewModel;
     }
 
     private void RightExplorer_OnGotFocus(object sender, RoutedEventArgs e)

@@ -325,5 +325,18 @@ public class FileExplorerModel
         tempPath = tempPath.Replace(path, "");
         return tempPath.Contains("\\");
     }
+    
+    public void Search(string searchText)
+    {
+        try
+        {
+
+        }
+        catch(Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
     #endregion
 }
