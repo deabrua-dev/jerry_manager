@@ -18,6 +18,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
         get => DataCache.ActiveView.CurrentPath + "> ";
     }
 
+    private ICommand editCommand;
+    private ICommand copyCommand;
+    private ICommand moveCommand;
+    private ICommand renameCommand;
+    private ICommand newFolderCommand;
+    private ICommand deleteCommand;
+    private ICommand unPackCommand;
+    private ICommand quitCommand;
+
     #endregion
 
     #region Constructors
@@ -31,8 +40,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     #region Commands
 
-    private ICommand editCommand;
-
     public ICommand EditCommand
     {
         get
@@ -42,9 +49,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 try
                 {
                     if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObject is not null)
+                        DataCache.ActiveView.SelectedFileObject is not null && (
+                        DataCache.ActiveView.SelectedFileObject is File ||
+                        DataCache.ActiveView.SelectedFileObject is Archive))
                     {
-                        
+                        Operation.EditFile(DataCache.ActiveView.SelectedFileObject);
                     }
                 }
                 catch (Exception e)
@@ -54,9 +63,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand copyCommand;
-
     public ICommand CopyCommand
     {
         get
@@ -66,7 +72,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 try
                 {
                     if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                        DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
                         OperationWindowService.Show(OperationType.Copy);
                     }
@@ -78,9 +84,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand moveCommand;
-
     public ICommand MoveCommand
     {
         get
@@ -90,7 +93,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 try
                 {
                     if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                        DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
                         OperationWindowService.Show(OperationType.Move);
                     }
@@ -102,9 +105,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand renameCommand;
-
     public ICommand RenameCommand
     {
         get
@@ -131,9 +131,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand newFolderCommand;
-
     public ICommand NewFolderCommand
     {
         get
@@ -154,9 +151,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand deleteCommand;
-
     public ICommand DeleteCommand
     {
         get
@@ -166,9 +160,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 try
                 {
                     if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0)
+                        DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
-                        OperationWindowService.Show(OperationType.Delete);
+                        Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
                     }
                 }
                 catch (Exception e)
@@ -178,9 +172,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand unPackCommand;
-
     public ICommand UnPackCommand
     {
         get
@@ -190,8 +181,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 try
                 {
                     if (DataCache.ActiveView is not null &&
-                    DataCache.ActiveView.SelectedFileObjects.Count > 0 &&
-                    DataCache.ActiveView.SelectedFileObject is Archive)
+                        DataCache.ActiveView.SelectedFileObjects.Count > 0 &&
+                        DataCache.ActiveView.SelectedFileObject is Archive)
                     {
                         OperationWindowService.Show(OperationType.UnPack);
                     }
@@ -203,9 +194,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             });
         }
     }
-
-    private ICommand quitCommand;
-
     public ICommand QuitCommand
     {
         get
