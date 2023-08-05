@@ -29,18 +29,19 @@ public class Drive : FileSystemObject
     }
 
     #endregion
+
     #region Constructors
 
     public Drive()
     {
-        m_Name = String.Empty;
-        m_Path = String.Empty;
-        m_Extension = String.Empty;
+        m_Name = string.Empty;
+        m_Path = string.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = DateTime.Now;
         m_SizeInBytes = 0;
         m_TotalSizeInBytes = 0;
-        m_ArchivePath = String.Empty;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
 
@@ -48,12 +49,12 @@ public class Drive : FileSystemObject
     {
         m_Name = driveInfo.Name;
         m_Path = driveInfo.RootDirectory.FullName;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = driveInfo.RootDirectory.CreationTime;
         m_DateModified = driveInfo.RootDirectory.LastWriteTime;
-        m_SizeInBytes = (UInt64)driveInfo.TotalSize;
-        m_TotalSizeInBytes = (UInt64)driveInfo.TotalSize;
-        m_ArchivePath = String.Empty;
+        m_SizeInBytes = (ulong)driveInfo.TotalSize;
+        m_TotalSizeInBytes = (ulong)driveInfo.TotalSize;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
 

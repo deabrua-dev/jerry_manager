@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Xml.Linq;
+using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
 
 namespace jerry_manager.ViewModel;
@@ -7,47 +9,60 @@ public class OperationViewModel
 {
     #region Variables
 
-    private string m_title;
-
-    public string Title
+    private OperationType m_operationType;
+    public OperationType OperationType
     {
-        get => m_title; 
-        set => m_title = value;
+        get => m_operationType;
+        set
+        {
+            m_operationType = value;
+        }
     }
+    public string OperationName
+    {
+        get
+        {
+            switch (m_operationType)
+            {
+                case OperationType.Copy:
+                    return "Copy to";
+                case OperationType.Move:
+                    return "Move to:";
+                case OperationType.Rename:
+                    return "Enter a new folder name:";
+                case OperationType.CreateFolder:
+                    return "Enter a new folder name:";
+                case OperationType.UnPack:
+                    return "Unpack to:";
+                default:
+                    throw new Exception("Fatal error.");
+            }
+        }
+    }
+
+    public string FolderName { get; set; }
 
     #endregion
 
-    #region Constructos
+    #region Constructors
 
     public OperationViewModel()
     {
-        m_title = String.Empty;
-    }
-
-    public OperationViewModel(OperationType operationType)
-    {
-        m_title = GetOperationTitle(operationType);
+        FolderName = string.Empty;
     }
 
     #endregion
 
-    #region Methods
+    #region Methhods
 
-    private string GetOperationTitle(OperationType operationType)
+    public void OperationStart()
     {
-        switch (operationType)
-        {
-            case OperationType.Copy:
-                return "Copy to:";
-            case OperationType.Move:
-                return "Move to:";
-            case OperationType.Rename:
-                return "Enter the new name:";
-            case OperationType.CreateNewFolder:
-                return "Enter the folder name:";
-            default:
-                return "Error!";
-        }
+        Operation.Copy(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+        Operation.Move(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+        Operation.Rename(DataCache.ActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObject, "TempName");
+        Operation.CreateFolder(DataCache.ActiveView.CurrentPath, FolderName);
+        Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
+        Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
     }
 
     #endregion

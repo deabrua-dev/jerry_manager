@@ -59,15 +59,15 @@ public class Archive : FileSystemObject
 
     public Archive()
     {
-        m_Name = String.Empty;
-        m_Path = String.Empty;
-        m_Extension = String.Empty;
+        m_Name = string.Empty;
+        m_Path = string.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = DateTime.Now;
         m_SizeInBytes = 0;
         m_Attributes = 0;
         m_ArchiveType = GetArchiveType(m_Name);
-        m_ArchivePath = String.Empty;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
 
@@ -78,10 +78,10 @@ public class Archive : FileSystemObject
         m_Extension = fileInfo.Extension;
         m_DateCreated = fileInfo.CreationTime;
         m_DateModified = fileInfo.LastWriteTime;
-        m_SizeInBytes = (UInt64)fileInfo.Length;
+        m_SizeInBytes = (ulong)fileInfo.Length;
         m_Attributes = fileInfo.Attributes;
         m_ArchiveType = GetArchiveType(m_Name);
-        m_ArchivePath = String.Empty;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
     
@@ -92,7 +92,7 @@ public class Archive : FileSystemObject
         m_Extension = fileInfo.Extension;
         m_DateCreated = fileInfo.CreationTime;
         m_DateModified = fileInfo.LastWriteTime;
-        m_SizeInBytes = (UInt64)fileInfo.Length;
+        m_SizeInBytes = (ulong)fileInfo.Length;
         m_Attributes = fileInfo.Attributes;
         m_ArchiveType = GetArchiveType(m_Name);
         m_ArchivePath = archivePath;
@@ -103,13 +103,13 @@ public class Archive : FileSystemObject
     {
         m_Name = name;
         m_Path = path;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = DateTime.Now;
         m_SizeInBytes = 0;
         m_Attributes = 0;
         m_ArchiveType = GetArchiveType(m_Name);
-        m_ArchivePath = String.Empty;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
     
@@ -117,7 +117,7 @@ public class Archive : FileSystemObject
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "\\" + entry.Name;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
         m_SizeInBytes = entry.UncompressedSize;
@@ -129,7 +129,7 @@ public class Archive : FileSystemObject
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
         m_SizeInBytes = entry.UncompressedSize;
@@ -141,7 +141,7 @@ public class Archive : FileSystemObject
     {
         m_Name = "[" + entry.Name.Substring(entry.Name.LastIndexOf('/') + 1) + "]";
         m_Path = path + "/" + entry.Name;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
         m_SizeInBytes = entry.UncompressedSize;

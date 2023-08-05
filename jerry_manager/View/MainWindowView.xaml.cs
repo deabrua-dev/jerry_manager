@@ -6,7 +6,18 @@ namespace jerry_manager.View;
 
 public partial class MainWindowView : Window
 {
-    private MainWindowViewModel m_ViewModel { get; set; }
+    #region Variables
+
+    private MainWindowViewModel m_ViewModel;
+    public MainWindowViewModel ViewModel
+    {
+        get => m_ViewModel;
+        set => m_ViewModel = value;
+    }
+
+    #endregion
+
+    #region Constructors
 
     public MainWindowView()
     {
@@ -16,6 +27,10 @@ public partial class MainWindowView : Window
         DataCache.ActiveView = LeftExplorer.ViewModel;
         DataCache.NotActiveView = RightExplorer.ViewModel;
     }
+
+    #endregion
+
+    #region Methods
 
     private void RightExplorer_OnGotFocus(object sender, RoutedEventArgs e)
     {
@@ -28,4 +43,6 @@ public partial class MainWindowView : Window
         DataCache.ActiveView = LeftExplorer.ViewModel;
         DataCache.NotActiveView = RightExplorer.ViewModel;
     }
+
+    #endregion
 }

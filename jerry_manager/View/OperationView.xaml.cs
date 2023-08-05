@@ -1,6 +1,5 @@
-using jerry_manager.Core.FileSystem;
-using jerry_manager.ViewModel;
 using System.Windows;
+using jerry_manager.ViewModel;
 
 namespace jerry_manager.View;
 
@@ -22,16 +21,8 @@ public partial class OperationView : Window
     public OperationView()
     {
         InitializeComponent();
-        m_ViewModel = new OperationViewModel();
+        ViewModel = new OperationViewModel();
         DataContext = ViewModel;
-    }
-
-    public OperationView(OperationType operationType)
-    {
-        InitializeComponent();
-        m_ViewModel = new OperationViewModel();
-        DataContext = ViewModel;
-        ViewModel.Title = operationType.ToString();
     }
 
     #endregion

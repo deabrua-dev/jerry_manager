@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using jerry_manager.Core.Exceptions;
@@ -108,6 +109,31 @@ public class Operation
             MessageBox.Show(e.Message);
         }
         
+    }
+
+    public static void CreateFolder(string path, string name)
+    {
+        try
+        {
+            string targetDirectoryPath = path + "\\" + name;
+            Directory.CreateDirectory(path);
+        }
+        catch(Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
+    public static void EditFile(FileSystemObject item)
+    {
+        try
+        {
+            Process.Start("notepad.exe", item.Path);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
     
     private static void CopyObject(string path, string destinationPath)

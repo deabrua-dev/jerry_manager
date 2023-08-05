@@ -11,8 +11,8 @@ public abstract class FileSystemObject
     protected string m_Extension { get; set; }
     protected DateTime m_DateCreated { get; set; }
     protected DateTime m_DateModified { get; set; }
-    protected UInt64 m_SizeInBytes { get; set; }
-    protected UInt64 m_TotalSizeInBytes { get; set; }
+    protected ulong m_SizeInBytes { get; set; }
+    protected ulong m_TotalSizeInBytes { get; set; }
     protected FileAttributes m_Attributes { get; set; }
     protected bool m_IsArchived { get; set; }
     protected string m_ArchivePath { get; set; }

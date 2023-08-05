@@ -1,11 +1,11 @@
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
-
+using jerry_manager.Core.Services;
 
 namespace jerry_manager.ViewModel;
 
@@ -16,6 +16,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public string ActivePath
     {
         get => DataCache.ActiveView.CurrentPath + "> ";
+    }
+
+    #endregion
+
+    #region Constructors
+
+    public MainWindowViewModel()
+    {
+
     }
 
     #endregion
@@ -35,7 +44,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null &&
                     DataCache.ActiveView.SelectedFileObject is not null)
                     {
-                        MessageBox.Show("Edit");
+                        
                     }
                 }
                 catch (Exception e)
@@ -59,8 +68,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null &&
                     DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
-                        MessageBox.Show("Copy");
-                        Operation.Copy(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                        OperationWindowService.Show(OperationType.Copy);
                     }
                 }
                 catch (Exception e)
@@ -84,8 +92,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null &&
                     DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
-                        MessageBox.Show("Move");
-                        Operation.Move(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
+                        OperationWindowService.Show(OperationType.Move);
                     }
                 }
                 catch (Exception e)
@@ -110,8 +117,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                         DataCache.ActiveView.SelectedFileObject is not null &&
                         DataCache.ActiveView.SelectedFileObjects.Count == 1)
                     {
-                        MessageBox.Show("Rename");
-                        Operation.Rename(DataCache.ActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObject, "TempName");
+                        OperationWindowService.Show(OperationType.Rename);
                     }
                     else if (DataCache.ActiveView.SelectedFileObjects.Count > 1)
                     {
@@ -138,7 +144,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 {
                     if (DataCache.ActiveView is not null)
                     {
-                        MessageBox.Show("New Folder");
+                        OperationWindowService.Show(OperationType.CreateFolder);
                     }
                 }
                 catch (Exception e)
@@ -162,8 +168,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null &&
                     DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
-                        MessageBox.Show("Delete");
-                        Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
+                        OperationWindowService.Show(OperationType.Delete);
                     }
                 }
                 catch (Exception e)
@@ -188,8 +193,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     DataCache.ActiveView.SelectedFileObjects.Count > 0 &&
                     DataCache.ActiveView.SelectedFileObject is Archive)
                     {
-                        MessageBox.Show("Unpack");
-                        Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
+                        OperationWindowService.Show(OperationType.UnPack);
                     }
                 }
                 catch (Exception e)

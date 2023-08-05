@@ -27,13 +27,13 @@ public class Folder : FileSystemObject
 
     public Folder()
     {
-        m_Name = String.Empty;
-        m_Path = String.Empty;
-        m_Extension = String.Empty;
+        m_Name = string.Empty;
+        m_Path = string.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = DateTime.Now;
         m_SizeInBytes = 0;
-        m_ArchivePath = String.Empty;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
 
@@ -41,11 +41,11 @@ public class Folder : FileSystemObject
     {
         m_Name = "[" + folderInfo.Name + "]";
         m_Path = folderInfo.FullName;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = folderInfo.CreationTime;
         m_DateModified = folderInfo.LastWriteTime;
         m_SizeInBytes = 0;
-        m_ArchivePath = String.Empty;
+        m_ArchivePath = string.Empty;
         m_IsArchived = false;
     }
     
@@ -53,7 +53,7 @@ public class Folder : FileSystemObject
     {
         m_Name = "[" + folderInfo.Name + "]";
         m_Path = folderInfo.FullName;
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = folderInfo.CreationTime;
         m_DateModified = folderInfo.LastWriteTime;
         m_SizeInBytes = 0;
@@ -66,7 +66,7 @@ public class Folder : FileSystemObject
         var name = entry.Name.Substring(0, entry.Name.Length - 1);
         m_Name = "[" + ClearName(name, name.Count(i => i == '/')) + "]";
         m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
         m_SizeInBytes = 0;
@@ -78,7 +78,7 @@ public class Folder : FileSystemObject
     {
         m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
         m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
         m_SizeInBytes = 0;
@@ -90,7 +90,7 @@ public class Folder : FileSystemObject
     {
         m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
         m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length)).Replace("/", "\\");
-        m_Extension = String.Empty;
+        m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
         m_DateModified = entry.ModificationTime;
         m_SizeInBytes = 0;

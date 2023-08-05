@@ -2,8 +2,11 @@
 
 public enum OperationType
 {
+    Edit,
     Copy,
     Move,
     Rename,
-    CreateNewFolder
+    CreateFolder,
+    Delete,
+    UnPack
 }

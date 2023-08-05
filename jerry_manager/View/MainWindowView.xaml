@@ -8,7 +8,8 @@
         Title="Jerry Manager" 
         MinHeight="450" MinWidth="1000"
         Height="550" Width="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Verdana">
     <Window.InputBindings>
         <KeyBinding Command="{Binding EditCommand}" Key="F3"/>
         <KeyBinding Command="{Binding CopyCommand}" Key="F4"/>
@@ -42,10 +43,10 @@
                 <MenuItem Header="Exit" Command="{Binding QuitCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools">
-                
+
             </MenuItem>
             <MenuItem Header="View">
-                
+
             </MenuItem>
         </Menu>
         <ToolBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6"
@@ -64,7 +65,7 @@
             <Separator/>
         </ToolBar>
         <local:FileExplorerView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-                                x:Name="LeftExplorer" Margin="2"
+                                x:Name="LeftExplorer" Margin="2,2,2,2"
                                 GotFocus="LeftExplorer_OnGotFocus"/>
         <local:FileExplorerView Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3"
                                 x:Name="RightExplorer" Margin="2"

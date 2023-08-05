@@ -23,7 +23,8 @@
                   ItemsSource="{Binding Drives}"
                   SelectedItem="{Binding SelectedDrive}"
                   DisplayMemberPath="Name"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DriveFreeSpace}"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
+                   Text="{Binding DriveFreeSpace}" Margin="2,0,0,0"/>
         <ListView Name="FileObjectsListView"
                   Grid.Row="1"
                   Grid.Column="0"
