@@ -26,6 +26,8 @@ public partial class MainWindowView : Window
         DataContext = m_ViewModel;
         DataCache.ActiveView = LeftExplorer.ViewModel;
         DataCache.NotActiveView = RightExplorer.ViewModel;
+        LeftExplorer.IsSelected = true;
+        RightExplorer.IsSelected = true;
     }
 
     #endregion
@@ -36,12 +38,16 @@ public partial class MainWindowView : Window
     {
         DataCache.ActiveView = RightExplorer.ViewModel;
         DataCache.NotActiveView = LeftExplorer.ViewModel;
+        RightExplorer.IsSelected = true;
+        LeftExplorer.IsSelected = false;
     }
 
     private void LeftExplorer_OnGotFocus(object sender, RoutedEventArgs e)
     {
         DataCache.ActiveView = LeftExplorer.ViewModel;
         DataCache.NotActiveView = RightExplorer.ViewModel;
+        LeftExplorer.IsSelected = true;
+        RightExplorer.IsSelected = false;
     }
 
     #endregion

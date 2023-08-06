@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using jerry_manager.ViewModel;
 
 namespace jerry_manager.View;
@@ -16,6 +17,26 @@ public partial class FileExplorerView : UserControl
         set => m_ViewModel = value;
     }
 
+    private bool m_Selected;
+    public bool IsSelected
+    {
+        get => m_Selected;
+        set
+        {
+            m_Selected = value;
+            if (m_Selected)
+            {
+                FileObjectsListView.BorderBrush = Brushes.DarkRed;
+            } 
+            else
+            {
+                FileObjectsListView.BorderBrush = Brushes.Black;
+            }
+        }
+    }
+
+    private Style ListViewStyle { get; set; }
+
     #endregion
 
     #region Constructors
@@ -25,6 +46,8 @@ public partial class FileExplorerView : UserControl
         InitializeComponent();
         m_ViewModel = new FileExplorerViewModel();
         DataContext = ViewModel;
+        FileObjectsListView.BorderThickness = new Thickness(2.0);
+        IsSelected = false;
     }
 
     #endregion
