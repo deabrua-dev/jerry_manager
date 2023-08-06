@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 using jerry_manager.Core.Exceptions;
 
@@ -83,20 +84,21 @@ public class Operation
         }
     }
 
-    public static void UnPack(Archive archive)
+    public static void UnPack(string destinationPath, Archive archive)
     {
         try
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             switch (archive.ArchiveType)
             {
                 case ArchiveType.ZIP:
-                    UnPackZipArchive(archive);
+                    UnPackZipArchive(destinationPath, archive);
                     break;
                 case ArchiveType.RAR:
-                    UnPackRarArchive(archive);
+                    UnPackRarArchive(destinationPath, archive);
                     break;
                 case ArchiveType.SevenZip:
-                    UnPack7ZipArchive(archive);
+                    UnPack7ZipArchive(destinationPath, archive);
                     break;
                 case ArchiveType.None:
                     throw new ArchiveReadException("Archive read error.");
@@ -251,30 +253,27 @@ public class Operation
         }
     }
 
-    private static void UnPackZipArchive(Archive archive)
+    private static void UnPackZipArchive(string destinationPath, Archive archive)
     {
-        var path = archive.Path.Substring(0, archive.Path.LastIndexOf("\\") + 1);
         using (var temp_archive = new Aspose.Zip.Archive(archive.Path))
         {
-            temp_archive.ExtractToDirectory(path);
+            temp_archive.ExtractToDirectory(destinationPath);
         }
     }
     
-    private static void UnPackRarArchive(Archive archive)
+    private static void UnPackRarArchive(string destinationPath, Archive archive)
     {
-        var path = archive.Path.Substring(0, archive.Path.LastIndexOf("\\") + 1);
         using (var temp_archive = new Aspose.Zip.Rar.RarArchive(archive.Path))
         {
-            temp_archive.ExtractToDirectory(path);
+            temp_archive.ExtractToDirectory(destinationPath);
         }
     }
     
-    private static void UnPack7ZipArchive(Archive archive)
+    private static void UnPack7ZipArchive(string destinationPath, Archive archive)
     {
-        var path = archive.Path.Substring(0, archive.Path.LastIndexOf("\\") + 1);
         using (var temp_archive = new Aspose.Zip.SevenZip.SevenZipArchive(archive.Path))
         {
-            App.Current.Dispatcher.Invoke(() =>temp_archive.ExtractToDirectory(path));
+            App.Current.Dispatcher.Invoke(() =>temp_archive.ExtractToDirectory(destinationPath));
         }
     }
 }

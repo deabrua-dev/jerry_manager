@@ -26,4 +26,19 @@ public partial class OperationView : Window
     }
 
     #endregion
+
+    #region Methods
+
+    private void CencelButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void OkButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.OperationStart();
+        Close();
+    }
+
+    #endregion
 }

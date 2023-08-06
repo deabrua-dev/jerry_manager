@@ -26,7 +26,7 @@ public partial class FileExplorerView : UserControl
             m_Selected = value;
             if (m_Selected)
             {
-                FileObjectsListView.BorderBrush = Brushes.DarkRed;
+                FileObjectsListView.BorderBrush = Brushes.Red;
             } 
             else
             {

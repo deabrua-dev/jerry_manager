@@ -32,10 +32,12 @@
         <Button Grid.Row="4" Grid.Column="2"
                 Width="50" Height="25"
                 HorizontalAlignment="Center" Margin="3" 
-                Content="OK"/>
+                Content="OK" Name="OkButton"
+                Click="OkButton_Click"/>
         <Button Grid.Row="4" Grid.Column="3"
                 Width="50" Height="25"
                 HorizontalAlignment="Center" Margin="3" 
-                Content="Cancel"/>
+                Content="Cancel" Name="CencelButton"
+                Click="CencelButton_Click"/>
     </Grid>
 </Window>

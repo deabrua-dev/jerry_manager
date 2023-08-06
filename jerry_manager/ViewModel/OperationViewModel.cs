@@ -92,13 +92,30 @@ public class OperationViewModel : INotifyPropertyChanged
 
     #region Methhods
 
-    public void OperationStart()
+    public bool OperationStart()
     {
-        Operation.Copy(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
-        Operation.Move(DataCache.NotActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObjects);
-        Operation.Rename(DataCache.ActiveView.CurrentPath, DataCache.ActiveView.SelectedFileObject, "TempName");
-        Operation.CreateFolder(DataCache.ActiveView.CurrentPath, FolderName);
-        Operation.UnPack((Archive)DataCache.ActiveView.SelectedFileObject);
+        switch (m_operationType)
+        {
+            case OperationType.Copy:
+                Operation.Copy(FolderName, DataCache.ActiveView.SelectedFileObjects);
+                break;
+            case OperationType.Move:
+                Operation.Move(FolderName, DataCache.ActiveView.SelectedFileObjects);
+                break;
+            case OperationType.Rename:
+                Operation.Rename(FolderName, DataCache.ActiveView.SelectedFileObject, "TempName");
+                break;
+            case OperationType.CreateFolder:
+                Operation.CreateFolder(FolderName, FolderName);
+                break;
+            case OperationType.UnPack:
+                Operation.UnPack(FolderName, (Archive)DataCache.ActiveView.SelectedFileObject);
+                break;
+            default:
+                FolderName = string.Empty;
+                break;
+        }
+        return true;
     }
 
     #endregion
