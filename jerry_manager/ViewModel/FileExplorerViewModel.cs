@@ -1,12 +1,12 @@
 using System;
+using System.IO;
+using System.Windows;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using jerry_manager.Core.FileSystem;
 using jerry_manager.Model;
+using jerry_manager.Core.FileSystem;
 using File = jerry_manager.Core.FileSystem.File;
 
 namespace jerry_manager.ViewModel;

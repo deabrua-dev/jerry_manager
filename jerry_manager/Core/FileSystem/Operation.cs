@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Diagnostics;
+using System.Collections.Generic;
 using jerry_manager.Core.Exceptions;
 
 namespace jerry_manager.Core.FileSystem;
