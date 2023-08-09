@@ -38,6 +38,9 @@
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" 
               Height="25">
             <MenuItem Header="File">
+                <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
+                <MenuItem Header="Edit" Command="{Binding EditCommand}"/>
+                <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
                 <MenuItem Header="Unpack" Command="{Binding UnPackCommand}"/>
                 <Separator/>
                 <MenuItem Header="Exit" Command="{Binding QuitCommand}"/>
