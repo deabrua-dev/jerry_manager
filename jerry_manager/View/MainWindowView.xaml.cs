@@ -27,7 +27,7 @@ public partial class MainWindowView : Window
         DataCache.ActiveView = LeftExplorer.ViewModel;
         DataCache.NotActiveView = RightExplorer.ViewModel;
         LeftExplorer.IsSelected = true;
-        RightExplorer.IsSelected = true;
+        RightExplorer.IsSelected = false;
     }
 
     #endregion
