@@ -18,6 +18,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         get => DataCache.ActiveView.CurrentPath + "> ";
     }
 
+    private ICommand openCommand;
     private ICommand editCommand;
     private ICommand copyCommand;
     private ICommand moveCommand;
@@ -39,6 +40,30 @@ public class MainWindowViewModel : INotifyPropertyChanged
     #endregion
 
     #region Commands
+
+    public ICommand OpenCommand
+    {
+        get
+        {
+            return openCommand ??= new RelayCommand(obj =>
+            {
+                try
+                {
+                    if (DataCache.ActiveView is not null &&
+                        DataCache.ActiveView.SelectedFileObject is not null && (
+                        DataCache.ActiveView.SelectedFileObject is File ||
+                        DataCache.ActiveView.SelectedFileObject is Archive))
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            });
+        }
+    }
 
     public ICommand EditCommand
     {
