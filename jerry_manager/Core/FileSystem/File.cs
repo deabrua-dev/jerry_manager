@@ -50,19 +50,6 @@ public class File : FileSystemObject
 
     #region Constructors
 
-    public File()
-    {
-        m_Name = String.Empty;
-        m_Path = String.Empty;
-        m_Extension = String.Empty;
-        m_DateCreated = DateTime.Now;
-        m_DateModified = DateTime.Now;
-        m_SizeInBytes = 0;
-        m_Attributes = 0;
-        m_ArchivePath = String.Empty;
-        m_IsArchived = false;
-    }
-
     public File(FileInfo fileInfo)
     {
         m_Name = fileInfo.Name;
@@ -72,32 +59,6 @@ public class File : FileSystemObject
         m_DateModified = fileInfo.LastWriteTime;
         m_SizeInBytes = (UInt64)fileInfo.Length;
         m_Attributes = fileInfo.Attributes;
-        m_ArchivePath = String.Empty;
-        m_IsArchived = false;
-    }
-    
-    public File(FileInfo fileInfo, string archivePath, bool isArchived)
-    {
-        m_Name = fileInfo.Name;
-        m_Path = fileInfo.FullName;
-        m_Extension = fileInfo.Extension;
-        m_DateCreated = fileInfo.CreationTime;
-        m_DateModified = fileInfo.LastWriteTime;
-        m_SizeInBytes = (UInt64)fileInfo.Length;
-        m_Attributes = fileInfo.Attributes;
-        m_ArchivePath = archivePath;
-        m_IsArchived = isArchived;
-    }
-    
-    public File(string name, string path)
-    {
-        m_Name = name;
-        m_Path = path;
-        m_Extension = String.Empty;
-        m_DateCreated = DateTime.Now;
-        m_DateModified = DateTime.Now;
-        m_SizeInBytes = 0;
-        m_Attributes = 0;
         m_ArchivePath = String.Empty;
         m_IsArchived = false;
     }

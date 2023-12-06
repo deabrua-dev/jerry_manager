@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows;
 using System.Diagnostics;
 using System.Collections.Generic;
-using jerry_manager.Core.Exceptions;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -20,7 +19,7 @@ public class Operation
             }
             foreach (var item in items)
             {
-                CopyObject(item.Path, destinationPath);
+                CopyObject(item.Path, destinationPath, true);
             }
         }
         catch (Exception e)
@@ -101,9 +100,9 @@ public class Operation
                     UnPack7ZipArchive(destinationPath, archive);
                     break;
                 case ArchiveType.None:
-                    throw new ArchiveReadException("Archive read error.");
+                    throw new Exception("Archive read error.");
                 default:
-                    throw new FileReadException("File read error.");
+                    throw new Exception("File read error.");
             }
         }
         catch (Exception e)
@@ -118,7 +117,7 @@ public class Operation
         try
         {
             string targetDirectoryPath = path + "\\" + name;
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(targetDirectoryPath);
         }
         catch(Exception e)
         {
@@ -138,7 +137,7 @@ public class Operation
         }
     }
     
-    private static void CopyObject(string path, string destinationPath)
+    private static void CopyObject(string path, string destinationPath, bool isParentFolder = false)
     {
         FileAttributes attr = System.IO.File.GetAttributes(path);
         if (attr.HasFlag(FileAttributes.Directory))
@@ -149,28 +148,38 @@ public class Operation
             {
                 Directory.CreateDirectory(targetDirectoryPath);
             }
+            else if (isParentFolder)
+            {
+                while (Directory.Exists(targetDirectoryPath))
+                {
+                    targetDirectoryPath += " - Copy";
+                }
+                Directory.CreateDirectory(targetDirectoryPath);
+            }
             var directories = directoryInfo.GetDirectories();
             var files = directoryInfo.GetFiles();
             foreach (var file in files)
             {
-                string targetFilePath = destinationPath + "\\" + directoryInfo.Name + "\\" + file.Name;
+                string targetFilePath = targetDirectoryPath + "\\" + file.Name;
                 if (!System.IO.File.Exists(targetFilePath))
                 {
                     file.CopyTo(targetFilePath);
                 }
             }
-
             foreach (var directory in directories)
             {
-                string newDestinationDir = destinationPath + "\\" + directoryInfo.Name;
-                CopyObject(directory.FullName, newDestinationDir);
+                CopyObject(directory.FullName, targetDirectoryPath);
             }
         }
         else
         {
             FileInfo fileInfo = new FileInfo(path);
-            string targetFilePath = destinationPath + "\\" + fileInfo.Name;
-            fileInfo.CopyTo(targetFilePath);
+            string targetFilePath = destinationPath + "\\" + Path.GetFileNameWithoutExtension(fileInfo.FullName);
+            while (System.IO.File.Exists(targetFilePath + fileInfo.Extension))
+            {
+                targetFilePath += " - Copy";
+            }
+            fileInfo.CopyTo(targetFilePath + fileInfo.Extension);
         }
     }
 
@@ -186,6 +195,10 @@ public class Operation
                 {
                     Directory.Move(path, targetDirectoryPath);
                 }
+                else
+                {
+                    throw new Exception("You cant move folder at this path.");
+                }
             }
         }
         else
@@ -197,6 +210,10 @@ public class Operation
                 if (!System.IO.File.Exists(targetFilePath))
                 {
                     System.IO.File.Move(path, targetFilePath);
+                }
+                else
+                {
+                    throw new Exception("You cant move file at this path.");
                 }
             }
         }

@@ -25,18 +25,6 @@ public class Folder : FileSystemObject
     
     #region Constructors
 
-    public Folder()
-    {
-        m_Name = string.Empty;
-        m_Path = string.Empty;
-        m_Extension = string.Empty;
-        m_DateCreated = DateTime.Now;
-        m_DateModified = DateTime.Now;
-        m_SizeInBytes = 0;
-        m_ArchivePath = string.Empty;
-        m_IsArchived = false;
-    }
-
     public Folder(DirectoryInfo folderInfo)
     {
         m_Name = "[" + folderInfo.Name + "]";
@@ -47,18 +35,6 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = string.Empty;
         m_IsArchived = false;
-    }
-    
-    public Folder(DirectoryInfo folderInfo, string archivePath, bool isArchived)
-    {
-        m_Name = "[" + folderInfo.Name + "]";
-        m_Path = folderInfo.FullName;
-        m_Extension = string.Empty;
-        m_DateCreated = folderInfo.CreationTime;
-        m_DateModified = folderInfo.LastWriteTime;
-        m_SizeInBytes = 0;
-        m_ArchivePath = archivePath;
-        m_IsArchived = isArchived;
     }
 
     public Folder(ArchiveEntry entry, string path)

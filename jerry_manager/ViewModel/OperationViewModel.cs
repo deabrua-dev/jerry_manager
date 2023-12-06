@@ -106,7 +106,7 @@ public class OperationViewModel : INotifyPropertyChanged
                 Operation.Rename(FolderName, DataCache.ActiveView.SelectedFileObject, "TempName");
                 break;
             case OperationType.CreateFolder:
-                Operation.CreateFolder(FolderName, FolderName);
+                Operation.CreateFolder(DataCache.ActiveView.CurrentPath, FolderName);
                 break;
             case OperationType.UnPack:
                 Operation.UnPack(FolderName, (Archive)DataCache.ActiveView.SelectedFileObject);
