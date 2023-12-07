@@ -41,4 +41,9 @@ public partial class OperationView : Window
     }
 
     #endregion
+
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.PathChoose();
+    }
 }

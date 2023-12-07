@@ -2,6 +2,7 @@
 using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Ookii.Dialogs.Wpf;
 using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
 
@@ -76,7 +77,11 @@ public class OperationViewModel : INotifyPropertyChanged
     public string FolderName
     {
         get => m_FolderName;
-        set => m_FolderName = value;
+        set
+        {
+            m_FolderName = value;
+            OnPropertyChanged("FolderName");
+        }
     }
 
     #endregion
@@ -128,4 +133,33 @@ public class OperationViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
     #endregion
+
+    public void PathChoose()
+    {
+        switch (m_operationType)
+        {
+            case OperationType.Edit:
+                break;
+            case OperationType.Copy:
+                var fbd = new VistaFolderBrowserDialog();
+                fbd.SelectedPath = DataCache.ActiveView.CurrentPath + "\\";
+                if (fbd.ShowDialog().GetValueOrDefault())
+                {
+                    FolderName = fbd.SelectedPath;
+                }
+                break;
+            case OperationType.Move:
+                break;
+            case OperationType.Rename:
+                break;
+            case OperationType.CreateFolder:
+                break;
+            case OperationType.Delete:
+                break;
+            case OperationType.UnPack:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
 }
