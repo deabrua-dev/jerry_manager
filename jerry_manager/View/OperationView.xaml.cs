@@ -29,7 +29,7 @@ public partial class OperationView : Window
 
     #region Methods
 
-    private void CencelButton_Click(object sender, RoutedEventArgs e)
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
     }

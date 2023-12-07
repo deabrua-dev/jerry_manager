@@ -39,6 +39,6 @@
                 Width="50" Height="25"
                 HorizontalAlignment="Center" Margin="3" 
                 Content="Cancel" Name="CencelButton"
-                Click="CencelButton_Click"/>
+                Click="CancelButton_Click"/>
     </Grid>
 </Window>

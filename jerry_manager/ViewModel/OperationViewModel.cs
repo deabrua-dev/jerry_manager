@@ -136,30 +136,11 @@ public class OperationViewModel : INotifyPropertyChanged
 
     public void PathChoose()
     {
-        switch (m_operationType)
+        var fbd = new VistaFolderBrowserDialog();
+        fbd.SelectedPath = DataCache.ActiveView.CurrentPath + "\\";
+        if (fbd.ShowDialog().GetValueOrDefault())
         {
-            case OperationType.Edit:
-                break;
-            case OperationType.Copy:
-                var fbd = new VistaFolderBrowserDialog();
-                fbd.SelectedPath = DataCache.ActiveView.CurrentPath + "\\";
-                if (fbd.ShowDialog().GetValueOrDefault())
-                {
-                    FolderName = fbd.SelectedPath;
-                }
-                break;
-            case OperationType.Move:
-                break;
-            case OperationType.Rename:
-                break;
-            case OperationType.CreateFolder:
-                break;
-            case OperationType.Delete:
-                break;
-            case OperationType.UnPack:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            FolderName = fbd.SelectedPath;
         }
     }
 }

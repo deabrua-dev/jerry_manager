@@ -5,10 +5,10 @@ namespace jerry_manager.Core.Services;
 
 class OperationWindowService : IWindowService
 {
-    public static void Show(OperationType OperationType)
+    public static void Show(OperationType operationType)
     {
         var view = new OperationView();
-        view.ViewModel.OperationType = OperationType;
+        view.ViewModel.OperationType = operationType;
         view.Show();
     }
 }
