@@ -7,6 +7,7 @@ public enum OperationType
     Move,
     Rename,
     CreateFolder,
+    CreateFile,
     Delete,
     UnPack
 }

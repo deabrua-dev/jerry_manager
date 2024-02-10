@@ -22,22 +22,25 @@ public class OperationViewModel : INotifyPropertyChanged
             switch (m_operationType)
             {
                 case OperationType.Copy:
-                    FolderName = DataCache.NotActiveView.CurrentPath;
+                    NamePlaceHolder = DataCache.NotActiveView.CurrentPath;
                     break;
                 case OperationType.Move:
-                    FolderName = DataCache.NotActiveView.CurrentPath;
+                    NamePlaceHolder = DataCache.NotActiveView.CurrentPath;
                     break;
                 case OperationType.Rename:
-                    FolderName = DataCache.ActiveView.SelectedFileObject.Name;
+                    NamePlaceHolder = DataCache.ActiveView.SelectedFileObject.Name;
                     break;
                 case OperationType.CreateFolder:
-                    FolderName = "New Folder";
+                    NamePlaceHolder = "New Folder";
+                    break;
+                case OperationType.CreateFile:
+                    NamePlaceHolder = "File";
                     break;
                 case OperationType.UnPack:
-                    FolderName = DataCache.ActiveView.CurrentPath;
+                    NamePlaceHolder = DataCache.ActiveView.CurrentPath;
                     break;
                 default:
-                    FolderName = string.Empty;
+                    NamePlaceHolder = string.Empty;
                     break;
             }
         }
@@ -58,6 +61,8 @@ public class OperationViewModel : INotifyPropertyChanged
                         return "Enter a new folder name:";
                     case OperationType.CreateFolder:
                         return "Enter a new folder name:";
+                    case OperationType.CreateFile:
+                        return "Enter a new file name:";
                     case OperationType.UnPack:
                         return "Unpack to:";
                     default:
@@ -72,15 +77,33 @@ public class OperationViewModel : INotifyPropertyChanged
         }
     }
 
-    private string m_FolderName;
+    private string m_namePlaceHolder;
 
-    public string FolderName
+    public string NamePlaceHolder
     {
-        get => m_FolderName;
+        get => m_namePlaceHolder;
         set
         {
-            m_FolderName = value;
-            OnPropertyChanged("FolderName");
+            m_namePlaceHolder = value;
+            OnPropertyChanged("NamePlaceHolder");
+        }
+    }
+
+    private string m_currentFolderPath;
+    
+    public string CurrentFolderPath
+    {
+        get
+        {
+            if (m_currentFolderPath == DataCache.ActiveView.CurrentPath)
+            {
+                return DataCache.ActiveView.CurrentPath;
+            }
+            return m_currentFolderPath;
+        }
+        set
+        {
+            m_currentFolderPath = value;
         }
     }
 
@@ -90,7 +113,8 @@ public class OperationViewModel : INotifyPropertyChanged
 
     public OperationViewModel()
     {
-        FolderName = string.Empty;
+        CurrentFolderPath = DataCache.ActiveView.CurrentPath;
+        NamePlaceHolder = string.Empty;
     }
 
     #endregion
@@ -102,25 +126,42 @@ public class OperationViewModel : INotifyPropertyChanged
         switch (m_operationType)
         {
             case OperationType.Copy:
-                Operation.Copy(FolderName, DataCache.ActiveView.SelectedFileObjects);
+                Operation.Copy(NamePlaceHolder, DataCache.ActiveView.SelectedFileObjects);
                 break;
             case OperationType.Move:
-                Operation.Move(FolderName, DataCache.ActiveView.SelectedFileObjects);
+                Operation.Move(NamePlaceHolder, DataCache.ActiveView.SelectedFileObjects);
                 break;
             case OperationType.Rename:
-                Operation.Rename(FolderName, DataCache.ActiveView.SelectedFileObject, "TempName");
+                Operation.Rename(NamePlaceHolder, DataCache.ActiveView.SelectedFileObject, "TempName");
                 break;
             case OperationType.CreateFolder:
-                Operation.CreateFolder(DataCache.ActiveView.CurrentPath, FolderName);
+                Operation.CreateFolder(CurrentFolderPath, NamePlaceHolder.Replace(CurrentFolderPath, ""));
+                break;
+            case OperationType.CreateFile:
+                Operation.CreateFile(CurrentFolderPath, NamePlaceHolder.Replace(CurrentFolderPath, ""));
                 break;
             case OperationType.UnPack:
-                Operation.UnPack(FolderName, (Archive)DataCache.ActiveView.SelectedFileObject);
+                Operation.UnPack(NamePlaceHolder, (Archive)DataCache.ActiveView.SelectedFileObject);
                 break;
             default:
-                FolderName = string.Empty;
+                NamePlaceHolder = string.Empty;
                 break;
         }
         return true;
+    }
+    
+    public void PathChoose()
+    {
+        var placeHolder = m_operationType is OperationType.CreateFolder ? "New Folder" : "File";
+        var fbd = new VistaFolderBrowserDialog
+        {
+            SelectedPath = DataCache.ActiveView.CurrentPath + "\\"
+        };
+        if (fbd.ShowDialog().GetValueOrDefault())
+        {
+            CurrentFolderPath = fbd.SelectedPath;
+            NamePlaceHolder = fbd.SelectedPath + "\\" + placeHolder;
+        }
     }
 
     #endregion
@@ -133,14 +174,4 @@ public class OperationViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
     #endregion
-
-    public void PathChoose()
-    {
-        var fbd = new VistaFolderBrowserDialog();
-        fbd.SelectedPath = DataCache.ActiveView.CurrentPath + "\\";
-        if (fbd.ShowDialog().GetValueOrDefault())
-        {
-            FolderName = fbd.SelectedPath;
-        }
-    }
 }

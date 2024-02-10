@@ -25,7 +25,7 @@
                    Text="{Binding OperationName}" TextAlignment="Left"
                    FontSize="15" Margin="3" FontFamily="Arial"/>
         <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-                 Margin="2" Text="{Binding FolderName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                 Margin="2" Text="{Binding NamePlaceHolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Row="2" Grid.Column="3"
                 Width="30" Height="20"
                 HorizontalAlignment="Left" Margin="3"
@@ -38,7 +38,7 @@
         <Button Grid.Row="4" Grid.Column="3"
                 Width="50" Height="25"
                 HorizontalAlignment="Center" Margin="3" 
-                Content="Cancel" Name="CencelButton"
+                Content="Cancel" Name="CancelButton"
                 Click="CancelButton_Click"/>
     </Grid>
 </Window>

@@ -42,6 +42,7 @@
                 <MenuItem Header="Edit" Command="{Binding EditCommand}"/>
                 <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
                 <MenuItem Header="Unpack" Command="{Binding UnPackCommand}"/>
+                <MenuItem Header="New file" Command="{Binding NewFileCommand}"/>
                 <Separator/>
                 <MenuItem Header="Exit" Command="{Binding QuitCommand}"/>
             </MenuItem>

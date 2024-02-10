@@ -124,6 +124,19 @@ public class Operation
             MessageBox.Show(e.Message);
         }
     }
+    
+    public static void CreateFile(string path, string name)
+    {
+        try
+        {
+            string targetDirectoryPath = path + "\\" + name;
+            System.IO.File.Create(targetDirectoryPath);
+        }
+        catch(Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
 
     public static void EditFile(FileSystemObject item)
     {

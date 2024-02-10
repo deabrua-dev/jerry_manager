@@ -24,6 +24,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private ICommand moveCommand;
     private ICommand renameCommand;
     private ICommand newFolderCommand;
+    private ICommand newFileCommand;
     private ICommand deleteCommand;
     private ICommand unPackCommand;
     private ICommand quitCommand;
@@ -167,6 +168,26 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null)
                     {
                         OperationWindowService.Show(OperationType.CreateFolder);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            });
+        }
+    }
+    public ICommand NewFileCommand
+    {
+        get
+        {
+            return newFileCommand ??= new RelayCommand(obj =>
+            {
+                try
+                {
+                    if (DataCache.ActiveView is not null)
+                    {
+                        OperationWindowService.Show(OperationType.CreateFile);
                     }
                 }
                 catch (Exception e)
