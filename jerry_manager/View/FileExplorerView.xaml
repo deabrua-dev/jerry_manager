@@ -53,33 +53,45 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView x:Name="GridView">
-                    <GridViewColumn Header="Name">
+                    <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Name" Tag="Name" Click="FileObjectsListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Header="Type">
+                    <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Extension}" TextAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Type" Tag="Type" Click="FileObjectsListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Header="Size">
+                    <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Size}" TextAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Size" Tag="Size" Click="FileObjectsListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Header="Date">
+                    <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DateLastModified}" TextAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Date" Tag="Date" Click="FileObjectsListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>

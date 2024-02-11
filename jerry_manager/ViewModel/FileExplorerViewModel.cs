@@ -4,6 +4,7 @@ using System.Windows;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using jerry_manager.Model;
 using jerry_manager.Core.FileSystem;
@@ -182,4 +183,42 @@ public class FileExplorerViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     
     #endregion
+
+    public void OrderListBy(string sortBy, bool sortDirection)
+    {
+        var firstOne = Items.First();
+        Items.RemoveAt(0);
+        var orderList = new List<FileSystemObject>();
+        switch (sortBy)
+        {
+            case "Name":
+                orderList = sortDirection
+                    ? Items.OrderBy(x => x.Name).ToList()
+                    : Items.OrderByDescending(x => x.Name).ToList();
+                break;
+            case "Type":
+                orderList = sortDirection
+                    ? Items.OrderBy(x => x.Extension).ToList()
+                    : Items.OrderByDescending(x => x.Extension).ToList();
+                break;
+            case "Size":
+                orderList = sortDirection
+                    ? Items.OrderBy(x => x.SizeInBytes).ToList()
+                    : Items.OrderByDescending(x => x.SizeInBytes).ToList();
+                break;
+            case "Date":
+                orderList = sortDirection
+                    ? Items.OrderBy(x => x.DateModified).ToList()
+                    : Items.OrderByDescending(x => x.DateModified).ToList();
+                break;
+            default:
+                throw new Exception("Sort name error.");
+        }
+        Items.Clear();
+        Items.Add(firstOne);
+        foreach (var item in orderList)
+        {
+            App.Current.Dispatcher.Invoke(() => Items.Add(item));
+        }
+    }
 }

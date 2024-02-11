@@ -37,9 +37,17 @@ public abstract class FileSystemObject
     {
         get => m_DateModified.ToString("dd/MM/yyyy");
     }
+    public DateTime DateModified
+    {
+        get => m_DateModified;
+    }
     public string Size
     {
         get => m_SizeInBytes.ToString();
+    }
+    public ulong SizeInBytes
+    {
+        get => m_SizeInBytes;
     }
     public bool IsArchived
     {

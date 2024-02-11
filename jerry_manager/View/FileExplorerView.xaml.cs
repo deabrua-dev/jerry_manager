@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -36,6 +37,17 @@ public partial class FileExplorerView : UserControl
     }
 
     private Style ListViewStyle { get; set; }
+    
+    private bool m_sortDirection;
+
+    public bool SortDirection
+    {
+        get => m_sortDirection;
+        set
+        {
+            m_sortDirection = value;
+        }
+    }
 
     #endregion
 
@@ -48,6 +60,7 @@ public partial class FileExplorerView : UserControl
         DataContext = ViewModel;
         FileObjectsListView.BorderThickness = new Thickness(2.0);
         IsSelected = false;
+        SortDirection = true;
     }
 
     #endregion
@@ -68,5 +81,13 @@ public partial class FileExplorerView : UserControl
         GridView.Columns[3].Width = width * 0.18;
     }
 
+    private void FileObjectsListView_ColumnClicked(object sender, RoutedEventArgs e)
+    {
+        var column = (sender as GridViewColumnHeader);
+        var sortBy = column!.Tag.ToString();
+        SortDirection = SortDirection ? false : true;
+        m_ViewModel.OrderListBy(sortBy, SortDirection);
+    }
+    
     #endregion
 }
