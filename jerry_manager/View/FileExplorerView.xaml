@@ -32,9 +32,13 @@
                   ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedFileObject}"
                   SelectionMode="Extended"
+                  AllowDrop="True"
+                  Drop="FileObjectsListView_OnDrop"
                   SizeChanged="FileObjectsListView_OnSizeChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseMove"
+                                 Handler="FileObjectsListView_OnMouseMove"/>
                     <EventSetter Event="MouseDoubleClick" 
                                  Handler="FileObjectsListView_OnMouseDoubleClick"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>

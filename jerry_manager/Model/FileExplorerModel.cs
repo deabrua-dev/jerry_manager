@@ -16,6 +16,7 @@ public class FileExplorerModel
 
     private List<String> archivesFormats = new() { ".7z", ".rar", ".zip" };
     private string m_CurrentPath;
+
     public string CurrentPath
     {
         get => m_CurrentPath;
@@ -24,16 +25,8 @@ public class FileExplorerModel
 
     #endregion
 
-    #region Constructors
-
-    public FileExplorerModel()
-    {
-        
-    }
-
-    #endregion
-    
     #region Methods
+
     public void LoadPath(ObservableCollection<FileSystemObject> fileSystemObjects)
     {
         try
@@ -60,10 +53,12 @@ public class FileExplorerModel
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Folder(directory)));
             }
+
             foreach (var file in files)
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new File(file)));
             }
+
             foreach (var archive in archives)
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Archive(archive)));
@@ -84,195 +79,241 @@ public class FileExplorerModel
 
     public void LoadDrives(ObservableCollection<Drive> fileSystemDrives)
     {
+        try {
         var drives = DriveInfo.GetDrives().Where(i => i.DriveType == DriveType.Fixed).ToArray();
         foreach (var drive in drives)
         {
             App.Current.Dispatcher.Invoke(() => fileSystemDrives.Add(new Drive(drive)));
         }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
 
     public void LoadArchive(FileSystemObject fileObject, ObservableCollection<FileSystemObject> fileSystemObjects)
     {
-        var selectedFileObject = fileObject as Archive;
-        switch (selectedFileObject.ArchiveType)
+        try
         {
-            case ArchiveType.ZIP:
-                Load_ZIP(selectedFileObject, fileSystemObjects);
-                break;
-            case ArchiveType.RAR:
-                Load_RAR(selectedFileObject, fileSystemObjects);
-                break;
-            case ArchiveType.SevenZip:
-                Load_7Zip(selectedFileObject, fileSystemObjects);
-                break;
-            default:
-                throw new FileLoadException("Illegal format type.");
+            var selectedFileObject = fileObject as Archive;
+            switch (selectedFileObject.ArchiveType)
+            {
+                case ArchiveType.ZIP:
+                    Load_ZIP(selectedFileObject, fileSystemObjects);
+                    break;
+                case ArchiveType.RAR:
+                    Load_RAR(selectedFileObject, fileSystemObjects);
+                    break;
+                case ArchiveType.SevenZip:
+                    Load_7Zip(selectedFileObject, fileSystemObjects);
+                    break;
+                default:
+                    throw new FileLoadException("Illegal format type.");
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
         }
     }
 
     private void Load_ZIP(FileSystemObject file, ObservableCollection<FileSystemObject> fileSystemObjects)
     {
-        if (fileSystemObjects.Count != 0)
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
-        List<FileSystemObject> temp = new List<FileSystemObject>();
-        String cur_path = file.Path + "\\";
-        var path = file.Path.Substring(0, file.Path.LastIndexOf(".zip") + 4);
-        using (var archive = new Aspose.Zip.Archive(path))
+        try
         {
-            foreach (var entry in archive.Entries)
+            if (fileSystemObjects.Count != 0)
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
+            List<FileSystemObject> temp = new List<FileSystemObject>();
+            String cur_path = file.Path + "\\";
+            var path = file.Path.Substring(0, file.Path.LastIndexOf(".zip") + 4);
+            using (var archive = new Aspose.Zip.Archive(path))
             {
-                if (entry.IsDirectory)
+                foreach (var entry in archive.Entries)
                 {
-                    temp.Add(new Folder(entry, path));
-                }
-                else
-                {
-                    if (archivesFormats.Any(j => entry.Name.EndsWith(j)))
+                    if (entry.IsDirectory)
                     {
-                        temp.Add(new Archive(entry, path));
+                        temp.Add(new Folder(entry, path));
                     }
                     else
                     {
-                        temp.Add(new File(entry, path));
+                        if (archivesFormats.Any(j => entry.Name.EndsWith(j)))
+                        {
+                            temp.Add(new Archive(entry, path));
+                        }
+                        else
+                        {
+                            temp.Add(new File(entry, path));
+                        }
                     }
-                }  
+                }
             }
-        }
-        temp.RemoveAll(i => CheckPath(i, cur_path));
-        var temp_path = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
-        if (file.IsArchived && archivesFormats.Any(temp_path.Contains))
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path, path, true)));
-        }
-        else
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path)));
-        }
-        foreach (var item in temp)
-        {
-            if (item is Folder)
+
+            temp.RemoveAll(i => CheckPath(i, cur_path));
+            var temp_path = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
+            if (file.IsArchived && archivesFormats.Any(temp_path.Contains))
             {
-                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path, path, true)));
             }
-        }
-        foreach (var item in temp)
-        {
-            if (!(item is Folder))
+            else
             {
-                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path)));
             }
+
+            foreach (var item in temp)
+            {
+                if (item is Folder)
+                {
+                    App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                }
+            }
+
+            foreach (var item in temp)
+            {
+                if (!(item is Folder))
+                {
+                    App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                }
+            }
+
+            temp.Clear();
         }
-        temp.Clear();
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
 
     private void Load_RAR(FileSystemObject file, ObservableCollection<FileSystemObject> fileSystemObjects)
     {
-        if (fileSystemObjects.Count != 0)
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
-        List<FileSystemObject> temp = new List<FileSystemObject>();
-        String cur_path = file.Path + "\\";
-        var path = file.Path.Substring(0, file.Path.LastIndexOf(".rar") + 4);
-        using (var archive = new Aspose.Zip.Rar.RarArchive(path))
+        try
         {
-            foreach (var entry in archive.Entries)
+            if (fileSystemObjects.Count != 0)
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
+            List<FileSystemObject> temp = new List<FileSystemObject>();
+            String cur_path = file.Path + "\\";
+            var path = file.Path.Substring(0, file.Path.LastIndexOf(".rar") + 4);
+            using (var archive = new Aspose.Zip.Rar.RarArchive(path))
             {
-                if (entry.IsDirectory)
+                foreach (var entry in archive.Entries)
                 {
-                    temp.Add(new Folder(entry, path));
-                }
-                else
-                {
-                    if (archivesFormats.Any(j => entry.Name.EndsWith(j)))
+                    if (entry.IsDirectory)
                     {
-                        temp.Add(new Archive(entry, path));
+                        temp.Add(new Folder(entry, path));
                     }
                     else
                     {
-                        temp.Add(new File(entry, path));
+                        if (archivesFormats.Any(j => entry.Name.EndsWith(j)))
+                        {
+                            temp.Add(new Archive(entry, path));
+                        }
+                        else
+                        {
+                            temp.Add(new File(entry, path));
+                        }
                     }
                 }
             }
-        }
-        temp.RemoveAll(i => CheckPath(i, cur_path));
-        var temp_path = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
-        if (file.IsArchived && archivesFormats.Any(temp_path.Contains))
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path, path, true)));
-        }
-        else
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path)));
-        }
-        foreach (var item in temp)
-        {
-            if (item is Folder)
+
+            temp.RemoveAll(i => CheckPath(i, cur_path));
+            var temp_path = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
+            if (file.IsArchived && archivesFormats.Any(temp_path.Contains))
             {
-                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path, path, true)));
             }
-        }
-        foreach (var item in temp)
-        {
-            if (!(item is Folder))
+            else
             {
-                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path)));
             }
+
+            foreach (var item in temp)
+            {
+                if (item is Folder)
+                {
+                    App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                }
+            }
+
+            foreach (var item in temp)
+            {
+                if (!(item is Folder))
+                {
+                    App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                }
+            }
+
+            temp.Clear();
         }
-        temp.Clear();
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
 
     private void Load_7Zip(FileSystemObject file, ObservableCollection<FileSystemObject> fileSystemObjects)
     {
-        if (fileSystemObjects.Count != 0)
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
-        List<FileSystemObject> temp = new List<FileSystemObject>();
-        String cur_path = file.Path + "\\";
-        var path = file.Path.Substring(0, file.Path.LastIndexOf(".7z") + 3);
-        using (var archive = new Aspose.Zip.SevenZip.SevenZipArchive(path))
+        try
         {
-            foreach (var entry in archive.Entries)
+            if (fileSystemObjects.Count != 0)
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Clear());
+            List<FileSystemObject> temp = new List<FileSystemObject>();
+            String cur_path = file.Path + "\\";
+            var path = file.Path.Substring(0, file.Path.LastIndexOf(".7z") + 3);
+            using (var archive = new Aspose.Zip.SevenZip.SevenZipArchive(path))
             {
-                if (entry.IsDirectory)
+                foreach (var entry in archive.Entries)
                 {
-                    temp.Add(new Folder(entry, path));
-                }
-                else
-                {
-                    if (archivesFormats.Any(j => entry.Name.EndsWith(j)))
+                    if (entry.IsDirectory)
                     {
-                        temp.Add(new Archive(entry, path));
+                        temp.Add(new Folder(entry, path));
                     }
                     else
                     {
-                        temp.Add(new File(entry, path));
+                        if (archivesFormats.Any(j => entry.Name.EndsWith(j)))
+                        {
+                            temp.Add(new Archive(entry, path));
+                        }
+                        else
+                        {
+                            temp.Add(new File(entry, path));
+                        }
                     }
                 }
             }
-        }
-        temp.RemoveAll(i => CheckPath(i, cur_path));
-        var temp_path = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
-        if (file.IsArchived && archivesFormats.Any(temp_path.Contains))
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path, path, true)));
-        }
-        else
-        {
-            App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path)));
-        }
-        foreach (var item in temp)
-        {
-            if (item is Folder)
+
+            temp.RemoveAll(i => CheckPath(i, cur_path));
+            var temp_path = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
+            if (file.IsArchived && archivesFormats.Any(temp_path.Contains))
             {
-                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path, path, true)));
             }
-        }
-        foreach (var item in temp)
-        {
-            if (!(item is Folder))
+            else
             {
-                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(temp_path)));
             }
+
+            foreach (var item in temp)
+            {
+                if (item is Folder)
+                {
+                    App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                }
+            }
+
+            foreach (var item in temp)
+            {
+                if (!(item is Folder))
+                {
+                    App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
+                }
+            }
+
+            temp.Clear();
         }
-        temp.Clear();
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
 
     public void Execute(FileSystemObject selectedFileObject)
@@ -298,6 +339,7 @@ public class FileExplorerModel
             {
                 throw new FileLoadException("Unpack first, to open this file.");
             }
+
             switch (Archive.GetArchiveType(fileObject.ArchivePath))
             {
                 case ArchiveType.ZIP:
@@ -318,21 +360,33 @@ public class FileExplorerModel
             MessageBox.Show(e.Message);
         }
     }
-    
+
     private bool CheckPath(FileSystemObject systemObject, string path)
     {
         string tempPath = systemObject.Path;
         tempPath = tempPath.Replace(path, "");
         return tempPath.Contains("\\");
     }
-    
+
     public void Search(string searchText)
     {
         try
         {
 
         }
-        catch(Exception e)
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
+    public void CopyObjects(List<FileSystemObject> droppedItems)
+    {
+        try
+        {
+            Operation.Copy(m_CurrentPath, droppedItems);
+        }
+        catch (Exception e)
         {
             MessageBox.Show(e.Message);
         }

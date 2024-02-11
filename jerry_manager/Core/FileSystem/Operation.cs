@@ -117,6 +117,10 @@ public class Operation
         try
         {
             string targetDirectoryPath = path + "\\" + name;
+            if (Directory.Exists(targetDirectoryPath))
+            {
+                throw new Exception("Folder with this name already exist.");
+            }
             Directory.CreateDirectory(targetDirectoryPath);
         }
         catch(Exception e)
@@ -129,8 +133,12 @@ public class Operation
     {
         try
         {
-            string targetDirectoryPath = path + "\\" + name;
-            System.IO.File.Create(targetDirectoryPath);
+            string targetPath = path + "\\" + name;
+            if (System.IO.File.Exists(targetPath))
+            {
+                throw new Exception("File with this name already exist.");
+            }
+            System.IO.File.Create(targetPath);
         }
         catch(Exception e)
         {

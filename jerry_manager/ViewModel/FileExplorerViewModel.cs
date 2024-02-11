@@ -172,6 +172,64 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     {
         m_Model.LoadPath(Items);
     }
+    
+    public void OrderListBy(string sortBy, bool sortDirection)
+    {
+        try
+        {
+            var firstOne = Items.First();
+            Items.RemoveAt(0);
+            var orderList = new List<FileSystemObject>();
+            switch (sortBy)
+            {
+                case "Name":
+                    orderList = sortDirection
+                        ? Items.OrderBy(x => x.Name).ToList()
+                        : Items.OrderByDescending(x => x.Name).ToList();
+                    break;
+                case "Type":
+                    orderList = sortDirection
+                        ? Items.OrderBy(x => x.Extension).ToList()
+                        : Items.OrderByDescending(x => x.Extension).ToList();
+                    break;
+                case "Size":
+                    orderList = sortDirection
+                        ? Items.OrderBy(x => x.SizeInBytes).ToList()
+                        : Items.OrderByDescending(x => x.SizeInBytes).ToList();
+                    break;
+                case "Date":
+                    orderList = sortDirection
+                        ? Items.OrderBy(x => x.DateModified).ToList()
+                        : Items.OrderByDescending(x => x.DateModified).ToList();
+                    break;
+                default:
+                    throw new Exception("Sort name error.");
+            }
+
+            Items.Clear();
+            Items.Add(firstOne);
+            foreach (var item in orderList)
+            {
+                App.Current.Dispatcher.Invoke(() => Items.Add(item));
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
+    public void CopyDropped(List<FileSystemObject> droppedItems)
+    {
+        try
+        {
+            m_Model.CopyObjects(droppedItems);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
 
     #endregion
 
@@ -184,41 +242,5 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     
     #endregion
 
-    public void OrderListBy(string sortBy, bool sortDirection)
-    {
-        var firstOne = Items.First();
-        Items.RemoveAt(0);
-        var orderList = new List<FileSystemObject>();
-        switch (sortBy)
-        {
-            case "Name":
-                orderList = sortDirection
-                    ? Items.OrderBy(x => x.Name).ToList()
-                    : Items.OrderByDescending(x => x.Name).ToList();
-                break;
-            case "Type":
-                orderList = sortDirection
-                    ? Items.OrderBy(x => x.Extension).ToList()
-                    : Items.OrderByDescending(x => x.Extension).ToList();
-                break;
-            case "Size":
-                orderList = sortDirection
-                    ? Items.OrderBy(x => x.SizeInBytes).ToList()
-                    : Items.OrderByDescending(x => x.SizeInBytes).ToList();
-                break;
-            case "Date":
-                orderList = sortDirection
-                    ? Items.OrderBy(x => x.DateModified).ToList()
-                    : Items.OrderByDescending(x => x.DateModified).ToList();
-                break;
-            default:
-                throw new Exception("Sort name error.");
-        }
-        Items.Clear();
-        Items.Add(firstOne);
-        foreach (var item in orderList)
-        {
-            App.Current.Dispatcher.Invoke(() => Items.Add(item));
-        }
-    }
+    
 }

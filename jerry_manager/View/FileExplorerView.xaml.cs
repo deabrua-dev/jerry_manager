@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using jerry_manager.Core.FileSystem;
 using jerry_manager.ViewModel;
+using File = System.IO.File;
 
 namespace jerry_manager.View;
 
@@ -85,9 +89,48 @@ public partial class FileExplorerView : UserControl
     {
         var column = (sender as GridViewColumnHeader);
         var sortBy = column!.Tag.ToString();
-        SortDirection = SortDirection ? false : true;
+        SortDirection = !SortDirection;
         m_ViewModel.OrderListBy(sortBy, SortDirection);
     }
     
     #endregion
+
+    private void FileObjectsListView_OnDrop(object sender, DragEventArgs e)
+    {
+        try
+        {
+            var dropSource = e.Data.GetData("DragSource");
+            var droppedItems = e.Data.GetData(typeof(List<FileSystemObject>)) as List<FileSystemObject>;
+            if (!ReferenceEquals(dropSource, this) && droppedItems!.Count != 0)
+            {
+                ViewModel.CopyDropped(droppedItems);
+            }
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+        }
+    }
+
+    private void FileObjectsListView_OnMouseMove(object sender, MouseEventArgs e)
+    {
+        try
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && sender is ListViewItem)
+            {
+                var list = new List<FileSystemObject>();
+                foreach (var item in ViewModel.SelectedFileObjects)
+                {
+                    list.Add(item);
+                }
+                DataObject dataObject = new DataObject(list);
+                dataObject.SetData("DragSource", this);
+                DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
+            }
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+        }
+    }
 }
