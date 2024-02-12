@@ -9,6 +9,24 @@ namespace jerry_manager.Core.FileSystem;
 
 public class Operation
 {
+
+    public static void Open(FileSystemObject item)
+    {
+        try
+        {
+            ProcessStartInfo psi = new()
+            {
+                FileName = item.Path,
+                UseShellExecute = true
+            };
+            Process.Start(psi);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+    
     public static void Copy(string destinationPath, List<FileSystemObject> items)
     {
         try
@@ -17,6 +35,7 @@ public class Operation
             {
                 throw new Exception("Files is not selected");
             }
+
             foreach (var item in items)
             {
                 CopyObject(item.Path, destinationPath, true);
@@ -27,7 +46,7 @@ public class Operation
             MessageBox.Show(e.Message);
         }
     }
-    
+
     public static void Move(string destinationPath, List<FileSystemObject> items)
     {
         try
@@ -36,6 +55,7 @@ public class Operation
             {
                 throw new Exception("Files is not selected");
             }
+
             foreach (var item in items)
             {
                 MoveObject(item.Path, destinationPath);
@@ -55,6 +75,7 @@ public class Operation
             {
                 throw new Exception("File is not selected");
             }
+
             RenameObject(item.Path, destinationPath, newName);
         }
         catch (Exception e)
@@ -62,7 +83,7 @@ public class Operation
             MessageBox.Show(e.Message);
         }
     }
-    
+
     public static void Delete(List<FileSystemObject> items)
     {
         try
@@ -71,10 +92,12 @@ public class Operation
             {
                 throw new Exception("Files is not selected");
             }
+
             foreach (var item in items)
             {
                 DeleteObject(item.Path);
             }
+
             DataCache.NotActiveView.Update();
         }
         catch (Exception e)
@@ -109,7 +132,7 @@ public class Operation
         {
             MessageBox.Show(e.Message);
         }
-        
+
     }
 
     public static void CreateFolder(string path, string name)
@@ -121,14 +144,15 @@ public class Operation
             {
                 throw new Exception("Folder with this name already exist.");
             }
+
             Directory.CreateDirectory(targetDirectoryPath);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             MessageBox.Show(e.Message);
         }
     }
-    
+
     public static void CreateFile(string path, string name)
     {
         try
@@ -138,9 +162,10 @@ public class Operation
             {
                 throw new Exception("File with this name already exist.");
             }
+
             System.IO.File.Create(targetPath);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             MessageBox.Show(e.Message);
         }
@@ -157,161 +182,215 @@ public class Operation
             MessageBox.Show(e.Message);
         }
     }
-    
+
     private static void CopyObject(string path, string destinationPath, bool isParentFolder = false)
     {
-        FileAttributes attr = System.IO.File.GetAttributes(path);
-        if (attr.HasFlag(FileAttributes.Directory))
+        try
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(path);
-            string targetDirectoryPath = destinationPath + "\\" + directoryInfo.Name;
-            if (!Directory.Exists(targetDirectoryPath))
+            FileAttributes attr = System.IO.File.GetAttributes(path);
+            if (attr.HasFlag(FileAttributes.Directory))
             {
-                Directory.CreateDirectory(targetDirectoryPath);
-            }
-            else if (isParentFolder)
-            {
-                while (Directory.Exists(targetDirectoryPath))
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                string targetDirectoryPath = destinationPath + "\\" + directoryInfo.Name;
+                if (!Directory.Exists(targetDirectoryPath))
                 {
-                    targetDirectoryPath += " - Copy";
+                    Directory.CreateDirectory(targetDirectoryPath);
                 }
-                Directory.CreateDirectory(targetDirectoryPath);
-            }
-            var directories = directoryInfo.GetDirectories();
-            var files = directoryInfo.GetFiles();
-            foreach (var file in files)
-            {
-                string targetFilePath = targetDirectoryPath + "\\" + file.Name;
-                if (!System.IO.File.Exists(targetFilePath))
+                else if (isParentFolder)
                 {
-                    file.CopyTo(targetFilePath);
+                    while (Directory.Exists(targetDirectoryPath))
+                    {
+                        targetDirectoryPath += " - Copy";
+                    }
+
+                    Directory.CreateDirectory(targetDirectoryPath);
+                }
+
+                var directories = directoryInfo.GetDirectories();
+                var files = directoryInfo.GetFiles();
+                foreach (var file in files)
+                {
+                    string targetFilePath = targetDirectoryPath + "\\" + file.Name;
+                    if (!System.IO.File.Exists(targetFilePath))
+                    {
+                        file.CopyTo(targetFilePath);
+                    }
+                }
+
+                foreach (var directory in directories)
+                {
+                    CopyObject(directory.FullName, targetDirectoryPath);
                 }
             }
-            foreach (var directory in directories)
+            else
             {
-                CopyObject(directory.FullName, targetDirectoryPath);
+                FileInfo fileInfo = new FileInfo(path);
+                string targetFilePath = destinationPath + "\\" + Path.GetFileNameWithoutExtension(fileInfo.FullName);
+                while (System.IO.File.Exists(targetFilePath + fileInfo.Extension))
+                {
+                    targetFilePath += " - Copy";
+                }
+
+                fileInfo.CopyTo(targetFilePath + fileInfo.Extension);
             }
         }
-        else
+        catch (Exception e)
         {
-            FileInfo fileInfo = new FileInfo(path);
-            string targetFilePath = destinationPath + "\\" + Path.GetFileNameWithoutExtension(fileInfo.FullName);
-            while (System.IO.File.Exists(targetFilePath + fileInfo.Extension))
-            {
-                targetFilePath += " - Copy";
-            }
-            fileInfo.CopyTo(targetFilePath + fileInfo.Extension);
+            MessageBox.Show(e.Message);
         }
     }
 
     private static void MoveObject(string path, string destinationPath)
     {
-        FileAttributes attr = System.IO.File.GetAttributes(path);
-        if (attr.HasFlag(FileAttributes.Directory))
+        try
         {
-            if (Directory.Exists(path))
+            FileAttributes attr = System.IO.File.GetAttributes(path);
+            if (attr.HasFlag(FileAttributes.Directory))
             {
-                string targetDirectoryPath = destinationPath;
-                if (!Directory.Exists(targetDirectoryPath))
+                if (Directory.Exists(path))
                 {
-                    Directory.Move(path, targetDirectoryPath);
+                    string targetDirectoryPath = destinationPath;
+                    if (!Directory.Exists(targetDirectoryPath))
+                    {
+                        Directory.Move(path, targetDirectoryPath);
+                    }
+                    else
+                    {
+                        throw new Exception("You cant move folder at this path.");
+                    }
                 }
-                else
+            }
+            else
+            {
+                if (System.IO.File.Exists(path))
                 {
-                    throw new Exception("You cant move folder at this path.");
+                    FileInfo fileInfo = new FileInfo(path);
+                    string targetFilePath = destinationPath + "\\" + fileInfo.Name;
+                    if (!System.IO.File.Exists(targetFilePath))
+                    {
+                        System.IO.File.Move(path, targetFilePath);
+                    }
+                    else
+                    {
+                        throw new Exception("You cant move file at this path.");
+                    }
                 }
             }
         }
-        else
+        catch (Exception e)
         {
-            if (System.IO.File.Exists(path))
-            {
-                FileInfo fileInfo = new FileInfo(path);
-                string targetFilePath = destinationPath + "\\" + fileInfo.Name;
-                if (!System.IO.File.Exists(targetFilePath))
-                {
-                    System.IO.File.Move(path, targetFilePath);
-                }
-                else
-                {
-                    throw new Exception("You cant move file at this path.");
-                }
-            }
+            MessageBox.Show(e.Message);
         }
     }
 
     private static void RenameObject(string path, string destinationPath, string newName)
     {
-        FileAttributes attr = System.IO.File.GetAttributes(path);
-        if (attr.HasFlag(FileAttributes.Directory))
+        try
         {
-            if (Directory.Exists(path))
+            FileAttributes attr = System.IO.File.GetAttributes(path);
+            if (attr.HasFlag(FileAttributes.Directory))
             {
-                string targetDirectoryPath = destinationPath + "\\" + newName; ;
-                if (!Directory.Exists(targetDirectoryPath))
+                if (Directory.Exists(path))
                 {
-                    Directory.Move(path, targetDirectoryPath);
+                    string targetDirectoryPath = destinationPath + "\\" + newName;
+                    ;
+                    if (!Directory.Exists(targetDirectoryPath))
+                    {
+                        Directory.Move(path, targetDirectoryPath);
+                    }
+                }
+            }
+            else
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    FileInfo fileInfo = new FileInfo(path);
+                    string targetFilePath = destinationPath + "\\" + newName + fileInfo.Extension;
+                    if (!System.IO.File.Exists(targetFilePath))
+                    {
+                        System.IO.File.Move(path, targetFilePath);
+                    }
+                    else
+                    {
+                        throw new Exception("File already exists.");
+                    }
                 }
             }
         }
-        else
+        catch (Exception e)
         {
-            if (System.IO.File.Exists(path))
-            {
-                FileInfo fileInfo = new FileInfo(path);
-                string targetFilePath = destinationPath + "\\" + newName + fileInfo.Extension;
-                if (!System.IO.File.Exists(targetFilePath))
-                {
-                    System.IO.File.Move(path, targetFilePath);
-                }
-                else
-                {
-                    throw new Exception("File already exists.");
-                }
-            }
+            MessageBox.Show(e.Message);
         }
     }
 
     private static void DeleteObject(string path)
     {
-        FileAttributes attr = System.IO.File.GetAttributes(path);
-        if (attr.HasFlag(FileAttributes.Directory))
+        try
         {
-            if (Directory.Exists(path))
+            FileAttributes attr = System.IO.File.GetAttributes(path);
+            if (attr.HasFlag(FileAttributes.Directory))
             {
-                Directory.Delete(path, true);
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+            }
+            else
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
             }
         }
-        else
+        catch (Exception e)
         {
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
+            MessageBox.Show(e.Message);
         }
     }
 
     private static void UnPackZipArchive(string destinationPath, Archive archive)
     {
-        using (var temp_archive = new Aspose.Zip.Archive(archive.Path))
+        try
         {
-            temp_archive.ExtractToDirectory(destinationPath);
+            using (var tempArchive = new Aspose.Zip.Archive(archive.Path))
+            {
+                App.Current.Dispatcher.Invoke(() => tempArchive.ExtractToDirectory(destinationPath));
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
         }
     }
-    
+
     private static void UnPackRarArchive(string destinationPath, Archive archive)
     {
-        using (var temp_archive = new Aspose.Zip.Rar.RarArchive(archive.Path))
+        try
         {
-            temp_archive.ExtractToDirectory(destinationPath);
+            using (var tempArchive = new Aspose.Zip.Rar.RarArchive(archive.Path))
+            {
+                App.Current.Dispatcher.Invoke(() => tempArchive.ExtractToDirectory(destinationPath));
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
         }
     }
-    
+
     private static void UnPack7ZipArchive(string destinationPath, Archive archive)
     {
-        using (var temp_archive = new Aspose.Zip.SevenZip.SevenZipArchive(archive.Path))
+        try
         {
-            App.Current.Dispatcher.Invoke(() =>temp_archive.ExtractToDirectory(destinationPath));
+            using (var tempArchive = new Aspose.Zip.SevenZip.SevenZipArchive(archive.Path))
+            {
+                App.Current.Dispatcher.Invoke(() => tempArchive.ExtractToDirectory(destinationPath));
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
         }
     }
 }

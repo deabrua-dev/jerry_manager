@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
 using jerry_manager.Core.Services;
+using jerry_manager.Model;
 
 namespace jerry_manager.ViewModel;
 
@@ -13,6 +14,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 {
     #region Variables
 
+    private MainWindowModel m_Model { get; set; }
     public string ActivePath
     {
         get => DataCache.ActiveView.CurrentPath + "> ";
@@ -30,16 +32,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private ICommand quitCommand;
 
     #endregion
-
-    #region Constructors
-
-    public MainWindowViewModel()
-    {
-
-    }
-
-    #endregion
-
+    
     #region Commands
 
     public ICommand OpenCommand
@@ -55,7 +48,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                         DataCache.ActiveView.SelectedFileObject is File ||
                         DataCache.ActiveView.SelectedFileObject is Archive))
                     {
-                        throw new NotImplementedException();
+                        m_Model.Open(DataCache.ActiveView.SelectedFileObject);
                     }
                 }
                 catch (Exception e)
@@ -79,7 +72,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                         DataCache.ActiveView.SelectedFileObject is File ||
                         DataCache.ActiveView.SelectedFileObject is Archive))
                     {
-                        Operation.EditFile(DataCache.ActiveView.SelectedFileObject);
+                        m_Model.Edit(DataCache.ActiveView.SelectedFileObject);
                     }
                 }
                 catch (Exception e)
@@ -208,7 +201,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null &&
                         DataCache.ActiveView.SelectedFileObjects.Count > 0)
                     {
-                        Operation.Delete(DataCache.ActiveView.SelectedFileObjects);
+                        m_Model.Delete(DataCache.ActiveView.SelectedFileObjects);
                     }
                 }
                 catch (Exception e)
