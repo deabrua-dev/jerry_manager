@@ -32,6 +32,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private ICommand quitCommand;
 
     #endregion
+
+    #region Constructor
+
+    public MainWindowViewModel()
+    {
+        m_Model = new MainWindowModel();
+    }
+
+    #endregion
     
     #region Commands
 

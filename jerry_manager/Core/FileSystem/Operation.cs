@@ -75,7 +75,6 @@ public class Operation
             {
                 throw new Exception("File is not selected");
             }
-
             RenameObject(item.Path, destinationPath, newName);
         }
         catch (Exception e)
@@ -132,20 +131,25 @@ public class Operation
         {
             MessageBox.Show(e.Message);
         }
-
     }
 
     public static void CreateFolder(string path, string name)
     {
         try
         {
-            string targetDirectoryPath = path + "\\" + name;
-            if (Directory.Exists(targetDirectoryPath))
+            var targetPath = path + "\\" + name;
+            if (Directory.Exists(targetPath))
             {
-                throw new Exception("Folder with this name already exist.");
+                var counter = 1;
+                do
+                {
+                    counter++;
+                } while (Directory.Exists(targetPath + $" ({counter})"));
+
+                targetPath += $" ({counter})";
             }
 
-            Directory.CreateDirectory(targetDirectoryPath);
+            Directory.CreateDirectory(targetPath);
         }
         catch (Exception e)
         {
@@ -157,13 +161,21 @@ public class Operation
     {
         try
         {
-            string targetPath = path + "\\" + name;
-            if (System.IO.File.Exists(targetPath))
+            var index = name.IndexOf(".", StringComparison.Ordinal);
+            var fileName = index <= 0 ? name : name.Substring(0, index);
+            var extension = index <= 0 ? "" : name.Substring(index, name.Length - index);
+            var targetPath = path + "\\" + fileName;
+            if (System.IO.File.Exists(targetPath + extension))
             {
-                throw new Exception("File with this name already exist.");
+                var counter = 1;
+                do
+                {
+                    counter++;
+                } while (System.IO.File.Exists(targetPath + $" ({counter})" + extension));
+                
+                targetPath += $" ({counter})";
             }
-
-            System.IO.File.Create(targetPath);
+            System.IO.File.Create(targetPath + extension);
         }
         catch (Exception e)
         {
@@ -230,7 +242,6 @@ public class Operation
                 {
                     targetFilePath += " - Copy";
                 }
-
                 fileInfo.CopyTo(targetFilePath + fileInfo.Extension);
             }
         }
@@ -293,11 +304,11 @@ public class Operation
                 if (Directory.Exists(path))
                 {
                     string targetDirectoryPath = destinationPath + "\\" + newName;
-                    ;
-                    if (!Directory.Exists(targetDirectoryPath))
+                    if (Directory.Exists(targetDirectoryPath))
                     {
-                        Directory.Move(path, targetDirectoryPath);
+                        throw new Exception("Folder with this name already exist.");
                     }
+                    Directory.Move(path, targetDirectoryPath);
                 }
             }
             else
@@ -308,12 +319,9 @@ public class Operation
                     string targetFilePath = destinationPath + "\\" + newName + fileInfo.Extension;
                     if (!System.IO.File.Exists(targetFilePath))
                     {
-                        System.IO.File.Move(path, targetFilePath);
+                        throw new Exception("File with this name already exist.");
                     }
-                    else
-                    {
-                        throw new Exception("File already exists.");
-                    }
+                    System.IO.File.Move(path, targetFilePath);
                 }
             }
         }
