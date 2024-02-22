@@ -17,4 +17,11 @@
     <Folder Include="Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Images\Default icons\folder-icon-big-256.png" />
+    <Resource Include="Images\Default icons\folder-icon-big-256.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>

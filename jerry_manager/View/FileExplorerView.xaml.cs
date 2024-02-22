@@ -108,9 +108,7 @@ public partial class FileExplorerView : UserControl
             MessageBox.Show(exception.Message);
         }
     }
-
-    #endregion
-
+    
     private void FileObjectsListView_OnDrop(object sender, DragEventArgs e)
     {
         try
@@ -150,4 +148,6 @@ public partial class FileExplorerView : UserControl
             MessageBox.Show(exception.Message);
         }
     }
+    
+    #endregion
 }

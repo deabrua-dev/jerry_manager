@@ -44,6 +44,7 @@
                 <MenuItem Header="Unpack" Command="{Binding UnPackCommand}"/>
                 <MenuItem Header="New file" Command="{Binding NewFileCommand}"/>
                 <Separator/>
+                <MenuItem Header="Properties" Command="{Binding PropertiesCommand}"/>
                 <MenuItem Header="Exit" Command="{Binding QuitCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools">
