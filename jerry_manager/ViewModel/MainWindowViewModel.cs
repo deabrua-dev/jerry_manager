@@ -31,6 +31,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private ICommand unPackCommand;
     private ICommand quitCommand;
     private ICommand propertiesCommand;
+    private ICommand searchCommand;
 
     #endregion
 
@@ -273,6 +274,27 @@ public class MainWindowViewModel : INotifyPropertyChanged
                         DataCache.ActiveView.SelectedFileObject is not null)
                     {
                         FilePropertiesWindowService.Show(DataCache.ActiveView.SelectedFileObject);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            });
+        }
+    }
+    
+    public ICommand SearchCommand
+    {
+        get
+        {
+            return searchCommand ??= new RelayCommand(obj =>
+            {
+                try
+                {
+                    if (DataCache.ActiveView is not null)
+                    {
+                        
                     }
                 }
                 catch (Exception e)

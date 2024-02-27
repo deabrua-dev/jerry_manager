@@ -30,9 +30,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="30"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" 
@@ -54,34 +53,20 @@
 
             </MenuItem>
         </Menu>
-        <ToolBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6"
-                 Height="30">
-            <ToggleButton>
-                <Image Source=""/>
-            </ToggleButton>
-            <Separator/>
-            <ToggleButton>
-                <Image Source=""/>
-            </ToggleButton>
-            <Separator/>
-            <ToggleButton>
-                <Image Source=""/>
-            </ToggleButton>
-            <Separator/>
-        </ToolBar>
-        <local:FileExplorerView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+        <local:FileExplorerView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                                 x:Name="LeftExplorer" Margin="2,2,2,2"
                                 GotFocus="LeftExplorer_OnGotFocus"/>
-        <local:FileExplorerView Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3"
+        <local:FileExplorerView Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
                                 x:Name="RightExplorer" Margin="2"
                                 GotFocus="RightExplorer_OnGotFocus"/>
         <TextBlock Grid.Row="3" Grid.Column="2"
                    Text="{Binding ActivePath}"
                    TextAlignment="Right"/>
-        <TextBox Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"/>
-        <Button Grid.Row="3" Grid.Column="5" HorizontalAlignment="Left" 
-                Width="70" Margin="5, 0, 0, 0"/>
-        <UniformGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" Columns="7">
+        <TextBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"/>
+        <Button Grid.Row="2" Grid.Column="5" HorizontalAlignment="Left" 
+                Width="70" Margin="5, 0, 0, 0"
+                Content="Search" Command="{Binding SearchCommand}"/>
+        <UniformGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" Columns="7">
             <UniformGrid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="BorderThickness" Value="1, 0, 1, 0"/>
