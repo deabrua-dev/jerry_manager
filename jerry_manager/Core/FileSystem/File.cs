@@ -9,11 +9,6 @@ namespace jerry_manager.Core.FileSystem;
 public class File : FileSystemObject
 {
     #region Variables
-
-    public string DateLastModified
-    {
-        get => m_DateModified.ToString("dd/MM/yyyy");
-    }
     
     public string Size
     {
@@ -57,6 +52,7 @@ public class File : FileSystemObject
         m_Extension = fileInfo.Extension;
         m_DateCreated = fileInfo.CreationTime;
         m_DateModified = fileInfo.LastWriteTime;
+        m_DateAccessed = fileInfo.LastAccessTime;
         m_SizeInBytes = (UInt64)fileInfo.Length;
         m_Attributes = fileInfo.Attributes;
         m_ArchivePath = String.Empty;

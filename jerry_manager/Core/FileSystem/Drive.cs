@@ -8,25 +8,9 @@ public class Drive : FileSystemObject
 {
     #region Variables
 
-    public string TotalSize
-    {
-        get
-        {
-            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = " ";
-            return m_TotalSizeInBytes.ToString("n", nfi);
-        }
-    }
-    
-    public string Size
-    {
-        get
-        {
-            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = " ";
-            return m_SizeInBytes.ToString("n", nfi);
-        }
-    }
+    public string TotalSize => m_TotalSizeInBytes.ToString("N0", new CultureInfo("ua-UK"));
+
+    public string Size => m_SizeInBytes.ToString("N0", new CultureInfo("ua-UK"));
 
     #endregion
 

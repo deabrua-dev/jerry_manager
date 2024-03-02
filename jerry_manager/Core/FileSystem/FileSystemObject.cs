@@ -12,6 +12,7 @@ public abstract class FileSystemObject
     protected string m_Extension { get; set; }
     protected DateTime m_DateCreated { get; set; }
     protected DateTime m_DateModified { get; set; }
+    protected DateTime m_DateAccessed { get; set; }
     protected ulong m_SizeInBytes { get; set; }
     protected ulong m_TotalSizeInBytes { get; set; }
     protected FileAttributes m_Attributes { get; set; }
@@ -34,27 +35,14 @@ public abstract class FileSystemObject
         get => m_Extension;
         set => m_Extension = value;
     }
-    public string DateLastModified
-    {
-        get => m_DateModified.ToString("dd/MM/yyyy");
-    }
-    public DateTime DateModified
-    {
-        get => m_DateModified;
-    }
-    public string Size
-    {
-        get => m_SizeInBytes.ToString();
-    }
-    public ulong SizeInBytes
-    {
-        get => m_SizeInBytes;
-    }
-
-    public string SizeOnDisk
-    {
-        get => "";
-    }
+    public string DateLastModified => m_DateModified.ToString("dd/MM/yyyy");
+    public string DateLastAccessed => m_DateAccessed.ToString("dd/MM/yyyy");
+    public DateTime DateCreated => m_DateCreated;
+    public DateTime DateModified => m_DateModified;
+    public DateTime DateAccessed => m_DateAccessed;
+    public string Size => m_SizeInBytes.ToString();
+    public ulong SizeInBytes => m_SizeInBytes;
+    public string SizeOnDisk => "";
     public bool IsArchived
     {
         get => m_IsArchived;

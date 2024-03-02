@@ -27,5 +27,15 @@ public partial class FilePropertiesView : Window
     }
 
     #endregion
+
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void OkButton_Click(object sender, RoutedEventArgs e)
+    {
+        throw new System.NotImplementedException();
+    }
 }
     

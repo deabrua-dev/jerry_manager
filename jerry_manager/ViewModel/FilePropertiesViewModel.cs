@@ -13,12 +13,6 @@ public class FilePropertiesViewModel
 
     private FilePropertiesModel m_Model;
 
-    public FilePropertiesModel Model
-    {
-        get => m_Model;
-        set => m_Model = value;
-    }
-
     private FileSystemObject m_currentFileSystemObject;
     public FileSystemObject CurrentFileSystemObject
     {
@@ -30,10 +24,7 @@ public class FilePropertiesViewModel
         }
     }
 
-    public ImageSource IconToView
-    {
-        get => m_Model.GetIconImage(CurrentFileSystemObject);
-    }
+    public ImageSource IconToView => m_Model.GetIconImage(CurrentFileSystemObject);
 
     private string m_FileName;
 
@@ -46,16 +37,25 @@ public class FilePropertiesViewModel
             OnPropertyChanged("FileName");
         }
     }
-
-    public string Size
-    {
-        get => m_currentFileSystemObject.SizeInBytes.ToString("N0", new CultureInfo("uk-UA"));
-    }
     
-    public string SizeOnDisk
-    {
-        get => m_Model.GetFileSizeOnDisk(m_currentFileSystemObject.Path).ToString("N0", new CultureInfo("uk-UA"));
-    }
+    public string FileType => m_currentFileSystemObject.Extension;
+    public string FileLocation => m_currentFileSystemObject.Path.Replace(m_currentFileSystemObject.Name, "");
+    public string FileSize => m_currentFileSystemObject.SizeInBytes.ToString("N0", new CultureInfo("uk-UA"));
+
+    public string FileSizeOnDisk => m_Model.GetFileSizeOnDisk(m_currentFileSystemObject.Path)
+        .ToString("N0", new CultureInfo("uk-UA"));
+
+    public string FileDateCreated =>
+        m_currentFileSystemObject.DateCreated.DayOfWeek + ", " +
+        m_currentFileSystemObject.DateCreated.ToString(new CultureInfo("uk-UA"));
+
+    public string FileDateModified =>
+        m_currentFileSystemObject.DateModified.DayOfWeek + ", " +
+        m_currentFileSystemObject.DateModified.ToString(new CultureInfo("uk-UA"));
+    
+    public string FileDateAccessed =>
+        m_currentFileSystemObject.DateAccessed.DayOfWeek + ", " +
+        m_currentFileSystemObject.DateAccessed.ToString(new CultureInfo("uk-UA"));
 
     #endregion
     
@@ -63,7 +63,8 @@ public class FilePropertiesViewModel
 
     public FilePropertiesViewModel()
     {
-        Model = new FilePropertiesModel();
+        m_Model = new FilePropertiesModel();
+        m_FileName = string.Empty;
     }
 
     #endregion

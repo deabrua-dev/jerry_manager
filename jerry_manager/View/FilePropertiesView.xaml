@@ -4,47 +4,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="FilePropertiesView" Height="400" Width="350">
+        Title="FilePropertiesView" Height="450" Width="405"
+        FontFamily="Verdana"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="5"/>
             <RowDefinition Height="15"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="15"/>
-            <RowDefinition/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="90"/>
             <ColumnDefinition Width="15"/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
-        <Image Name="IconImage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" 
+        <Image Name="IconImage" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" 
                Source="{Binding IconToView}"
-               Height="32" Width="32"/>
-        <TextBox Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
+               Height="35" Width="35"/>
+        <TextBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="6"
                  Text="{Binding FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="2" FontFamily="Arial" FontSize="14" TextAlignment="Left"/>
-        <Separator Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5"
-                   Margin="2"/>
-        <TextBlock Grid.Row="4" Grid.Column="1" 
-                   Text="Size:"
-                   FontFamily="Arial" TextAlignment="Left"/>
-        <TextBlock Grid.Row="6" Grid.Column="1" 
-                   Text="Size on disk:"
-                   FontFamily="Arial" TextAlignment="Left"/>
-        <TextBlock Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" 
-                   Text="{Binding Size}"
-                   FontFamily="Arial" TextAlignment="Left"/>
-        <TextBlock Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="3" 
-                   Text="{Binding SizeOnDisk}"
-                   FontFamily="Arial" TextAlignment="Left"/>
+                 FontSize="14" TextAlignment="Left"
+                 Margin="2"/>
+        
+        <Separator Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="8"/>
+        
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Type of file:"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Location:"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="Size:"/>
+        <TextBlock Grid.Row="7" Grid.Column="1" Text="Size on disk:"/>
+        
+        <TextBlock Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileType}"/>
+        <TextBlock Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileLocation}"/>
+        <TextBlock Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileSize}"/>
+        <TextBlock Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileSizeOnDisk}"/>
+        
+        <Separator Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="8"/>
+        
+        <TextBlock Grid.Row="9" Grid.Column="1" Text="Created:"/>
+        <TextBlock Grid.Row="10" Grid.Column="1" Text="Modified:"/>
+        <TextBlock Grid.Row="11" Grid.Column="1" Text="Accessed:"/>
+        
+        <TextBlock Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileDateCreated}"/>
+        <TextBlock Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileDateModified}"/>
+        <TextBlock Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="6" Text="{Binding FileDateAccessed}"/>
+        
+        <Separator Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="8"/>
+        
+        <TextBlock Grid.Row="13" Grid.Column="1" Text="Attributes:"/>
+        <Border Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2" Background="Red"/>
+        <Border Grid.Row="13" Grid.Column="6" Grid.ColumnSpan="2" Background="Blue"/>
+        
+        <Button Grid.Row="15" Grid.Column="7"
+                Width="50" Height="25"
+                HorizontalAlignment="Center" Margin="3"
+                Content="OK" Name="OkButton"
+                Click="OkButton_Click"/>
+        <Button Grid.Row="15" Grid.Column="8"
+                Width="50" Height="25" 
+                HorizontalAlignment="Center" Margin="3" 
+                Content="Cancel" Name="CancelButton"
+                Click="CancelButton_Click"/>
     </Grid>
 </Window>
