@@ -59,7 +59,7 @@
         <local:FileExplorerView Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
                                 x:Name="RightExplorer" Margin="2"
                                 GotFocus="RightExplorer_OnGotFocus"/>
-        <TextBlock Grid.Row="3" Grid.Column="2"
+        <TextBlock Grid.Row="2" Grid.Column="2"
                    Text="{Binding ActivePath}"
                    TextAlignment="Right"/>
         <TextBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"/>

@@ -4,22 +4,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="FilePropertiesView" Height="400" Width="300">
+        Title="FilePropertiesView" Height="400" Width="350">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="15"/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="15"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
-        <Image Name="IconImage" Grid.Row="0" Grid.Column="0" Source="{Binding IconToView}"/>
-        <Separator Grid.Row="1" Grid.ColumnSpan="4"/>
+        <Image Name="IconImage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" 
+               Source="{Binding IconToView}"
+               Height="32" Width="32"/>
+        <TextBox Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
+                 Text="{Binding FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="2" FontFamily="Arial" FontSize="14" TextAlignment="Left"/>
+        <Separator Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5"
+                   Margin="2"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" 
+                   Text="Size:"
+                   FontFamily="Arial" TextAlignment="Left"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" 
+                   Text="Size on disk:"
+                   FontFamily="Arial" TextAlignment="Left"/>
+        <TextBlock Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" 
+                   Text="{Binding Size}"
+                   FontFamily="Arial" TextAlignment="Left"/>
+        <TextBlock Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="3" 
+                   Text="{Binding SizeOnDisk}"
+                   FontFamily="Arial" TextAlignment="Left"/>
     </Grid>
 </Window>
