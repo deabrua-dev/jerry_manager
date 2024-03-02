@@ -29,6 +29,11 @@ public partial class OperationView : Window
 
     #region Methods
 
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.PathChoose();
+    }
+    
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
@@ -41,9 +46,4 @@ public partial class OperationView : Window
     }
 
     #endregion
-
-    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-    {
-        ViewModel.PathChoose();
-    }
 }

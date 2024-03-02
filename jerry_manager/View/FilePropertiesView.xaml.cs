@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using jerry_manager.ViewModel;
 
 namespace jerry_manager.View;
@@ -30,12 +31,26 @@ public partial class FilePropertiesView : Window
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        try
+        {
+            Close();
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+        }
     }
 
     private void OkButton_Click(object sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        try
+        {
+
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+        }
     }
 }
     

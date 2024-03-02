@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="FilePropertiesView" Height="450" Width="405"
+        Title="FilePropertiesView" Height="400" Width="405"
         FontFamily="Verdana"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
@@ -24,7 +24,7 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
-            <RowDefinition/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
@@ -71,8 +71,13 @@
         <Separator Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="8"/>
         
         <TextBlock Grid.Row="13" Grid.Column="1" Text="Attributes:"/>
-        <Border Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2" Background="Red"/>
-        <Border Grid.Row="13" Grid.Column="6" Grid.ColumnSpan="2" Background="Blue"/>
+        
+        <CheckBox Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2" 
+                  Name="ReadOnlyCheckBox" Width="90" 
+                  Content="Read-only"/>
+        <CheckBox Grid.Row="13" Grid.Column="6" Grid.ColumnSpan="2" 
+                  Name="HiddenCheckBox" Width="90" 
+                  Content="Hidden"/>
         
         <Button Grid.Row="15" Grid.Column="7"
                 Width="50" Height="25"
