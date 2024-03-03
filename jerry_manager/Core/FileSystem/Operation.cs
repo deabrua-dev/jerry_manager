@@ -223,6 +223,7 @@ public static class Operation
             {
                 throw new Exception("The destination folder is a subfolder of the source folder.");
             }
+
             FileAttributes attr = System.IO.File.GetAttributes(path);
             if (attr.HasFlag(FileAttributes.Directory))
             {

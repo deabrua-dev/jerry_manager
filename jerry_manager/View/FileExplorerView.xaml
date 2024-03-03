@@ -34,13 +34,19 @@
                   SelectionMode="Extended"
                   AllowDrop="True"
                   Drop="FileObjectsListView_OnDrop"
-                  SizeChanged="FileObjectsListView_OnSizeChanged">
+                  SizeChanged="FileObjectsListView_OnSizeChanged"
+                  KeyDown="FileObjectsListView_OnKeyDown"
+                  KeyUp="FileObjectsListView_OnKeyUp">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseMove"
                                  Handler="FileObjectsListView_OnMouseMove"/>
                     <EventSetter Event="MouseDoubleClick" 
                                  Handler="FileObjectsListView_OnMouseDoubleClick"/>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" 
+                                 Handler="FileObjectsListView_OnPreviewMouseLeftButtonDown"/>
+                    <EventSetter Event="PreviewMouseRightButtonDown" 
+                                 Handler="FileObjectsListView_OnPreviewMouseRightButtonDown"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Style.Triggers>

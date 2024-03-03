@@ -29,23 +29,16 @@ public partial class FileExplorerView : UserControl
         set
         {
             m_Selected = value;
-            if (m_Selected)
-            {
-                FileObjectsListView.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                FileObjectsListView.BorderBrush = Brushes.Black;
-            }
+            FileObjectsListView.BorderBrush = m_Selected ? Brushes.Red : Brushes.Black;
         }
     }
 
-    private bool m_sortDirection;
+    private bool m_SortDirection;
 
     public bool SortDirection
     {
-        get => m_sortDirection;
-        set { m_sortDirection = value; }
+        get => m_SortDirection;
+        set => m_SortDirection = value;
     }
 
     #endregion
@@ -61,6 +54,9 @@ public partial class FileExplorerView : UserControl
         IsSelected = false;
         SortDirection = true;
     }
+
+    private Point m_MousePos;
+    private bool m_MultipleChoose;
 
     #endregion
 
@@ -130,15 +126,12 @@ public partial class FileExplorerView : UserControl
     {
         try
         {
-            if (e.LeftButton == MouseButtonState.Pressed && sender is ListViewItem)
+            var mousePosDiff = m_MousePos - e.GetPosition(null);
+            if (e.LeftButton == MouseButtonState.Pressed && ViewModel.SelectedFileObjects.Count != 0 &&
+                (Math.Abs(mousePosDiff.X) > SystemParameters.MinimumHorizontalDragDistance &&
+                 Math.Abs(mousePosDiff.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
-                var list = new List<FileSystemObject>();
-                foreach (var item in ViewModel.SelectedFileObjects)
-                {
-                    list.Add(item);
-                }
-
-                DataObject dataObject = new DataObject(list);
+                DataObject dataObject = new DataObject(ViewModel.SelectedFileObjects);
                 dataObject.SetData("DragSource", this);
                 DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
             }
@@ -146,6 +139,44 @@ public partial class FileExplorerView : UserControl
         catch (Exception exception)
         {
             MessageBox.Show(exception.Message);
+        }
+    }
+
+    private void FileObjectsListView_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        m_MousePos = e.GetPosition(null);
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            if (FileObjectsListView.SelectedItems.Count > 1 && !m_MultipleChoose)
+            {
+                e.Handled = true;
+            }
+        }
+    }
+
+    private void FileObjectsListView_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var source = sender as ListViewItem;
+        if (source.IsSelected)
+        {
+            source.IsSelected = false;
+            e.Handled = true;
+        }
+    }
+
+    private void FileObjectsListView_OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key is Key.LeftCtrl or Key.LeftShift)
+        {
+            m_MultipleChoose = true;
+        }
+    }
+
+    private void FileObjectsListView_OnKeyUp(object sender, KeyEventArgs e)
+    {
+        if (e.Key is Key.LeftCtrl or Key.LeftShift)
+        {
+            m_MultipleChoose = false;
         }
     }
 
