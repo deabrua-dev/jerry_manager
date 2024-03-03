@@ -219,6 +219,10 @@ public static class Operation
     {
         try
         {
+            if (path == destinationPath)
+            {
+                throw new Exception("The destination folder is a subfolder of the source folder.");
+            }
             FileAttributes attr = System.IO.File.GetAttributes(path);
             if (attr.HasFlag(FileAttributes.Directory))
             {
@@ -288,7 +292,7 @@ public static class Operation
                     }
                     else
                     {
-                        throw new Exception("You cant move folder at this path.");
+                        throw new Exception("The destination folder is a subfolder of the source folder.");
                     }
                 }
             }
