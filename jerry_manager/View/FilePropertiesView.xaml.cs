@@ -45,7 +45,8 @@ public partial class FilePropertiesView : Window
     {
         try
         {
-
+            ViewModel.CheckChanges();
+            Close();
         }
         catch (Exception exception)
         {

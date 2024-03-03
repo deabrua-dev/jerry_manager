@@ -7,8 +7,10 @@ using System.Collections.Generic;
 
 namespace jerry_manager.Core.FileSystem;
 
-public class Operation
+public static class Operation
 {
+
+    #region Methods
 
     public static void Open(FileSystemObject item)
     {
@@ -26,7 +28,7 @@ public class Operation
             MessageBox.Show(e.Message);
         }
     }
-    
+
     public static void Copy(string destinationPath, List<FileSystemObject> items)
     {
         try
@@ -75,6 +77,7 @@ public class Operation
             {
                 throw new Exception("File is not selected");
             }
+
             RenameObject(item.Path, destinationPath, newName);
         }
         catch (Exception e)
@@ -172,9 +175,10 @@ public class Operation
                 {
                     counter++;
                 } while (System.IO.File.Exists(targetPath + $" ({counter})" + extension));
-                
+
                 targetPath += $" ({counter})";
             }
+
             System.IO.File.Create(targetPath + extension);
         }
         catch (Exception e)
@@ -242,6 +246,7 @@ public class Operation
                 {
                     targetFilePath += " - Copy";
                 }
+
                 fileInfo.CopyTo(targetFilePath + fileInfo.Extension);
             }
         }
@@ -308,6 +313,7 @@ public class Operation
                     {
                         throw new Exception("Folder with this name already exist.");
                     }
+
                     Directory.Move(path, targetDirectoryPath);
                 }
             }
@@ -315,12 +321,12 @@ public class Operation
             {
                 if (System.IO.File.Exists(path))
                 {
-                    FileInfo fileInfo = new FileInfo(path);
-                    string targetFilePath = destinationPath + "\\" + newName + fileInfo.Extension;
-                    if (!System.IO.File.Exists(targetFilePath))
+                    var targetFilePath = destinationPath + "\\" + newName;
+                    if (System.IO.File.Exists(targetFilePath))
                     {
                         throw new Exception("File with this name already exist.");
                     }
+
                     System.IO.File.Move(path, targetFilePath);
                 }
             }
@@ -401,4 +407,6 @@ public class Operation
             MessageBox.Show(e.Message);
         }
     }
+
+    #endregion
 }

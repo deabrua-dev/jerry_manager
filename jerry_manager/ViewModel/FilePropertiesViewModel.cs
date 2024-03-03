@@ -77,4 +77,12 @@ public class FilePropertiesViewModel
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     
     #endregion
+
+    public void CheckChanges()
+    {
+        if (!FileName.Equals(m_currentFileSystemObject.Name))
+        {
+            m_Model.RenameFile(m_currentFileSystemObject, FileName);
+        }
+    }
 }

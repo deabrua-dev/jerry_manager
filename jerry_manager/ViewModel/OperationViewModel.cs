@@ -13,6 +13,7 @@ public class OperationViewModel : INotifyPropertyChanged
     #region Variables
 
     private OperationType m_operationType;
+
     public OperationType OperationType
     {
         get => m_operationType;
@@ -29,6 +30,7 @@ public class OperationViewModel : INotifyPropertyChanged
                     break;
                 case OperationType.Rename:
                     NamePlaceHolder = DataCache.ActiveView.SelectedFileObject.Name;
+
                     break;
                 case OperationType.CreateFolder:
                     NamePlaceHolder = "New Folder";
@@ -45,6 +47,7 @@ public class OperationViewModel : INotifyPropertyChanged
             }
         }
     }
+
     public string OperationName
     {
         get
@@ -69,10 +72,11 @@ public class OperationViewModel : INotifyPropertyChanged
                         throw new Exception("Fatal error.");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
+
             return string.Empty;
         }
     }
@@ -90,7 +94,7 @@ public class OperationViewModel : INotifyPropertyChanged
     }
 
     private string m_currentFolderPath;
-    
+
     public string CurrentFolderPath
     {
         get
@@ -99,12 +103,10 @@ public class OperationViewModel : INotifyPropertyChanged
             {
                 return DataCache.ActiveView.CurrentPath;
             }
+
             return m_currentFolderPath;
         }
-        set
-        {
-            m_currentFolderPath = value;
-        }
+        set => m_currentFolderPath = value;
     }
 
     #endregion
@@ -132,7 +134,7 @@ public class OperationViewModel : INotifyPropertyChanged
                 Operation.Move(NamePlaceHolder, DataCache.ActiveView.SelectedFileObjects);
                 break;
             case OperationType.Rename:
-                Operation.Rename(NamePlaceHolder, DataCache.ActiveView.SelectedFileObject, "TempName");
+                Operation.Rename(CurrentFolderPath, DataCache.ActiveView.SelectedFileObject, NamePlaceHolder);
                 break;
             case OperationType.CreateFolder:
                 Operation.CreateFolder(CurrentFolderPath, NamePlaceHolder.Replace(CurrentFolderPath, ""));
@@ -147,15 +149,21 @@ public class OperationViewModel : INotifyPropertyChanged
                 NamePlaceHolder = string.Empty;
                 break;
         }
+
         return true;
     }
-    
+
     public void PathChoose()
     {
-        var placeHolder = m_operationType is OperationType.CreateFolder ? "New Folder" : "File";
+        var placeHolder = string.Empty;
+        if (m_operationType is OperationType.CreateFolder or OperationType.CreateFile)
+        {
+            placeHolder = m_operationType is OperationType.CreateFolder ? "New Folder" : "File";
+        }
+
         var fbd = new VistaFolderBrowserDialog
         {
-            SelectedPath = DataCache.ActiveView.CurrentPath + "\\"
+            SelectedPath = DataCache.NotActiveView.CurrentPath + "\\"
         };
         if (fbd.ShowDialog().GetValueOrDefault())
         {

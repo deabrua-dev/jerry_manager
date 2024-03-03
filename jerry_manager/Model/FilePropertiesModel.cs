@@ -48,4 +48,9 @@ public class FilePropertiesModel
         out uint lpTotalNumberOfClusters);
 
     #endregion
+
+    public void RenameFile(FileSystemObject item, string fileName)
+    {
+        Operation.Rename(item.Path.Replace(item.Name, ""), item, fileName);
+    }
 }

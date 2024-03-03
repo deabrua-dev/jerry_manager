@@ -7,8 +7,7 @@ class OperationWindowService : IWindowService
 {
     public static void Show(OperationType operationType)
     {
-        var view = new OperationView();
-        view.ViewModel.OperationType = operationType;
+        var view = new OperationView(operationType);
         view.Show();
     }
 }
