@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
 
 namespace jerry_manager.Model;
@@ -14,28 +15,44 @@ namespace jerry_manager.Model;
 public class FilePropertiesModel
 {
     #region Methods
-    
+
     public ImageSource GetIconImage(FileSystemObject obj)
     {
         if (obj is Folder)
         {
-            return new BitmapImage(new Uri(@"pack://application:,,,/jerry_manager;component/Images/Default icons/folder-icon-big-256.png", UriKind.Absolute));
+            return new BitmapImage(new Uri(
+                @"pack://application:,,,/jerry_manager;component/Images/Default icons/folder-icon-big-256.png",
+                UriKind.Absolute));
         }
+
         var ico = Icon.ExtractAssociatedIcon(obj.Path);
         return Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
     }
 
+    public void RenameFile(FileSystemObject item, string fileName)
+    {
+        Operation.Rename(item.Path.Replace(item.Name, ""), item, fileName);
+    }
+
+    public void ChangeAttributes(FileSystemObject item, FileAttributes attributes)
+    {
+        Operation.AttributesChange(item, attributes);
+        DataCache.Update();
+    }
+
+    // Get From https://stackoverflow.com/questions/48670600/c-sharp-net-core-get-file-size-on-disk-cross-platform-solution
     public long GetFileSizeOnDisk(string file)
     {
         var info = new FileInfo(file);
         uint dummy, sectorsPerCluster, bytesPerSector;
-        int result = GetDiskFreeSpaceW(info.Directory.Root.FullName, out sectorsPerCluster, out bytesPerSector, out dummy, out dummy);
+        int result = GetDiskFreeSpaceW(info.Directory.Root.FullName, out sectorsPerCluster, out bytesPerSector,
+            out dummy, out dummy);
         if (result == 0) throw new Win32Exception();
         uint clusterSize = sectorsPerCluster * bytesPerSector;
         uint hosize;
         uint losize = GetCompressedFileSizeW(file, out hosize);
         var size = (long)hosize << 32 | losize;
-        return ((size + clusterSize - 1) / clusterSize * clusterSize);
+        return (size + clusterSize - 1) / clusterSize * clusterSize;
     }
 
     [DllImport("kernel32.dll")]
@@ -48,9 +65,4 @@ public class FilePropertiesModel
         out uint lpTotalNumberOfClusters);
 
     #endregion
-
-    public void RenameFile(FileSystemObject item, string fileName)
-    {
-        Operation.Rename(item.Path.Replace(item.Name, ""), item, fileName);
-    }
 }

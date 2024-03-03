@@ -3,12 +3,11 @@ using jerry_manager.Core.FileSystem;
 
 namespace jerry_manager.Core.Services;
 
-class FilePropertiesWindowService : IWindowService
+public class FilePropertiesWindowService : IWindowService
 {
     public static void Show(FileSystemObject fileSystemObject)
     {
-        var view = new FilePropertiesView();
-        view.ViewModel.CurrentFileSystemObject = fileSystemObject;
+        var view = new FilePropertiesView(fileSystemObject);
         view.Show();
     }
 }

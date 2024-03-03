@@ -11,12 +11,12 @@ public class MainWindowModel
     {
         Operation.Open(item);
     }
-    
+
     public void Edit(FileSystemObject item)
     {
         Operation.EditFile(item);
     }
-    
+
     public void Delete(List<FileSystemObject> items)
     {
         Operation.Delete(items);

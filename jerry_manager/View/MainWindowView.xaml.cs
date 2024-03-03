@@ -9,6 +9,7 @@ public partial class MainWindowView : Window
     #region Variables
 
     private MainWindowViewModel m_ViewModel;
+
     public MainWindowViewModel ViewModel
     {
         get => m_ViewModel;

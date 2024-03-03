@@ -11,18 +11,13 @@ public class Folder : FileSystemObject
 {
     #region Variables
 
-    public string DateLastModified
-    {
-        get => m_DateModified.ToString("dd/MM/yyyy");
-    }
-    
     public string Size
     {
         get => "<DIR>";
     }
-    
+
     #endregion
-    
+
     #region Constructors
 
     public Folder(DirectoryInfo folderInfo)
@@ -84,6 +79,7 @@ public class Folder : FileSystemObject
         {
             name = name.Substring(name.IndexOf("/"));
         }
+
         return name.Replace("/", "");
     }
 

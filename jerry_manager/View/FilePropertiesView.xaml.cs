@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using jerry_manager.Core.FileSystem;
 using jerry_manager.ViewModel;
 
 namespace jerry_manager.View;
@@ -23,11 +24,23 @@ public partial class FilePropertiesView : Window
     public FilePropertiesView()
     {
         InitializeComponent();
-        ViewModel = new FilePropertiesViewModel();
+        m_ViewModel = new FilePropertiesViewModel();
+        DataContext = ViewModel;
+    }
+
+    public FilePropertiesView(FileSystemObject fileSystemObject)
+    {
+        InitializeComponent();
+        m_ViewModel = new FilePropertiesViewModel
+        {
+            CurrentFileSystemObject = fileSystemObject
+        };
         DataContext = ViewModel;
     }
 
     #endregion
+
+    #region Methods
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
@@ -53,5 +66,7 @@ public partial class FilePropertiesView : Window
             MessageBox.Show(exception.Message);
         }
     }
+
+    #endregion
 }
     

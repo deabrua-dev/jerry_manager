@@ -3,7 +3,7 @@ using jerry_manager.Core.FileSystem;
 
 namespace jerry_manager.Core.Services;
 
-class OperationWindowService : IWindowService
+public class OperationWindowService : IWindowService
 {
     public static void Show(OperationType operationType)
     {

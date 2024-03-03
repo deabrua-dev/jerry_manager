@@ -31,7 +31,7 @@ public class ParentFolder : FileSystemObject
         m_ArchivePath = String.Empty;
         m_IsArchived = false;
     }
-    
+
     public ParentFolder(string path, string archivePath, bool isArchived)
     {
         m_Name = "[...]";

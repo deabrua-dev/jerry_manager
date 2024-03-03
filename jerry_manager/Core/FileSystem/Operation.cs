@@ -9,7 +9,6 @@ namespace jerry_manager.Core.FileSystem;
 
 public static class Operation
 {
-
     #region Methods
 
     public static void Open(FileSystemObject item)
@@ -192,6 +191,23 @@ public static class Operation
         try
         {
             Process.Start("notepad.exe", item.Path);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
+    public static void AttributesChange(FileSystemObject item, FileAttributes attributes)
+    {
+        try
+        {
+            if (item is Folder or ParentFolder)
+            {
+                throw new Exception("Attributes changing fatal error.");
+            }
+
+            System.IO.File.SetAttributes(item.Path, attributes);
         }
         catch (Exception e)
         {

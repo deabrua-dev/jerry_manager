@@ -13,17 +13,17 @@ public class RelayCommand : ICommand
         this.execute = execute;
         this.canExecute = canExecute;
     }
- 
+
     public bool CanExecute(object parameter)
     {
-        return this.canExecute == null || this.canExecute(parameter);
+        return canExecute == null || canExecute(parameter);
     }
- 
+
     public void Execute(object parameter)
     {
-        this.execute(parameter);
+        execute(parameter);
     }
-    
+
     public event EventHandler CanExecuteChanged
     {
         add { CommandManager.RequerySuggested += value; }

@@ -52,10 +52,12 @@ public class FileExplorerModel
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Folder(directory)));
             }
+
             foreach (var file in files)
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new File(file)));
             }
+
             foreach (var archive in archives)
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new Archive(archive)));
@@ -146,6 +148,7 @@ public class FileExplorerModel
                     }
                 }
             }
+
             temp.RemoveAll(i => CheckPath(i, cur_path));
             var tempPath = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
             if (file.IsArchived && m_ArchiveFormats.Any(tempPath.Contains))
@@ -156,6 +159,7 @@ public class FileExplorerModel
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(tempPath)));
             }
+
             foreach (var item in temp)
             {
                 if (item is Folder)
@@ -163,6 +167,7 @@ public class FileExplorerModel
                     App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
                 }
             }
+
             foreach (var item in temp)
             {
                 if (item is not Folder)
@@ -209,6 +214,7 @@ public class FileExplorerModel
                     }
                 }
             }
+
             temp.RemoveAll(i => CheckPath(i, cur_path));
             var tempPath = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
             if (file.IsArchived && m_ArchiveFormats.Any(tempPath.Contains))
@@ -219,6 +225,7 @@ public class FileExplorerModel
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(tempPath)));
             }
+
             foreach (var item in temp)
             {
                 if (item is Folder)
@@ -226,6 +233,7 @@ public class FileExplorerModel
                     App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
                 }
             }
+
             foreach (var item in temp)
             {
                 if (item is not Folder)
@@ -233,6 +241,7 @@ public class FileExplorerModel
                     App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
                 }
             }
+
             temp.Clear();
         }
         catch (Exception e)
@@ -271,6 +280,7 @@ public class FileExplorerModel
                     }
                 }
             }
+
             temp.RemoveAll(i => CheckPath(i, cur_path));
             var tempPath = file.Path.Substring(0, file.Path.LastIndexOf("\\") + 1);
             if (file.IsArchived && m_ArchiveFormats.Any(tempPath.Contains))
@@ -281,6 +291,7 @@ public class FileExplorerModel
             {
                 App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(new ParentFolder(tempPath)));
             }
+
             foreach (var item in temp)
             {
                 if (item is Folder)
@@ -288,6 +299,7 @@ public class FileExplorerModel
                     App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
                 }
             }
+
             foreach (var item in temp)
             {
                 if (item is not Folder)
@@ -295,6 +307,7 @@ public class FileExplorerModel
                     App.Current.Dispatcher.Invoke(() => fileSystemObjects.Add(item));
                 }
             }
+
             temp.Clear();
         }
         catch (Exception e)
@@ -316,6 +329,7 @@ public class FileExplorerModel
             {
                 throw new FileLoadException("Unpack first, to open this file.");
             }
+
             switch (Archive.GetArchiveType(fileObject.ArchivePath))
             {
                 case ArchiveType.ZIP:

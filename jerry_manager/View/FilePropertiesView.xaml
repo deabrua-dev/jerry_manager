@@ -74,10 +74,10 @@
         
         <CheckBox Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2" 
                   Name="ReadOnlyCheckBox" Width="90" 
-                  Content="Read-only"/>
+                  Content="Read-only" IsChecked="{Binding FileIsReadOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <CheckBox Grid.Row="13" Grid.Column="6" Grid.ColumnSpan="2" 
                   Name="HiddenCheckBox" Width="90" 
-                  Content="Hidden"/>
+                  Content="Hidden" IsChecked="{Binding FileIsHidden, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         
         <Button Grid.Row="15" Grid.Column="7"
                 Width="50" Height="25"
