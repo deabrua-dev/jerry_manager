@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="400">
+             d:DesignHeight="500" d:DesignWidth="400"
+             FontSize="12" FontFamily="Verdana">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -66,7 +67,11 @@
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Image}" Height="17" Width="17"/>
+                                    <Border Width="10"/>
+                                    <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                         <GridViewColumn.Header>

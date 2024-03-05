@@ -358,18 +358,6 @@ public class FileExplorerModel
         return tempPath.Contains("\\");
     }
 
-    public void Search(string searchText)
-    {
-        try
-        {
-
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.Message);
-        }
-    }
-
     public void CopyObjects(List<FileSystemObject> droppedItems)
     {
         try

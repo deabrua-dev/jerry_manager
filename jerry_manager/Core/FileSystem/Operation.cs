@@ -4,6 +4,10 @@ using System.Text;
 using System.Windows;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -427,6 +431,19 @@ public static class Operation
         {
             MessageBox.Show(e.Message);
         }
+    }
+    
+    public static ImageSource GetIconImage(FileSystemObject obj)
+    {
+        if (obj is Folder)
+        {
+            return new BitmapImage(new Uri(
+                @"pack://application:,,,/jerry_manager;component/Images/Default icons/folder-icon-big-256.png",
+                UriKind.Absolute));
+        }
+
+        var ico = Icon.ExtractAssociatedIcon(obj.Path);
+        return Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
     }
 
     #endregion

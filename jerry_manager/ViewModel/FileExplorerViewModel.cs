@@ -165,18 +165,6 @@ public class FileExplorerViewModel : INotifyPropertyChanged
         }
     }
 
-    public void Search(string searchText)
-    {
-        try
-        {
-            m_Model.Search(searchText);
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.Message);
-        }
-    }
-
     public void Update()
     {
         m_Model.LoadPath(Items);

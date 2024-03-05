@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:jerry_manager.View"
         mc:Ignorable="d"
         Title="Jerry Manager" 
-        MinHeight="450" MinWidth="1000"
+        MinHeight="550" MinWidth="1000"
         Height="550" Width="1000"
         WindowStartupLocation="CenterScreen"
-        FontFamily="Verdana">
+        FontFamily="Verdana" FontSize="12">
     <Window.InputBindings>
         <KeyBinding Command="{Binding EditCommand}" Key="F3"/>
         <KeyBinding Command="{Binding CopyCommand}" Key="F4"/>
@@ -23,50 +23,38 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition/>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" 
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
               Height="25">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <MenuItem Header="Edit" Command="{Binding EditCommand}"/>
-                <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
                 <MenuItem Header="Unpack" Command="{Binding UnPackCommand}"/>
-                <MenuItem Header="New file" Command="{Binding NewFileCommand}"/>
-                <Separator/>
                 <MenuItem Header="Properties" Command="{Binding PropertiesCommand}"/>
+                <Separator/>
                 <MenuItem Header="Exit" Command="{Binding QuitCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools">
-
+                <MenuItem Header="Search" Command="{Binding SearchCommand}"/>
+                <MenuItem Header="New file" Command="{Binding NewFileCommand}"/>
+                <MenuItem Header="New folder" Command="{Binding NewFolderCommand}"/>
             </MenuItem>
             <MenuItem Header="View">
 
             </MenuItem>
         </Menu>
-        <local:FileExplorerView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+        <local:FileExplorerView Grid.Row="1" Grid.Column="0"
                                 x:Name="LeftExplorer" Margin="2,2,2,2"
                                 GotFocus="LeftExplorer_OnGotFocus"/>
-        <local:FileExplorerView Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
+        <local:FileExplorerView Grid.Row="1" Grid.Column="1"
                                 x:Name="RightExplorer" Margin="2"
                                 GotFocus="RightExplorer_OnGotFocus"/>
-        <TextBlock Grid.Row="2" Grid.Column="2"
-                   Text="{Binding ActivePath}"
-                   TextAlignment="Right"/>
-        <TextBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"/>
-        <Button Grid.Row="2" Grid.Column="5" HorizontalAlignment="Left" 
-                Width="70" Margin="5, 0, 0, 0"
-                Content="Search" Command="{Binding SearchCommand}"/>
-        <UniformGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" Columns="7">
+        <UniformGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Columns="7">
             <UniformGrid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="BorderThickness" Value="1, 0, 1, 0"/>

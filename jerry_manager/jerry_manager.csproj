@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\Default icons\flat-folder-icon.png" />
     <None Remove="Images\Default icons\folder-icon-big-256.png" />
     <Resource Include="Images\Default icons\folder-icon-big-256.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

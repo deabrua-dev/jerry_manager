@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Windows.Media;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -78,6 +79,7 @@ public abstract class FileSystemObject
     public ulong SizeInBytes => m_SizeInBytes;
     public string SizeOnDisk => "";
     public FileAttributes Attributes => m_Attributes;
+    public ImageSource Image => Operation.GetIconImage(this);
 
     public bool IsArchived
     {
