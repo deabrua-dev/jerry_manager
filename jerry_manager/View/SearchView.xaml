@@ -4,9 +4,126 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="SearchView" Height="400" Width="500"
+        Title="Find Files" Height="275" Width="600"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         FontFamily="Verdana" FontSize="12">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <TabItem Header="General">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="1" 
+                               Text="Search for:"/>
+                    <TextBox Grid.Row="0" Grid.Column="3"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="1" 
+                               Text="Search in:"/>
+                    <TextBox Grid.Row="2" Grid.Column="3"/>
+
+                    <StackPanel Grid.Row="4" Grid.Column="3"
+                                Orientation="Horizontal">
+                        <CheckBox Content="'Everything'" Margin="5"/>
+                        <CheckBox Content="Search archives (7z, zip, rar)" Margin="5"/>
+                    </StackPanel>
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Advanced">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Row="1" Grid.Column="1" 
+                              Content="Date between:"/>
+                    
+                    
+                    <CheckBox Grid.Row="2" Grid.Column="1" 
+                              Content="Not older than:"/>
+                    
+                    
+                    <CheckBox Grid.Row="3" Grid.Column="1" 
+                              Content="Older than:"/>
+                    
+                    
+                    <Separator Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="6"/>
+                    
+                    <CheckBox Grid.Row="5" Grid.Column="1" 
+                              Content="File size:"/>
+                    
+                    
+                    <Separator Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="6"/>
+
+                    <CheckBox Grid.Row="7" Grid.Column="1" 
+                              Content="Attributes:"/>
+                    <StackPanel Grid.Row="7" Grid.Column="3" 
+                                Orientation="Vertical">
+                        <CheckBox Content="Archive" IsChecked="{Binding IsArchive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="Read only" IsChecked="{Binding IsReadOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="7" Grid.Column="4" Orientation="Vertical">
+                        <CheckBox Content="Hidden" IsChecked="{Binding IsHidden, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="System" IsChecked="{Binding IsSystem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="7" Grid.Column="5" Orientation="Vertical">
+                        <CheckBox Content="Directory" IsChecked="{Binding IsDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="Compressed" IsChecked="{Binding IsCompressed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <CheckBox Grid.Row="7" Grid.Column="6" 
+                              Content="Encrypted" IsChecked="{Binding IsEncrypted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Grid.Column="1" 
+                    Orientation="Horizontal">
+            <Button Width="50" Height="25" 
+                HorizontalAlignment="Center" Margin="3" 
+                Content="Search" Name="SearchButton"
+                Click="SearchButton_Click"/>
+            <Button Width="50" Height="25" 
+                HorizontalAlignment="Center" Margin="3" 
+                Content="Cancel" Name="CancelButton"
+                Click="CancelButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

@@ -303,7 +303,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 {
                     if (DataCache.ActiveView is not null)
                     {
-
+                        SearchWindowService.Show();
                     }
                 }
                 catch (Exception e)
