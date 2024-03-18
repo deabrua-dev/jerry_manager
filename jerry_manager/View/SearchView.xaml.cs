@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using jerry_manager.ViewModel;
 
 namespace jerry_manager.View;
@@ -49,6 +50,30 @@ public partial class SearchView : Window
         {
             ViewModel.StartSearch();
             Close();
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+        }
+    }
+    
+    private void SearchResultListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        try
+        {
+            m_ViewModel.DoubleClick();
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+        }
+    }
+
+    private void SearchResultListView_ColumnClicked(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            throw new NotImplementedException();
         }
         catch (Exception exception)
         {

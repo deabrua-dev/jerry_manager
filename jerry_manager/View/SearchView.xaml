@@ -4,20 +4,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="Find Files" Height="275" Width="600"
+        Title="Find Files" Height="600" Width="700"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         FontFamily="Verdana" FontSize="12">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="200"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="15"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <TabControl Grid.Row="0" Grid.Column="0">
             <TabItem Header="General">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -114,16 +114,84 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="1" Grid.Column="1" 
-                    Orientation="Horizontal">
-            <Button Width="50" Height="25" 
+        <StackPanel Grid.Row="0" Grid.Column="1" 
+                    Orientation="Vertical" Margin="15">
+            <Button Width="70" Height="25" 
                 HorizontalAlignment="Center" Margin="3" 
                 Content="Search" Name="SearchButton"
                 Click="SearchButton_Click"/>
-            <Button Width="50" Height="25" 
+            <Button Width="70" Height="25" 
                 HorizontalAlignment="Center" Margin="3" 
                 Content="Cancel" Name="CancelButton"
                 Click="CancelButton_Click"/>
         </StackPanel>
+        <ListView Name="SearchResultListView"
+                  Grid.Row="2"
+                  Grid.Column="0"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedFileObject}"
+                  SelectionMode="Extended"
+                  AllowDrop="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" 
+                                 Handler="SearchResultListView_OnMouseDoubleClick"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView x:Name="GridView">
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Image}" Height="17" Width="17"/>
+                                    <Border Width="10"/>
+                                    <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Name" Tag="Name" Click="SearchResultListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Extension}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Type" Tag="Type" Click="SearchResultListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Size}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Size" Tag="Size" Click="SearchResultListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DateLastModified}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Date" Tag="Date" Click="SearchResultListView_ColumnClicked"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

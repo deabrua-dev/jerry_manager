@@ -1,11 +1,28 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using jerry_manager.Core.FileSystem;
+using jerry_manager.Model;
 
 namespace jerry_manager.ViewModel;
 
 public class SearchViewModel
 {
     #region Variables
+
+    private SearchModel m_Model { get; set; }
+    public ObservableCollection<FileSystemObject> Items { get; set; }
+    private FileSystemObject m_SelectedObject;
+
+    public FileSystemObject SelectedFileObject
+    {
+        get => m_SelectedObject;
+        set
+        {
+            m_SelectedObject = value;
+            OnPropertyChanged("SelectedObject");
+        }
+    }
 
     private bool m_IsArchive;
 
@@ -97,6 +114,7 @@ public class SearchViewModel
 
     public SearchViewModel()
     {
+        m_Model = new SearchModel();
         m_IsArchive = true;
         m_IsReadOnly = true;
         m_IsHidden = true;
@@ -112,7 +130,12 @@ public class SearchViewModel
 
     public void StartSearch()
     {
-        
+
+    }
+
+    public void DoubleClick()
+    {
+
     }
 
     #endregion
@@ -125,4 +148,5 @@ public class SearchViewModel
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
     #endregion
+
 }

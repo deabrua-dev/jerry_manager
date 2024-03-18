@@ -17,17 +17,16 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     #region Variables
 
     private FileExplorerModel m_Model { get; set; }
+    
     public ObservableCollection<Drive> Drives { get; set; }
-
-    public string DriveFreeSpace
-    {
-        get => SelectedDrive.Size + " kb of " + SelectedDrive.TotalSize + " kb free";
-    }
-
-    public ObservableCollection<FileSystemObject> Items { get; set; }
-    private FileSystemWatcher m_FileSystemWatcher = new();
+    
+    public string DriveFreeSpace => SelectedDrive.Size + " kb of " + SelectedDrive.TotalSize + " kb free";
+    
+    public ObservableCollection<FileSystemObject> Items { get => m_Model.FileObjects; set => m_Model.FileObjects = value; }
+    
+    private FileSystemWatcher m_FileSystemWatcher;
+    
     private FileSystemObject m_SelectedObject;
-
     public FileSystemObject SelectedFileObject
     {
         get => m_SelectedObject;
@@ -56,7 +55,6 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     }
 
     private Drive m_SelectedDrive;
-
     public Drive SelectedDrive
     {
         get => m_SelectedDrive;
@@ -78,16 +76,16 @@ public class FileExplorerViewModel : INotifyPropertyChanged
             OnPropertyChanged("CurrentPath");
             if (SelectedFileObject is Archive)
             {
-                m_Model.LoadArchive(SelectedFileObject, Items);
+                m_Model.LoadArchive(SelectedFileObject);
                 m_FileSystemWatcher.EnableRaisingEvents = false;
             }
             else if (SelectedFileObject is not null && SelectedFileObject.IsArchived)
             {
-                m_Model.LoadInArchive(SelectedFileObject, Items);
+                m_Model.LoadInArchive(SelectedFileObject);
             }
             else if (Directory.Exists(CurrentPath))
             {
-                m_Model.LoadPath(Items);
+                m_Model.LoadPath();
                 m_FileSystemWatcher.Path = m_Model.CurrentPath;
                 m_FileSystemWatcher.EnableRaisingEvents = true;
             }
@@ -106,7 +104,7 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     {
         m_Model = new();
         Drives = new();
-        Items = new();
+        m_FileSystemWatcher = new();
 
         m_Model.LoadDrives(Drives);
         SelectedDrive = Drives[0];
@@ -123,21 +121,16 @@ public class FileExplorerViewModel : INotifyPropertyChanged
 
     private void FileWatcher_Interacted(object sender, FileSystemEventArgs e)
     {
-        m_Model.LoadPath(Items);
+        m_Model.LoadPath();
     }
 
     public void DoubleClick()
     {
         try
         {
-            if (SelectedFileObject == null)
-            {
-                return;
-            }
-
             if (SelectedFileObject.IsArchived)
             {
-                m_Model.LoadInArchive(SelectedFileObject, Items);
+                m_Model.LoadInArchive(SelectedFileObject);
             }
             else
             {
@@ -167,7 +160,7 @@ public class FileExplorerViewModel : INotifyPropertyChanged
 
     public void Update()
     {
-        m_Model.LoadPath(Items);
+        m_Model.LoadPath();
     }
 
     public void OrderListBy(string sortBy, bool sortDirection)
@@ -176,7 +169,7 @@ public class FileExplorerViewModel : INotifyPropertyChanged
         {
             var firstOne = Items.First();
             Items.RemoveAt(0);
-            var orderList = new List<FileSystemObject>();
+            List<FileSystemObject> orderList;
             switch (sortBy)
             {
                 case "Name":
@@ -207,7 +200,7 @@ public class FileExplorerViewModel : INotifyPropertyChanged
             Items.Add(firstOne);
             foreach (var item in orderList)
             {
-                App.Current.Dispatcher.Invoke(() => Items.Add(item));
+                Application.Current.Dispatcher.Invoke(() => Items.Add(item));
             }
         }
         catch (Exception e)
