@@ -17,7 +17,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <TabControl Grid.Row="0" Grid.Column="0">
+        <TabControl Grid.Row="0" Grid.Column="0" Margin="5">
             <TabItem Header="General">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -128,10 +128,9 @@
         <ListView Name="SearchResultListView"
                   Grid.Row="2"
                   Grid.Column="0"
+                  Margin="5"
                   ItemsSource="{Binding Items}"
-                  SelectedItem="{Binding SelectedFileObject}"
-                  SelectionMode="Extended"
-                  AllowDrop="True">
+                  SelectedItem="{Binding SelectedFileObject}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseDoubleClick" 
@@ -146,49 +145,17 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView x:Name="GridView">
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding Image}" Height="17" Width="17"/>
-                                    <Border Width="10"/>
-                                    <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
-                                </StackPanel>
+                                <TextBlock Text="{Binding Path}" TextAlignment="Left"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Name" Tag="Name" Click="SearchResultListView_ColumnClicked"/>
-                        </GridViewColumn.Header>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Extension}" TextAlignment="Center"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Type" Tag="Type" Click="SearchResultListView_ColumnClicked"/>
-                        </GridViewColumn.Header>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Size}" TextAlignment="Center"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Size" Tag="Size" Click="SearchResultListView_ColumnClicked"/>
-                        </GridViewColumn.Header>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding DateLastModified}" TextAlignment="Center"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Date" Tag="Date" Click="SearchResultListView_ColumnClicked"/>
-                        </GridViewColumn.Header>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>

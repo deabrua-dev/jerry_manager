@@ -24,14 +24,7 @@ public static class DataCache
 
     public static void Update()
     {
-        try
-        {
-            ActiveView.CurrentPath = ActiveView.CurrentPath;
-            NotActiveView.CurrentPath = NotActiveView.CurrentPath;
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.Message);
-        }
+        ActiveView.CurrentPath = ActiveView.CurrentPath;
+        NotActiveView.CurrentPath = NotActiveView.CurrentPath;
     }
 }

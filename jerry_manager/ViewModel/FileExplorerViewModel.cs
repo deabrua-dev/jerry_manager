@@ -17,16 +17,21 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     #region Variables
 
     private FileExplorerModel m_Model { get; set; }
-    
-    public ObservableCollection<Drive> Drives { get; set; }
-    
+
     public string DriveFreeSpace => SelectedDrive.Size + " kb of " + SelectedDrive.TotalSize + " kb free";
-    
-    public ObservableCollection<FileSystemObject> Items { get => m_Model.FileObjects; set => m_Model.FileObjects = value; }
-    
+
+    public ObservableCollection<Drive> Drives => m_Model.Drives;
+
+    public ObservableCollection<FileSystemObject> Items
+    {
+        get => m_Model.FileObjects;
+        set => m_Model.FileObjects = value;
+    }
+
     private FileSystemWatcher m_FileSystemWatcher;
-    
+
     private FileSystemObject m_SelectedObject;
+
     public FileSystemObject SelectedFileObject
     {
         get => m_SelectedObject;
@@ -55,6 +60,7 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     }
 
     private Drive m_SelectedDrive;
+
     public Drive SelectedDrive
     {
         get => m_SelectedDrive;
@@ -103,10 +109,9 @@ public class FileExplorerViewModel : INotifyPropertyChanged
     public FileExplorerViewModel()
     {
         m_Model = new();
-        Drives = new();
         m_FileSystemWatcher = new();
 
-        m_Model.LoadDrives(Drives);
+        m_Model.LoadDrives();
         SelectedDrive = Drives[0];
 
         m_FileSystemWatcher.Changed += FileWatcher_Interacted;
@@ -121,7 +126,14 @@ public class FileExplorerViewModel : INotifyPropertyChanged
 
     private void FileWatcher_Interacted(object sender, FileSystemEventArgs e)
     {
-        m_Model.LoadPath();
+        try
+        {
+            m_Model.LoadPath();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
     }
 
     public void DoubleClick()
