@@ -5,6 +5,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using jerry_manager.Core.FileSystem;
+using Archive = jerry_manager.Core.FileSystem.Archive;
 using File = jerry_manager.Core.FileSystem.File;
 
 namespace jerry_manager.Model;
@@ -13,7 +14,7 @@ public class FileExplorerModel
 {
     #region Variables
 
-    private List<String> m_ArchiveFormats = new() { ".7z", ".rar", ".zip" };
+    private List<string> m_ArchiveFormats = new() { ".7z", ".rar", ".zip" };
     private string m_CurrentPath;
 
     public string CurrentPath

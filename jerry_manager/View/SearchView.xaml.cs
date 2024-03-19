@@ -10,7 +10,6 @@ public partial class SearchView : Window
     #region Variables
 
     private SearchViewModel m_ViewModel;
-
     public SearchViewModel ViewModel
     {
         get => m_ViewModel;
@@ -26,6 +25,7 @@ public partial class SearchView : Window
         InitializeComponent();
         m_ViewModel = new SearchViewModel();
         DataContext = ViewModel;
+        Height = 300;
     }
 
     #endregion
@@ -49,7 +49,7 @@ public partial class SearchView : Window
         try
         {
             ViewModel.StartSearch();
-            Close();
+            Height = 600;
         }
         catch (Exception exception)
         {

@@ -22,11 +22,7 @@ public class FileExplorerViewModel : INotifyPropertyChanged
 
     public ObservableCollection<Drive> Drives => m_Model.Drives;
 
-    public ObservableCollection<FileSystemObject> Items
-    {
-        get => m_Model.FileObjects;
-        set => m_Model.FileObjects = value;
-    }
+    public ObservableCollection<FileSystemObject> Items => m_Model.FileObjects;
 
     private FileSystemWatcher m_FileSystemWatcher;
 
@@ -78,26 +74,33 @@ public class FileExplorerViewModel : INotifyPropertyChanged
         get => m_Model.CurrentPath;
         set
         {
-            m_Model.CurrentPath = value;
-            OnPropertyChanged("CurrentPath");
-            if (SelectedFileObject is Archive)
+            try
             {
-                m_Model.LoadArchive(SelectedFileObject);
-                m_FileSystemWatcher.EnableRaisingEvents = false;
+                m_Model.CurrentPath = value;
+                OnPropertyChanged("CurrentPath");
+                if (SelectedFileObject is Archive)
+                {
+                    m_Model.LoadArchive(SelectedFileObject);
+                    m_FileSystemWatcher.EnableRaisingEvents = false;
+                }
+                else if (SelectedFileObject is not null && SelectedFileObject.IsArchived)
+                {
+                    m_Model.LoadInArchive(SelectedFileObject);
+                }
+                else if (Directory.Exists(CurrentPath))
+                {
+                    m_Model.LoadPath();
+                    m_FileSystemWatcher.Path = m_Model.CurrentPath;
+                    m_FileSystemWatcher.EnableRaisingEvents = true;
+                }
+                else
+                {
+                    m_FileSystemWatcher.EnableRaisingEvents = true;
+                }
             }
-            else if (SelectedFileObject is not null && SelectedFileObject.IsArchived)
+            catch (Exception e)
             {
-                m_Model.LoadInArchive(SelectedFileObject);
-            }
-            else if (Directory.Exists(CurrentPath))
-            {
-                m_Model.LoadPath();
-                m_FileSystemWatcher.Path = m_Model.CurrentPath;
-                m_FileSystemWatcher.EnableRaisingEvents = true;
-            }
-            else
-            {
-                m_FileSystemWatcher.EnableRaisingEvents = true;
+                MessageBox.Show(e.Message);
             }
         }
     }
@@ -172,7 +175,14 @@ public class FileExplorerViewModel : INotifyPropertyChanged
 
     public void Update()
     {
-        m_Model.LoadPath();
+        try
+        {
+            m_Model.LoadPath();
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
 
     public void OrderListBy(string sortBy, bool sortDirection)
