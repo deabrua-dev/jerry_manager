@@ -37,13 +37,24 @@ public class SearchModel
 
         DirectoryInfo directoryInfo = new DirectoryInfo(parameters.SearchPath);
         List<FileSystemObject> archiveFiles = new();
-        List<FileInfo> files = directoryInfo.GetFiles("*" + parameters.SearchName + "*.*", SearchOption.AllDirectories)
-            .Where(i => !m_ArchiveFormats.Any(j => i.Name.EndsWith(j)))
+        List<FileInfo> files = directoryInfo.GetFiles("*" + parameters.SearchName + "*.*", new EnumerationOptions
+        {
+            IgnoreInaccessible = true,
+            RecurseSubdirectories = true
+        }).Where(i => !m_ArchiveFormats.Any(j => i.Name.EndsWith(j))).ToList();
+        List<FileInfo> archives = directoryInfo.GetFiles("*", new EnumerationOptions
+            {
+                IgnoreInaccessible = true,
+                RecurseSubdirectories = true
+            })
+            .Where(i => m_ArchiveFormats.Any(j => i.Name.EndsWith(j)))
             .ToList();
-        List<FileInfo> archives = directoryInfo.GetFiles().Where(i => m_ArchiveFormats.Any(j => i.Name.EndsWith(j)))
-            .ToList();
-        List<DirectoryInfo>directories = directoryInfo
-            .GetDirectories("*" + parameters.SearchName + "*.*", SearchOption.AllDirectories).ToList();
+        List<DirectoryInfo> directories = directoryInfo
+            .GetDirectories("*" + parameters.SearchName + "*", new EnumerationOptions
+            {
+                IgnoreInaccessible = true,
+                RecurseSubdirectories = true
+            }).ToList();
 
         if (parameters.IsSearchInArchives)
         {
@@ -78,19 +89,18 @@ public class SearchModel
             switch (parameters.NotOlderType)
             {
                 case "hours":
-                    newDateTime = newDateTime.AddHours(Convert.ToDouble(parameters.NotOlderThan));
+                    newDateTime = newDateTime.AddHours(-Convert.ToDouble(parameters.NotOlderThan));
                     break;
                 case "days":
-                    newDateTime = newDateTime.AddDays(Convert.ToDouble(parameters.NotOlderThan));
+                    newDateTime = newDateTime.AddDays(-Convert.ToDouble(parameters.NotOlderThan));
                     break;
                 case "years":
-                    newDateTime = newDateTime.AddYears((int)parameters.NotOlderThan);
+                    newDateTime = newDateTime.AddYears(-(int)parameters.NotOlderThan);
                     break;
             }
-            files = files.Where(i => i.CreationTime <= newDateTime).ToList();
-            directories = directories.Where(i => i.CreationTime <= newDateTime).ToList();
-            archives = archives.Where(i => i.CreationTime <= newDateTime).ToList();
-            archiveFiles = archiveFiles.Where(i => i.DateCreated <= newDateTime).ToList();
+            files = files.Where(i => i.CreationTime >= newDateTime).ToList();
+            directories = directories.Where(i => i.CreationTime >= newDateTime).ToList();
+            archives = archives.Where(i => i.CreationTime >= newDateTime).ToList();
         }
         
         if (parameters.OlderThan is not null && parameters.OlderType is not null)
@@ -99,19 +109,18 @@ public class SearchModel
             switch (parameters.OlderType)
             {
                 case "hours":
-                    newDateTime = newDateTime.AddHours(-Convert.ToDouble(parameters.NotOlderThan));
+                    newDateTime = newDateTime.AddHours(-Convert.ToDouble(parameters.OlderThan));
                     break;
                 case "days":
-                    newDateTime = newDateTime.AddDays(-Convert.ToDouble(parameters.NotOlderThan));
+                    newDateTime = newDateTime.AddDays(-Convert.ToDouble(parameters.OlderThan));
                     break;
                 case "years":
-                    newDateTime = newDateTime.AddYears(-(int)parameters.NotOlderThan!);
+                    newDateTime = newDateTime.AddYears(-(int)parameters.OlderThan!);
                     break;
             }
-            files = files.Where(i => i.CreationTime >= newDateTime).ToList();
-            directories = directories.Where(i => i.CreationTime >= newDateTime).ToList();
-            archives = archives.Where(i => i.CreationTime >= newDateTime).ToList();
-            archiveFiles = archiveFiles.Where(i => i.DateCreated >= newDateTime).ToList();
+            files = files.Where(i => i.CreationTime <= newDateTime).ToList();
+            directories = directories.Where(i => i.CreationTime <= newDateTime).ToList();
+            archives = archives.Where(i => i.CreationTime <= newDateTime).ToList();
         }
 
         if (parameters.Attributes is not null && parameters.Attributes.Count != 0)

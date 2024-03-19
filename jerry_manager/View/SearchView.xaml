@@ -189,10 +189,10 @@
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
-                    <GridViewColumn>
+                    <GridViewColumn >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path}" TextAlignment="Left"/>
+                                <TextBlock Text="{Binding Path}" TextAlignment="Left" TextWrapping="Wrap"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
