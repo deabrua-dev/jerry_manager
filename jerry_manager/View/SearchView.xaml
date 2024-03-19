@@ -9,6 +9,9 @@
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         FontFamily="Verdana" FontSize="12">
     <Grid>
+        <Grid.Resources>
+            <exwpf:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="250"/>
             <RowDefinition Height="15"/>
@@ -88,7 +91,7 @@
                     <CheckBox Grid.Row="3" Grid.Column="1"
                               Content="Not older than:" VerticalAlignment="Center"
                               IsChecked="{Binding NotOlderEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsEnabled="{Binding SearchInArchives}"/>
+                              IsEnabled="{Binding SearchInArchives, Converter={StaticResource InverseBoolConverter}}"/>
                     <exwpf:IntegerUpDown Grid.Row="3" Grid.Column="3" 
                                          IsEnabled="{Binding NotOlderEnabled}"
                                          Value="{Binding NotOlderInteger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -100,7 +103,7 @@
                     <CheckBox Grid.Row="5" Grid.Column="1" 
                               Content="Older than:" VerticalAlignment="Center"
                               IsChecked="{Binding OlderEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsEnabled="{Binding SearchInArchives}"/>
+                              IsEnabled="{Binding SearchInArchives, Converter={StaticResource InverseBoolConverter}}"/>
                     <exwpf:IntegerUpDown Grid.Row="5" Grid.Column="3" 
                                          IsEnabled="{Binding OlderEnabled}"
                                          Value="{Binding OlderInteger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -132,7 +135,7 @@
                     <CheckBox Grid.Row="9" Grid.Column="1" 
                               Content="Attributes:" Margin="0 5 0 0"
                               IsChecked="{Binding AttributesEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsEnabled="{Binding SearchInArchives}"/>
+                              IsEnabled="{Binding SearchInArchives, Converter={StaticResource InverseBoolConverter}}"/>
                     
                     <StackPanel Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="4" Orientation="Horizontal"
                                 IsEnabled="{Binding AttributesEnabled}">

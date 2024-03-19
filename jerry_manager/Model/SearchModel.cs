@@ -72,6 +72,48 @@ public class SearchModel
                 i.DateModified >= parameters.LeftDate && i.DateModified <= parameters.RightDate).ToList();
         }
 
+        if (parameters.NotOlderThan is not null && parameters.NotOlderType is not null)
+        {
+            DateTime newDateTime = DateTime.Now;
+            switch (parameters.NotOlderType)
+            {
+                case "hours":
+                    newDateTime = newDateTime.AddHours(Convert.ToDouble(parameters.NotOlderThan));
+                    break;
+                case "days":
+                    newDateTime = newDateTime.AddDays(Convert.ToDouble(parameters.NotOlderThan));
+                    break;
+                case "years":
+                    newDateTime = newDateTime.AddYears((int)parameters.NotOlderThan);
+                    break;
+            }
+            files = files.Where(i => i.CreationTime <= newDateTime).ToList();
+            directories = directories.Where(i => i.CreationTime <= newDateTime).ToList();
+            archives = archives.Where(i => i.CreationTime <= newDateTime).ToList();
+            archiveFiles = archiveFiles.Where(i => i.DateCreated <= newDateTime).ToList();
+        }
+        
+        if (parameters.OlderThan is not null && parameters.OlderType is not null)
+        {
+            DateTime newDateTime = DateTime.Now;
+            switch (parameters.OlderType)
+            {
+                case "hours":
+                    newDateTime = newDateTime.AddHours(-Convert.ToDouble(parameters.NotOlderThan));
+                    break;
+                case "days":
+                    newDateTime = newDateTime.AddDays(-Convert.ToDouble(parameters.NotOlderThan));
+                    break;
+                case "years":
+                    newDateTime = newDateTime.AddYears(-(int)parameters.NotOlderThan!);
+                    break;
+            }
+            files = files.Where(i => i.CreationTime >= newDateTime).ToList();
+            directories = directories.Where(i => i.CreationTime >= newDateTime).ToList();
+            archives = archives.Where(i => i.CreationTime >= newDateTime).ToList();
+            archiveFiles = archiveFiles.Where(i => i.DateCreated >= newDateTime).ToList();
+        }
+
         if (parameters.Attributes is not null && parameters.Attributes.Count != 0)
         {
             foreach (var attribute in parameters.Attributes)

@@ -29,6 +29,9 @@ public class SearchViewModel
             OnPropertyChanged("SelectedFileObject");
         }
     }
+    
+    public bool Disable => !m_SearchInArchives;
+
 
     private string m_SearchName;
 
@@ -62,7 +65,19 @@ public class SearchViewModel
         set
         {
             m_SearchInArchives = value;
+            EnabledInput = !m_SearchInArchives;
             OnPropertyChanged("SearchInArchives");
+        }
+    }
+
+    private bool m_EnabledInput;
+
+    public bool EnabledInput
+    {
+        get => !m_SearchInArchives;
+        set
+        {
+            m_EnabledInput = value; 
         }
     }
 
@@ -333,6 +348,7 @@ public class SearchViewModel
         m_Model = new();
 
         m_SearchName = string.Empty;
+        m_EnabledInput = true;
         m_SearchInArchives = false;
         m_SearchPath = DataCache.ActiveView.CurrentPath;
 
