@@ -11,7 +11,7 @@ public class FilePropertiesModel
 {
     #region Methods
 
-    public ImageSource GetIconImage(FileSystemObject obj) => Operation.GetIconImage(obj);
+    public ImageSource? GetIconImage(FileSystemObject obj) => Operation.GetIconImage(obj);
 
     public void RenameFile(FileSystemObject item, string fileName)
     {

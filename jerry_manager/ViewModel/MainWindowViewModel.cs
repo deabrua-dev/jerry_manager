@@ -7,6 +7,7 @@ using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
 using jerry_manager.Core.Services;
 using jerry_manager.Model;
+using jerry_manager.View;
 
 namespace jerry_manager.ViewModel;
 

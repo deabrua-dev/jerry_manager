@@ -32,7 +32,7 @@ public class SearchModel
 
     public void SearchInFileSystem(SearchParameters parameters)
     {
-        if (FileObjects.Count() != 0)
+        if (FileObjects.Count != 0)
             Application.Current.Dispatcher.Invoke(() => FileObjects.Clear());
 
         DirectoryInfo directoryInfo = new DirectoryInfo(parameters.SearchPath);

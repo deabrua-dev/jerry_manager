@@ -28,7 +28,7 @@ public class FilePropertiesViewModel
         }
     }
 
-    public ImageSource IconToView => m_Model.GetIconImage(CurrentFileSystemObject);
+    public ImageSource? IconToView => m_Model.GetIconImage(CurrentFileSystemObject);
 
     private string m_FileName;
 

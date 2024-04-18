@@ -141,7 +141,7 @@ public static class Operation
 
     public static void AttributesChange(FileSystemObject item, FileAttributes attributes)
     {
-        if (item is Folder or ParentFolder)
+        if (item is ParentFolder)
         {
             throw new Exception("Attributes changing fatal error.");
         }
@@ -308,7 +308,7 @@ public static class Operation
         Application.Current.Dispatcher.Invoke(() => tempArchive.ExtractToDirectory(destinationPath));
     }
 
-    public static ImageSource GetIconImage(FileSystemObject obj)
+    public static ImageSource? GetIconImage(FileSystemObject obj)
     {
         if (obj is Folder)
         {

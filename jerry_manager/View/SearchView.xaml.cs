@@ -62,6 +62,7 @@ public partial class SearchView : Window
         try
         {
             m_ViewModel.DoubleClick();
+            Close();
         }
         catch (Exception exception)
         {

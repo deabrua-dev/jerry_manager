@@ -59,8 +59,9 @@ public class FileExplorerModel
                     () => FileObjects.Add(new ParentFolder(dirInfo.Parent.ToString())));
 
             var directoryInfo = new DirectoryInfo(CurrentPath);
-            var files = directoryInfo.GetFiles().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden) &&
+            var files = directoryInfo.GetFiles().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden) && 
                                                             !m_ArchiveFormats.Any(j => i.Name.EndsWith(j))).ToArray();
+            
             var directories = directoryInfo.GetDirectories().Where(i => !i.Attributes.HasFlag(FileAttributes.Hidden))
                 .ToArray();
             var archives = directoryInfo.GetFiles().Where(i => m_ArchiveFormats.Any(j => i.Name.EndsWith(j))).ToArray();

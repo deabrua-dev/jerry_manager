@@ -30,6 +30,7 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = string.Empty;
         m_IsArchived = false;
+        Image = Operation.GetIconImage(this);
     }
 
     public Folder(ArchiveEntry entry, string path)
@@ -43,6 +44,7 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = path;
         m_IsArchived = true;
+        Image = Operation.GetIconImage(this);
     }
 
     public Folder(RarArchiveEntry entry, string path)
@@ -55,6 +57,7 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = path;
         m_IsArchived = true;
+        Image = Operation.GetIconImage(this);
     }
 
     public Folder(SevenZipArchiveEntry entry, string path)
@@ -67,6 +70,7 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = path;
         m_IsArchived = true;
+        Image = Operation.GetIconImage(this);
     }
 
     #endregion
@@ -77,7 +81,7 @@ public class Folder : FileSystemObject
     {
         for (int i = 0; i < count; i++)
         {
-            name = name.Substring(name.IndexOf("/"));
+            name = name.Substring(name.LastIndexOf("/"));
         }
 
         return name.Replace("/", "");

@@ -409,6 +409,7 @@ public class SearchViewModel
     {
         try
         {
+            Items.Clear();
             List<FileAttributes> attributes = new();
             if (IsArchive)
             {
@@ -471,7 +472,40 @@ public class SearchViewModel
     {
         try
         {
+            if (SelectedFileObject is Folder && !SelectedFileObject.IsArchived)
+            {
+                DataCache.ActiveView.CurrentPath = SelectedFileObject.Path;
+            } 
+            else if (SelectedFileObject is Folder && SelectedFileObject.IsArchived)
+            {
+                DataCache.ActiveView.SelectedFileObject = SelectedFileObject;
+                DataCache.ActiveView.CurrentPath = SelectedFileObject.Path;
+            }
+            else
+            {
+                if (SelectedFileObject is Folder && SelectedFileObject.IsArchived)
+                {
+                    DataCache.ActiveView.SelectedFileObject = SelectedFileObject;
+                }
 
+                string pathTo;
+                if (SelectedFileObject.Path.EndsWith(SelectedFileObject.Name) && !SelectedFileObject.IsArchived)
+                {
+                    pathTo = SelectedFileObject.Path.Substring(0,
+                        SelectedFileObject.Path.Length - SelectedFileObject.Name.Length);
+                }
+                else if (SelectedFileObject.IsArchived)
+                {
+                    pathTo = SelectedFileObject.Path;
+                }
+                else
+                {
+                    throw new Exception("Unexpected error.");
+                }
+
+                DataCache.ActiveView.CurrentPath = pathTo;
+            }
+            
         }
         catch (Exception e)
         {

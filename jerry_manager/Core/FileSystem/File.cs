@@ -22,6 +22,7 @@ public class File : FileSystemObject
         m_Attributes = fileInfo.Attributes;
         m_ArchivePath = String.Empty;
         m_IsArchived = false;
+        Image = Operation.GetIconImage(this);
     }
 
     public File(ArchiveEntry entry, string path)
@@ -34,6 +35,7 @@ public class File : FileSystemObject
         m_SizeInBytes = entry.UncompressedSize;
         m_ArchivePath = path;
         m_IsArchived = true;
+        Image = null;
     }
 
     public File(RarArchiveEntry entry, string path)
@@ -46,6 +48,7 @@ public class File : FileSystemObject
         m_SizeInBytes = entry.UncompressedSize;
         m_ArchivePath = path;
         m_IsArchived = true;
+        Image = null;
     }
 
     public File(SevenZipArchiveEntry entry, string path)
@@ -58,6 +61,7 @@ public class File : FileSystemObject
         m_SizeInBytes = entry.UncompressedSize;
         m_ArchivePath = path;
         m_IsArchived = true;
+        Image = null;
     }
 
     #endregion
