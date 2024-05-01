@@ -327,6 +327,12 @@ public static class Operation
         var ico = Icon.ExtractAssociatedIcon(obj.Path);
         return Imaging.CreateBitmapSourceFromHIcon(ico!.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
     }
+    
+    public static string ClearName(string name)
+    {
+        int length = name.LastIndexOf("/", StringComparison.Ordinal);
+        return length < 1 ? name : name.Substring(length).Replace("/", "");
+    }
 
     #endregion
 }

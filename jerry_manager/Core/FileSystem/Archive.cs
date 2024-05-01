@@ -34,7 +34,6 @@ public class Archive : FileSystemObject
         m_ArchiveType = GetArchiveType(m_Name);
         m_ArchivePath = string.Empty;
         m_IsArchived = false;
-        Image = Operation.GetIconImage(this);
     }
 
     public Archive(FileInfo fileInfo)
@@ -49,7 +48,6 @@ public class Archive : FileSystemObject
         m_ArchiveType = GetArchiveType(m_Name);
         m_ArchivePath = string.Empty;
         m_IsArchived = false;
-        Image = Operation.GetIconImage(this);
     }
 
     public Archive(FileInfo fileInfo, string archivePath, bool isArchived)
@@ -64,7 +62,6 @@ public class Archive : FileSystemObject
         m_ArchiveType = GetArchiveType(m_Name);
         m_ArchivePath = archivePath;
         m_IsArchived = isArchived;
-        Image = null;
     }
 
     public Archive(string name, string path)
@@ -79,7 +76,6 @@ public class Archive : FileSystemObject
         m_ArchiveType = GetArchiveType(m_Name);
         m_ArchivePath = string.Empty;
         m_IsArchived = false;
-        Image = null;
     }
 
     public Archive(ArchiveEntry entry, string path)
@@ -92,7 +88,6 @@ public class Archive : FileSystemObject
         m_SizeInBytes = entry.UncompressedSize;
         m_ArchivePath = path;
         m_IsArchived = true;
-        Image = null;
     }
 
     public Archive(RarArchiveEntry entry, string path)
@@ -105,7 +100,6 @@ public class Archive : FileSystemObject
         m_SizeInBytes = entry.UncompressedSize;
         m_ArchivePath = path;
         m_IsArchived = true;
-        Image = null;
     }
 
     public Archive(SevenZipArchiveEntry entry, string path)
@@ -118,7 +112,6 @@ public class Archive : FileSystemObject
         m_SizeInBytes = entry.UncompressedSize;
         m_ArchivePath = path;
         m_IsArchived = true;
-        Image = null;
     }
 
     #endregion

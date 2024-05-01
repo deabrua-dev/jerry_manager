@@ -30,13 +30,12 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = string.Empty;
         m_IsArchived = false;
-        Image = Operation.GetIconImage(this);
     }
 
     public Folder(ArchiveEntry entry, string path)
     {
         var name = entry.Name.Substring(0, entry.Name.Length - 1);
-        m_Name = "[" + ClearName(name, name.Count(i => i == '/')) + "]";
+        m_Name = "[" + Operation.ClearName(name) + "]";
         m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
@@ -44,12 +43,11 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = path;
         m_IsArchived = true;
-        Image = Operation.GetIconImage(this);
     }
 
     public Folder(RarArchiveEntry entry, string path)
     {
-        m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
+        m_Name = "[" + Operation.ClearName(entry.Name) + "]";
         m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length - 1)).Replace("/", "\\");
         m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
@@ -57,12 +55,11 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = path;
         m_IsArchived = true;
-        Image = Operation.GetIconImage(this);
     }
 
     public Folder(SevenZipArchiveEntry entry, string path)
     {
-        m_Name = "[" + ClearName(entry.Name, entry.Name.Count(i => i == '/')) + "]";
+        m_Name = "[" + Operation.ClearName(entry.Name) + "]";
         m_Path = (path + "\\" + entry.Name.Substring(0, entry.Name.Length)).Replace("/", "\\");
         m_Extension = string.Empty;
         m_DateCreated = DateTime.Now;
@@ -70,21 +67,6 @@ public class Folder : FileSystemObject
         m_SizeInBytes = 0;
         m_ArchivePath = path;
         m_IsArchived = true;
-        Image = Operation.GetIconImage(this);
-    }
-
-    #endregion
-
-    #region Methods
-
-    private string ClearName(string name, int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            name = name.Substring(name.LastIndexOf("/"));
-        }
-
-        return name.Replace("/", "");
     }
 
     #endregion

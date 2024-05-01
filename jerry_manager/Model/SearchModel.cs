@@ -39,13 +39,11 @@ public class SearchModel
         List<FileSystemObject> archiveFiles = new();
         List<FileInfo> files = directoryInfo.GetFiles("*" + parameters.SearchName + "*.*", new EnumerationOptions
         {
-            // IgnoreInaccessible = true,
             AttributesToSkip = FileAttributes.System,
             RecurseSubdirectories = true
         }).Where(i => !m_ArchiveFormats.Any(j => i.Name.EndsWith(j))).ToList();
         List<FileInfo> archives = directoryInfo.GetFiles("*", new EnumerationOptions
             {
-                // IgnoreInaccessible = true,
                 AttributesToSkip = FileAttributes.System,
                 RecurseSubdirectories = true
             })
@@ -73,6 +71,8 @@ public class SearchModel
                 }
             }
         }
+
+        archiveFiles = archiveFiles.Where(i => Operation.ClearName(i.Name).ToLower().Contains(parameters.SearchName.ToLower())).ToList();
 
         if (parameters.LeftDate is not null && parameters.RightDate is not null)
         {
