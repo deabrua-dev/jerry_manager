@@ -7,7 +7,6 @@ using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
 using jerry_manager.Core.Services;
 using jerry_manager.Model;
-using jerry_manager.View;
 
 namespace jerry_manager.ViewModel;
 
@@ -34,6 +33,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private ICommand quitCommand;
     private ICommand propertiesCommand;
     private ICommand searchCommand;
+    private ICommand aboutUsCommand;
 
     #endregion
 
@@ -305,6 +305,30 @@ public class MainWindowViewModel : INotifyPropertyChanged
                     if (DataCache.ActiveView is not null)
                     {
                         SearchWindowService.Show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            });
+        }
+    }
+
+    public ICommand AboutUsCommand
+    {
+        get
+        {
+            return aboutUsCommand ??= new RelayCommand(obj =>
+            {
+                try
+                {
+                    if (DataCache.ActiveView is not null &&
+                        DataCache.ActiveView.SelectedFileObject is not null && (
+                            DataCache.ActiveView.SelectedFileObject is File ||
+                            DataCache.ActiveView.SelectedFileObject is Archive))
+                    {
+                        AboutWindowService.Show();
                     }
                 }
                 catch (Exception e)
