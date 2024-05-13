@@ -44,9 +44,19 @@ public class FilePropertiesViewModel
 
     public string FileType => m_CurrentFileSystemObject.Extension;
     public string FileLocation => m_CurrentFileSystemObject.Path.Replace(m_CurrentFileSystemObject.Name, "");
-    public string FileSize => m_CurrentFileSystemObject.SizeInBytes.ToString("N0", new CultureInfo("uk-UA"));
+    public string FileSize
+    {
+        get
+        {
+            if (m_CurrentFileSystemObject is Folder)
+            {
+                return Operation.GetDirectorySize(m_CurrentFileSystemObject.Path).ToString("N0", new CultureInfo("uk-UA"));
+            }
+            return m_CurrentFileSystemObject.SizeInBytes.ToString("N0", new CultureInfo("uk-UA"));
+        }
+    }
 
-    public string FileSizeOnDisk => m_Model.GetFileSizeOnDisk(m_CurrentFileSystemObject.Path)
+    public string FileSizeOnDisk => FilePropertiesModel.GetSizeOnDisk(m_CurrentFileSystemObject)
         .ToString("N0", new CultureInfo("uk-UA"));
 
     public string FileDateCreated =>

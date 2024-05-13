@@ -79,7 +79,6 @@ public abstract class FileSystemObject
     public ulong SizeInBytes => m_SizeInBytes;
     public string SizeOnDisk => "";
     public FileAttributes Attributes => m_Attributes;
-    public ImageSource? Image;
 
     public bool IsArchived
     {

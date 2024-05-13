@@ -8,6 +8,9 @@ using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -333,6 +336,57 @@ public static class Operation
         int length = name.LastIndexOf("/", StringComparison.Ordinal);
         return length < 1 ? name : name.Substring(length).Replace("/", "");
     }
+
+    public static long GetDirectorySize(string path)
+    {
+        var directory = new DirectoryInfo(path);
+        return directory.GetFiles("*", new EnumerationOptions
+        {
+            AttributesToSkip = FileAttributes.System,
+            RecurseSubdirectories = true
+        }).Sum(i => i.Length);
+    }
+
+    public static long GetSizeOnDisk(FileSystemObject file)
+    {
+        if (file is Folder)
+        {
+            var directory = new DirectoryInfo(file.Path);
+            return directory.GetFiles("*", new EnumerationOptions
+            {
+                AttributesToSkip = FileAttributes.System,
+                RecurseSubdirectories = true
+            }).Sum(i => CalculateFileSizeOnDisk(i.FullName));
+        }
+        else
+        {
+            return CalculateFileSizeOnDisk(file.Path);
+        }
+    }
+
+    // Get From https://stackoverflow.com/questions/48670600/c-sharp-net-core-get-file-size-on-disk-cross-platform-solution
+    private static long CalculateFileSizeOnDisk(string file)
+    {
+        var info = new FileInfo(file);
+        uint dummy, sectorsPerCluster, bytesPerSector;
+        int result = GetDiskFreeSpaceW(info.Directory.Root.FullName, out sectorsPerCluster, out bytesPerSector,
+            out dummy, out dummy);
+        if (result == 0) throw new Win32Exception();
+        uint clusterSize = sectorsPerCluster * bytesPerSector;
+        uint hosize;
+        uint losize = GetCompressedFileSizeW(file, out hosize);
+        var size = (long)hosize << 32 | losize;
+        return (size + clusterSize - 1) / clusterSize * clusterSize;
+    }
+
+    [DllImport("kernel32.dll")]
+    static extern uint GetCompressedFileSizeW([In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+        [Out, MarshalAs(UnmanagedType.U4)] out uint lpFileSizeHigh);
+
+    [DllImport("kernel32.dll", SetLastError = true, PreserveSig = true)]
+    static extern int GetDiskFreeSpaceW([In, MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName,
+        out uint lpSectorsPerCluster, out uint lpBytesPerSector, out uint lpNumberOfFreeClusters,
+        out uint lpTotalNumberOfClusters);
 
     #endregion
 }

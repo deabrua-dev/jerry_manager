@@ -67,11 +67,7 @@
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding Image}" Height="17" Width="17"/>
-                                    <Border Width="10"/>
-                                    <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
-                                </StackPanel>
+                                <TextBlock Text="{Binding Name}" TextAlignment="Left"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                         <GridViewColumn.Header>
