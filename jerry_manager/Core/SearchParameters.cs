@@ -14,7 +14,6 @@ public class SearchParameters
     public DateTime? LeftDate { get; set; } = null;
     public DateTime? RightDate { get; set; } = null;
 
-    public string? FileCompressionType { get; set; } = null;
     public long? FileSize { get; set; } = null;
 
     public string? NotOlderType { get; set; } = null;

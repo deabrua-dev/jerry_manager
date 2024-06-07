@@ -1,8 +1,8 @@
-using System;
-using System.IO;
 using Aspose.Zip;
 using Aspose.Zip.Rar;
 using Aspose.Zip.SevenZip;
+using System;
+using System.IO;
 
 namespace jerry_manager.Core.FileSystem;
 
@@ -45,34 +45,6 @@ public class Archive : FileSystemObject
         m_DateModified = fileInfo.LastWriteTime;
         m_SizeInBytes = (ulong)fileInfo.Length;
         m_Attributes = fileInfo.Attributes;
-        m_ArchiveType = GetArchiveType(m_Name);
-        m_ArchivePath = string.Empty;
-        m_IsArchived = false;
-    }
-
-    public Archive(FileInfo fileInfo, string archivePath, bool isArchived)
-    {
-        m_Name = fileInfo.Name;
-        m_Path = fileInfo.FullName;
-        m_Extension = fileInfo.Extension;
-        m_DateCreated = fileInfo.CreationTime;
-        m_DateModified = fileInfo.LastWriteTime;
-        m_SizeInBytes = (ulong)fileInfo.Length;
-        m_Attributes = fileInfo.Attributes;
-        m_ArchiveType = GetArchiveType(m_Name);
-        m_ArchivePath = archivePath;
-        m_IsArchived = isArchived;
-    }
-
-    public Archive(string name, string path)
-    {
-        m_Name = name;
-        m_Path = path;
-        m_Extension = string.Empty;
-        m_DateCreated = DateTime.Now;
-        m_DateModified = DateTime.Now;
-        m_SizeInBytes = 0;
-        m_Attributes = 0;
         m_ArchiveType = GetArchiveType(m_Name);
         m_ArchivePath = string.Empty;
         m_IsArchived = false;

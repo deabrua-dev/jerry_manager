@@ -1,10 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Media;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using jerry_manager.Core;
 using jerry_manager.Core.FileSystem;
-using System;
 
 namespace jerry_manager.Model;
 

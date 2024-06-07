@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Windows.Media;
 
 namespace jerry_manager.Core.FileSystem;
 

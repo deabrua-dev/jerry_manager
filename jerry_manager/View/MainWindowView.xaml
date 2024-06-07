@@ -44,9 +44,6 @@
                 <MenuItem Header="New file" Command="{Binding NewFileCommand}"/>
                 <MenuItem Header="New folder" Command="{Binding NewFolderCommand}"/>
             </MenuItem>
-            <MenuItem Header="Other">
-                <MenuItem Header="About Us" Command="{Binding AboutUsCommand}"/>
-            </MenuItem>
         </Menu>
         <local:FileExplorerView Grid.Row="1" Grid.Column="0"
                                 x:Name="LeftExplorer" Margin="2,2,2,2"

@@ -1,11 +1,11 @@
+using jerry_manager.Core.FileSystem;
+using jerry_manager.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls;
-using System.Collections.Generic;
-using jerry_manager.ViewModel;
-using jerry_manager.Core.FileSystem;
 
 namespace jerry_manager.View;
 
@@ -41,6 +41,8 @@ public partial class FileExplorerView : UserControl
         set => m_SortDirection = value;
     }
 
+    private Point m_MousePos;
+    private bool m_MultipleChoose;
     #endregion
 
     #region Constructors
@@ -55,8 +57,7 @@ public partial class FileExplorerView : UserControl
         SortDirection = true;
     }
 
-    private Point m_MousePos;
-    private bool m_MultipleChoose;
+
 
     #endregion
 

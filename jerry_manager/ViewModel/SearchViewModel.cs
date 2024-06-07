@@ -1,13 +1,13 @@
-﻿using System;
+﻿using jerry_manager.Core;
+using jerry_manager.Core.FileSystem;
+using jerry_manager.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using jerry_manager.Core;
-using jerry_manager.Core.FileSystem;
-using jerry_manager.Model;
-using System.IO;
 
 namespace jerry_manager.ViewModel;
 
@@ -17,7 +17,7 @@ public class SearchViewModel
 
     private SearchModel m_Model;
     public ObservableCollection<FileSystemObject> Items => m_Model.FileObjects;
-    
+
     private FileSystemObject m_SelectedFileObject;
 
     public FileSystemObject SelectedFileObject
@@ -29,9 +29,8 @@ public class SearchViewModel
             OnPropertyChanged("SelectedFileObject");
         }
     }
-    
-    public bool Disable => !m_SearchInArchives;
 
+    public bool Disable => !m_SearchInArchives;
 
     private string m_SearchName;
 
@@ -77,7 +76,7 @@ public class SearchViewModel
         get => !m_SearchInArchives;
         set
         {
-            m_EnabledInput = value; 
+            m_EnabledInput = value;
         }
     }
 
@@ -440,7 +439,7 @@ public class SearchViewModel
             {
                 attributes.Add(FileAttributes.Directory);
             }
-            
+
             if (IsEncrypted)
             {
                 attributes.Add(FileAttributes.Encrypted);
@@ -475,7 +474,7 @@ public class SearchViewModel
             if (SelectedFileObject is Folder && !SelectedFileObject.IsArchived)
             {
                 DataCache.ActiveView.CurrentPath = SelectedFileObject.Path;
-            } 
+            }
             else if (SelectedFileObject is Folder && SelectedFileObject.IsArchived)
             {
                 DataCache.ActiveView.SelectedFileObject = SelectedFileObject;
@@ -505,7 +504,7 @@ public class SearchViewModel
 
                 DataCache.ActiveView.CurrentPath = pathTo;
             }
-            
+
         }
         catch (Exception e)
         {

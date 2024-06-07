@@ -1,5 +1,3 @@
-using System;
-using System.Windows;
 using jerry_manager.ViewModel;
 
 namespace jerry_manager.Core;
